@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>HOLA</title>
+    </head>
+
+    <body>
+        <h2>
+            Mi ejemplo de canvas
+        </h2>
+        <canvas width = 300 height = 300></canvas>
+    </body>
+
+
+</html>
