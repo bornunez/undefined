@@ -1,0 +1,43 @@
+     PLANIFICACION
+
+====== HITO 1 ======
+
+-Movimiento
+-Disparo
+-Colisiones
+-1 Enemigo (Perseguidor - Sigue al heroe)
+-Matar al enemigo
+
+
+#### Imprevistos ####
+ 
+*Reorganizar diagrama de clases
+*Reorganizar GDD
+
+====== HITO 2 ======
+
+-Limpiar/Organizar codigo
+-Mapa (Con colisiones)
+-Ataque melee heroe
+-Animaciones
+
+
+#### Imprevistos ####
+
+
+====== HITO 3 ======
+
+-Logica Mapa(Puertas, Botones)
+-Enemigo que dispara
+-Boss
+-HUD
+-Ciclo de partida
+
+
+#### Imprevistos ####
+
+
+====== OPCIONAL ======
+
+-Si da tiempo en el hito 3 / Si se ve facil en alguna implementacion
+
