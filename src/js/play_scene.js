@@ -2,6 +2,11 @@
 
 var PlayScene = {
   create: function () {
+
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    
+
+
     //Prepare the keyboard so that the human player can move link arround
     this.keyboard = this.game.input.keyboard;
     
@@ -14,14 +19,46 @@ var PlayScene = {
     //Create the player sprite and enable the physics
     this.link = new Hero("Link",this.game.world.centerX,this.world.game.world.centerY,3);
     this.game.world.addChild(this.link);
+
+    
+    this.game.physics.enable(this.link);
+
+    this.link.body.collideWorldBounds = true;
+    this.link.body.bounce.setTo(1, 1);
+
+ 
+ 
+    this.zelda = new Zelda("Zelda",this.game.world.centerX+100,this.world.game.world.centerY);
+    this.game.world.addChild(this.zelda);
+    
+    this.game.physics.enable(this.zelda);
+
+
+
+
+    this.zelda.body.collideWorldBounds = true;
+    this.zelda.body.checkCollision.up = false;
+    this.zelda.body.checkCollision.down = false;
+    this.zelda.body.immovable = false;
+    
   },
   update: function(){
-    //this.link.update();
+
+    if(this.game.physics.arcade.collide(this.link, this.zelda)) {
+     console.log("COLISION") 
+    }
+
   }
 };
 
+
+
+
+
+
 function Hero(name, nx, ny, vel){
   
+  //sprite = game.add.sprite(300, 200, 'link');
   Phaser.Sprite.call(this, PlayScene.game, nx, ny, 'link');
   this.x = nx;
   this.y = ny;
@@ -41,8 +78,10 @@ function Hero(name, nx, ny, vel){
 Hero.prototype = Object.create(Phaser.Sprite.prototype);
 Hero.constructor = Hero;
 
+Zelda.prototype = Object.create(Phaser.Sprite.prototype);
+Zelda.constructor = Zelda;
+
 Hero.prototype.update= function(){
-  console.log("Link update");
   //Y axis
   if(PlayScene.upKey.isDown){
     if(this.dir === 'None')
@@ -121,4 +160,19 @@ Arrow.prototype.update = function(){
 Arrow.prototype.arrowdestroy = function(){
   this.destroy();
 }
+
+function Zelda(name, nx, ny){
+  Phaser.Sprite.call(this, PlayScene.game, nx, ny, 'link');
+  this.x = nx;
+  this.y = ny;
+  //Datos del sprite 
+  this.width *= 4;
+  this.height *= 4;
+  this.smoothed = false;
+  //Datos de Link
+  this._name = name;
+};
+
+
+
 module.exports = PlayScene;
