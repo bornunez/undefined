@@ -1,11 +1,12 @@
 'use strict';
+//var link;
+//var enemy;
 
 var PlayScene = {
   create: function () {
 
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    //this.game.physics.startSystem(Phaser.Physics.ARCADE);
     
-
 
     //Prepare the keyboard so that the human player can move link arround
     this.keyboard = this.game.input.keyboard;
@@ -27,21 +28,22 @@ var PlayScene = {
 
     this.link.body.moves = true;
  
-    this.zelda = new Zelda("Zelda",this.game.world.centerX+100,this.world.game.world.centerY);
-    this.game.world.addChild(this.zelda);
+    this.enemy = new Enemy(this.game.world.centerX+100,this.world.game.world.centerY, this.link);
+    this.game.world.addChild(this.enemy);
     
-    this.game.physics.enable(this.zelda);
+    this.game.physics.enable(this.enemy); 
 
-    this.zelda.body.collideWorldBounds = true;
-    this.zelda.body.checkCollision.up = true;
-    this.zelda.body.checkCollision.down = true;
-    this.zelda.body.immovable = true;
-
+    this.enemy.body.collideWorldBounds = true;
+    /*
+    this.enemy.body.checkCollision.up = true;
+    this.enemy.body.checkCollision.down = true;
+    this.enemy.body.immovable = true;
+*/
   },
   update: function(){
-    this.game.physics.arcade.collide(this.link, this.zelda);
+    this.game.physics.arcade.collide(this.link, this.enemy);
 
-    if(this.game.physics.arcade.collide(this.link, this.zelda)) {
+    if(this.game.physics.arcade.collide(this.link, this.enemy)) {
      console.log("COLISION") 
     }
   }
@@ -74,8 +76,6 @@ function Hero(name, nx, ny, vel){
 Hero.prototype = Object.create(Phaser.Sprite.prototype);
 Hero.constructor = Hero;
 
-Zelda.prototype = Object.create(Phaser.Sprite.prototype);
-Zelda.constructor = Zelda;
 
 Hero.prototype.update= function(){
   //Y axis
@@ -110,7 +110,7 @@ Hero.prototype.update= function(){
     if(this._velY != 0)
       this._velX = 0;
     else
-    this.move = false;  
+      this.move = false;  
   }
   //Movemos
   if(this.move){
@@ -128,9 +128,11 @@ Hero.prototype.update= function(){
       this.shoot();
   }
 }
+
 Hero.prototype.shoot = function(){
-  var arrow = new Arrow(PlayScene.game,this.x,this.y,this._velX,this._velY); //velx y vely son el fallo, si se ponen a uno van
-  PlayScene.game.world.addChild(arrow);                            //Habria que poner su movimiento en funcion a velocidad   
+  var arrow = new Arrow(PlayScene.game,this.x,this.y,this._velX,this._velY); 
+  PlayScene.game.world.addChild(arrow);
+
   this.canShoot = false;
   PlayScene.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
 }
@@ -139,39 +141,95 @@ Hero.prototype.shootCD = function(){
 }
 
 
+
+
 function Arrow(game,X, Y, VELX, VELY){
 
   Phaser.Sprite.call(this,game, X, Y, 'link');
-  this.vel = 5;
+   //Arrow physics
+   this.game.physics.enable(this);
+   this.body.collideWorldBounds = true;
+   this.body.bounce.setTo(1, 1);
+
+  //this.vel = 5;
   this.x = X;
   this.y = Y;
-  this.velX = VELX;
-  this.velY = VELY;
+  this._velX = VELX;
+  this._velY = VELY;
 
   //Llamamos al timer para destruir
-  game.time.events.add(Phaser.Timer.SECOND * 1, this.arrowdestroy, this);
-}
+    game.time.events.add(Phaser.Timer.SECOND * 1, this.arrowdestroy, this);
+};
 Arrow.prototype = Object.create(Phaser.Sprite.prototype);
 Arrow.constructor = Arrow;
+
 Arrow.prototype.update = function(){
-  this.y += this.velY*this.vel;
-  this.x += this.velX*this.vel;
+    this.body.velocity.x = this._velX;
+    this.body.velocity.y = this._velY;
+
+    this.game.physics.arcade.collide(this, PlayScene.enemy, this.hitEnemy, null, this);
+    
 }
+
 Arrow.prototype.arrowdestroy = function(){
+    this.destroy();
+    console.log("arrowDestroy");
+}
+
+Arrow.prototype.hitEnemy = function() {
+  PlayScene.enemy.life--;
   this.destroy();
 }
 
-function Zelda(name, nx, ny){
-  Phaser.Sprite.call(this, PlayScene.game, nx, ny, 'link');
+
+function Enemy(nx, ny, target){
+  Phaser.Sprite.call(this, PlayScene.game, nx, ny, 'skeleton');
+  this.target = target;
   this.x = nx;
   this.y = ny;
+  this.life = 3;
   //Datos del sprite 
   this.width *= 4;
   this.height *= 4;
   this.smoothed = false;
-  //Datos de Link
-  this._name = name;
 };
+
+Enemy.prototype = Object.create(Phaser.Sprite.prototype);
+Enemy.constructor = Enemy;
+
+Enemy.prototype.update = function() {
+
+console.log(this.life)
+
+  var t = {};
+  var targetMoving = false;
+
+      //Se asigna la x y la y del target
+      t.x = this.target.x;
+      t.y = this.target.y;
+
+      // Calcula la distancia que lo separa del target
+      // Si el target esta lo suficientemente lejos el enemigo se movera
+      var distance = this.game.math.distance(this.x, this.y, t.x, t.y);
+      if (distance > 32) targetMoving = true;
+
+      if (targetMoving)  {
+        // Calcula el angulo entre el target y el enemigo
+        var rotation = this.game.math.angleBetween(this.x, this.y, t.x, t.y);
+
+        // Calcula el vector velocidad basandose en su rotacion
+        this.body.velocity.x = Math.cos(rotation) * 150;
+        this.body.velocity.y = Math.sin(rotation) *150;
+    } else {
+        this.body.velocity.setTo(0, 0);
+    }
+
+    //Este if puede ir arriba del todo si todo lo demas entra en un else
+    if (this.life === 0) {
+      this.destroy();
+    }
+};
+
 
 
 

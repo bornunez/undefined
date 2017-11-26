@@ -28,6 +28,10 @@ var PreloaderScene = {
     // TODO: load here the assets for the game
     this.game.load.image('logo', 'images/Pepe.jpg');
     this.game.load.image('link', 'images/link.png');
+    this.game.load.image('skeleton', 'images/skeleton.png');
+
+
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
   },
 
   create: function () {
