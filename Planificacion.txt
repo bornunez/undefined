@@ -1,0 +1,42 @@
+   PLANIFICACION
+
+====== HITO 1 ====== 1 Diciembre
+
+-Movimiento: Miguel
+-Disparo: Miguel
+-Colisiones: Borja
+-1 Enemigo (Perseguidor - Sigue al heroe): Borja
+-Matar al enemigo: Borja
+-Hacer el codigo en modulos: Miguel
+
+#### Imprevistos ####
+ 
+*Reorganizar diagrama de clases
+*Reorganizar GDD
+
+====== HITO 2 ====== 18/19 Diciembre
+ 
+-Limpiar/Organizar codigo: Miguel y Borja
+-Mapa (Con colisiones): Miguel y Borja
+-Ataque melee heroe: Borja
+-Animaciones: Miguel
+
+
+#### Imprevistos ####
+
+
+====== HITO 3 ====== 19 Enero
+
+-Logica Mapa(Puertas, Botones): Borja
+-Enemigo que dispara: Miguel
+-Boss: Borja y Miguel
+-HUD: Borja y Miguel
+-Ciclo de partida: Borja
+
+
+#### Imprevistos ####
+
+
+====== OPCIONAL ======
+
+-Si da tiempo en el hito 3 / Si se ve facil en alguna implementacion
