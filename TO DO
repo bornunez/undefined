@@ -1,0 +1,16 @@
+PRIORIDAD ***
+-Limpiar codigo
+-Mapa
+-Animaciones
+
+PRIORIDAD **
+-Logica
+-Boss
+-Ciclo partida
+
+PRIORIDAD *
+-HUD
+-Enemigo que dispara
+
+PRIORIDAD -
+-Opcionales

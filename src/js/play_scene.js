@@ -2,6 +2,7 @@
 //var link;
 //var enemy;
 var Hero = require('./hero.js');
+var Character = require('./character.js');
 
 var PlayScene = {
   create: function () {
@@ -12,32 +13,16 @@ var PlayScene = {
     this.link = new Hero(this.game);
     this.link.create();
     this.game.world.addChild(this.link);
-    console.log(this.link);
-    /*
-    this.game.physics.enable(this.link);
-    this.link.body.collideWorldBounds = true;
-    this.link.body.bounce.setTo(1, 1);
-
-    this.link.body.moves = true;
- 
-    this.enemy = new Enemy(this.game.world.centerX+100,this.world.game.world.centerY, this.link);
+    this.enemy = new Character(this.game,'skeleton',this.world.centerX,this.world.game.world.centerY, 3,3);
+    this.enemy.scaleSprite(3,3);
     this.game.world.addChild(this.enemy);
-    
-    this.game.physics.enable(this.enemy); 
-
-    this.enemy.body.collideWorldBounds = true;
-    
-    this.enemy.body.checkCollision.up = true;
-    this.enemy.body.checkCollision.down = true;
-    this.enemy.body.immovable = true;
-*/
   },
   update: function(){
     /*this.game.physics.arcade.collide(this.link, this.enemy);
 
     if(this.game.physics.arcade.collide(this.link, this.enemy)) {
      console.log("COLISION") 
-    }*/
+*/
   }
 };
 /*
