@@ -66,18 +66,6 @@ Hero.prototype.input = function(){
           this.move = false;  
       }
 }
-<<<<<<< HEAD
-
-Hero.prototype.keyBindings = function(){
-    //KeyBindings
-    this.upKey = this.keyboard.addKey(Phaser.Keyboard.UP);
-    this.downKey = this.keyboard.addKey(Phaser.Keyboard.DOWN);
-    this.leftKey = this.keyboard.addKey(Phaser.Keyboard.LEFT);
-    this.rightKey = this.keyboard.addKey(Phaser.Keyboard.RIGHT);
-    this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-}
-
-=======
 //Disparo
 Hero.prototype.shoot = function(){
   console.log("PIUUM");
@@ -95,5 +83,4 @@ Hero.prototype.keyBindings = function(){
   this.eKey = this.keyboard.addKey(Phaser.Keyboard.E);
   this.canShoot = true;
 }
->>>>>>> Modulos
 module.exports = Hero;
