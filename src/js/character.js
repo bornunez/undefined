@@ -1,4 +1,4 @@
-'using strict';
+'use strict';
 function Character(game,spriteName,x,y,vel,life,damage){
     this.game = game; 
     //Hacemos el sprite
@@ -15,6 +15,8 @@ function Character(game,spriteName,x,y,vel,life,damage){
     this.dmg = damage;
     this.dir = 'None';
     this.life = life;
+
+    this.game.world.addChild(this);
 }
 //Herencia
 Character.prototype = Object.create(Phaser.Sprite.prototype);
@@ -23,8 +25,8 @@ Character.prototype.constructor = Character;
 Character.prototype.walk = function(){
   //Movemos
   if(this.move){
-    this.body.velocity.x = this.velX;
-    this.body.velocity.y = this.velY;
+    this.body.velocity.x = this.velX*this.vel;
+    this.body.velocity.y = this.velY*this.vel;
   }
   else {
     this.body.velocity.x = 0;

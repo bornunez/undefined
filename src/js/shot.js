@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 function Shot(game,x,y,vel,velX,velY,spriteName){
     this.game = game;
@@ -7,7 +7,7 @@ function Shot(game,x,y,vel,velX,velY,spriteName){
     this.vel = vel;
     this.velX = velX;
     this.velY = velY;
-    
+    this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.arrowDestroy, this);
 }
 Shot.prototype = Object.create(Phaser.Sprite.prototype);
 Shot.prototype.constructor = Shot;
@@ -15,17 +15,16 @@ Shot.prototype.constructor = Shot;
 Shot.prototype.update = function(){
     this.body.velocity.x = this.velX * this.vel;
     this.body.velocity.y = this.velY * this.vel;
-    //this.game.physics.arcade.collide(this, PlayScene.enemy, this.hitEnemy, null, this);
+    this.game.physics.arcade.collide(this, this.game.enemies, this.hitEnemy, null, this);
     
 }
 
-Shot.prototype.arrowdestroy = function(){
+Shot.prototype.arrowDestroy = function(){
     this.destroy();
-    console.log("arrowDestroy");
 }
 
-Shot.prototype.hitEnemy = function() {
-  //PlayScene.enemy.life--;
+Shot.prototype.hitEnemy = function(arrow,enemy) {
+  enemy.life--;
   this.destroy();
 }
 Shot.prototype.initPhysics = function(){

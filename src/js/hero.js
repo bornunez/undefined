@@ -14,7 +14,7 @@ Hero.prototype.constructor = Hero;
 //La funcion para inicializar, crear el sprite y sus variables
 Hero.prototype.create = function(){
     //Hacemos el Personaje
-    Character.call(this,this.game,'link',0,0,3,3);
+    Character.call(this,this.game,'link',0,0,1,3,3);
     this.scaleSprite(2,2);
     this.keyBindings();
 }
@@ -68,9 +68,17 @@ Hero.prototype.input = function(){
 }
 //Disparo
 Hero.prototype.shoot = function(){
-  console.log("PIUUM");
+  //Creamos la nueva flecha, la añadimos al mundo y al grupo
   var arrow = new Shot(this.game,this.x,this.y,5,this.velX,this.velY,'link');
   this.game.world.addChild(arrow);
+  this.game.arrows.add(arrow);
+  //Y preparamos las cosas para que no puedas disparar hasta dentro de 1 sec
+  this.canShoot = false;
+  this.game.time.events.add(Phaser.Timer.SECOND  * .5, this.shootCD, this);
+}
+//Vuelve a poner el cd a 0
+Hero.prototype.shootCD = function(){
+  this.canShoot = true;
 }
 //Crea las teclas de input
 Hero.prototype.keyBindings = function(){

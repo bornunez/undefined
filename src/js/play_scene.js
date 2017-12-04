@@ -3,26 +3,27 @@
 //var enemy;
 var Hero = require('./hero.js');
 var Character = require('./character.js');
+var Stalker = require('./stalker.js');
 
 var PlayScene = {
   create: function () {
-
+    
+    this.game.arrows = this.game.add.group();
+    this.game.enemies = this.game.add.group();
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //Create the player sprite and enable the physics
     this.link = new Hero(this.game);
     this.link.create();
-    this.game.world.addChild(this.link);
-    this.enemy = new Character(this.game,'skeleton',this.world.centerX,this.world.game.world.centerY, 3,3);
-    this.enemy.scaleSprite(3,3);
-    this.game.world.addChild(this.enemy);
+    this.enemy = new Stalker(this.game,this.game.world.centerX,this.world.game.world.centerY,this.link);
+    
   },
   update: function(){
     /*this.game.physics.arcade.collide(this.link, this.enemy);
 
     if(this.game.physics.arcade.collide(this.link, this.enemy)) {
      console.log("COLISION") 
-*/
+    }*/
   }
 };
 /*
