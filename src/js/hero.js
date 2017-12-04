@@ -13,15 +13,9 @@ Hero.prototype.constructor = Hero;
 Hero.prototype.create = function(){
     //Hacemos el Personaje
     Character.call(this,this.game,'link',0,0,3,3);
+    this.keyBindings();
     this.width *=2;
     this.height *=2;
-    //KeyBindings
-    this.upKey = this.keyboard.addKey(Phaser.Keyboard.UP);
-    this.downKey = this.keyboard.addKey(Phaser.Keyboard.DOWN);
-    this.leftKey = this.keyboard.addKey(Phaser.Keyboard.LEFT);
-    this.rightKey = this.keyboard.addKey(Phaser.Keyboard.RIGHT);
-    this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
 }
 Hero.prototype.update = function(){
   this.input();
@@ -68,6 +62,15 @@ Hero.prototype.input = function(){
         else
           this.move = false;  
       }
+}
+
+Hero.prototype.keyBindings = function(){
+    //KeyBindings
+    this.upKey = this.keyboard.addKey(Phaser.Keyboard.UP);
+    this.downKey = this.keyboard.addKey(Phaser.Keyboard.DOWN);
+    this.leftKey = this.keyboard.addKey(Phaser.Keyboard.LEFT);
+    this.rightKey = this.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
 module.exports = Hero;
