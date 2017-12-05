@@ -3,7 +3,7 @@ var Character = require('./character.js');
 
 function Stalker(game,x,y,target){
     this.game = game;
-    Character.call(this,this.game,'skeleton',x,y,0.1,3,1)
+    Character.call(this,this.game,'skeleton',x,y,1,3,1)
     this.target = target;
     //Datos del sprite 
     this.scaleSprite(4,4);
@@ -14,12 +14,10 @@ Stalker.prototype = Object.create(Character.prototype);
 Stalker.prototype.constructor = Stalker;
 
 Stalker.prototype.update = function() {
-    if (this.life === 0) {
+    if(this.life <= 0)
         this.destroy();
-      }
-    else{
+    if(this.control)
         this.move();
-      }
 }
 
 Stalker.prototype.move = function(){
@@ -39,12 +37,11 @@ Stalker.prototype.move = function(){
     if (targetMoving)  {
         // Calcula el angulo entre el target y el enemigo
         var rotation = this.game.math.angleBetween(this.x, this.y, t.x, t.y);
-  
         // Calcula el vector velocidad basandose en su rotacion
-        this.body.velocity.x = Math.cos(rotation) * 150;
-        this.body.velocity.y = Math.sin(rotation) *150;
+        this.body.velocity.x = Math.cos(rotation) * 100;
+        this.body.velocity.y = Math.sin(rotation) * 100;
     } else {
-        this.body.velocity.setTo(0, 0);
+        //this.body.velocity.setTo(0, 0);
     }
 }
 

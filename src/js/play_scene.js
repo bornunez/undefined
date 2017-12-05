@@ -15,17 +15,14 @@ var PlayScene = {
     //Create the player sprite and enable the physics
     this.link = new Hero(this.game);
     this.link.create();
-    this.enemy = new Stalker(this.game,this.game.world.centerX,this.world.game.world.centerY,this.link);
+    this.enemy = new Stalker(this.game,this.game.world.centerX,this.game.world.centerY,this.link);
     
   },
   update: function(){
-    /*this.game.physics.arcade.collide(this.link, this.enemy);
-
-    if(this.game.physics.arcade.collide(this.link, this.enemy)) {
-     console.log("COLISION") 
-    }*/
+    this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
   }
 };
+
 /*
 Arrow.prototype = Object.create(Phaser.Sprite.prototype);
 Arrow.constructor = Arrow;

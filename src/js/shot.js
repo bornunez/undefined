@@ -1,4 +1,5 @@
 'use strict'
+var Character = require('./character.js');
 
 function Shot(game,x,y,vel,velX,velY,spriteName){
     this.game = game;
@@ -15,7 +16,7 @@ Shot.prototype.constructor = Shot;
 Shot.prototype.update = function(){
     this.body.velocity.x = this.velX * this.vel;
     this.body.velocity.y = this.velY * this.vel;
-    this.game.physics.arcade.collide(this, this.game.enemies, this.hitEnemy, null, this);
+    this.game.physics.arcade.overlap(this, this.game.enemies, this.hitEnemy, null, this);
     
 }
 
@@ -24,8 +25,10 @@ Shot.prototype.arrowDestroy = function(){
 }
 
 Shot.prototype.hitEnemy = function(arrow,enemy) {
-  enemy.life--;
-  this.destroy();
+    enemy.life--;
+    //enemy.scaleSprite(5,5);
+    enemy.applyKnockback(enemy.target);
+    this.destroy();
 }
 Shot.prototype.initPhysics = function(){
     //Fisicas!

@@ -29,7 +29,6 @@ var PreloaderScene = {
     this.game.load.image('link', 'images/link.png');
     this.game.load.image('skeleton', 'images/skeleton.png');
 
-
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
   },
 

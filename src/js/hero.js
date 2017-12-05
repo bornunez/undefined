@@ -20,6 +20,11 @@ Hero.prototype.create = function(){
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
+
+  this.game.physics.arcade.overlap(this, this.game.enemies,this.playerCollision,null,this);
+
+  if(this.life <= 0)
+    this.destroy();
   this.input();
   this.walk();
   //Objeto(Disparar)
@@ -90,5 +95,9 @@ Hero.prototype.keyBindings = function(){
   this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.eKey = this.keyboard.addKey(Phaser.Keyboard.E);
   this.canShoot = true;
+}
+
+Hero.prototype.playerCollision = function(player,enemy){
+  this.applyKnockback(enemy);
 }
 module.exports = Hero;
