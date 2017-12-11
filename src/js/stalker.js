@@ -16,7 +16,7 @@ Stalker.prototype.constructor = Stalker;
 Stalker.prototype.update = function() {
     if(this.life <= 0)
         this.destroy();
-    if(this.control)
+    else if(this.control)
         this.move();
 }
 

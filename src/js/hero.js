@@ -5,6 +5,7 @@ var Shot = require('./shot.js');
 function Hero(game){
     this.game = game;
     this.keyboard = this.game.input.keyboard;
+    this.canAttack = true;
 }
 
 //Enlazamos las propiedades prototype   
@@ -17,6 +18,8 @@ Hero.prototype.create = function(){
     Character.call(this,this.game,'link',0,0,1,3,3);
     this.scaleSprite(2,2);
     this.keyBindings();
+    this.iniAttackColliders();
+
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
@@ -32,19 +35,21 @@ Hero.prototype.update = function(){
     if(this.canShoot)
       this.shoot();
   }
+  this.attack();
+  
 }
 
 //Input del Heroe ////FEOOO////
 Hero.prototype.input = function(){
       //Y axis
       if(this.upKey.isDown){
-        if(this.dir === 'None')
+        //if(this.dir === 'None')
           this.dir = 'Up'
         this.velY = -200;
         this.move = true;
       }
       else if(this.downKey.isDown){
-        if(this.dir === 'None')
+        //if(this.dir === 'None')
           this.dir = 'Down'
         this.velY = 200;
         this.move = true;
@@ -57,10 +62,12 @@ Hero.prototype.input = function(){
       }
       //X Axis
       if(this.leftKey.isDown){
+        this.dir = 'Left';
         this.move = true;
         this.velX = -200;
       }
       else if (this.rightKey.isDown){
+        this.dir = 'Right';
         this.move = true;
         this.velX = 200;
       }
@@ -70,6 +77,7 @@ Hero.prototype.input = function(){
         else
           this.move = false;  
       }
+
 }
 //Disparo
 Hero.prototype.shoot = function(){
@@ -85,6 +93,36 @@ Hero.prototype.shoot = function(){
 Hero.prototype.shootCD = function(){
   this.canShoot = true;
 }
+
+  //Ataque
+Hero.prototype.attack = function(){
+  this.game.debug.body(this.rightAttack);
+  this.game.debug.body(this.leftAttack);
+  this.game.debug.body(this.topAttack);
+  this.game.debug.body(this.downAttack);
+
+
+  if(this.eKey.isDown && this.canAttack){
+    console.log(this.dir);  
+    if (this.dir === 'Right')
+      this.game.physics.arcade.overlap(this.rightAttack, this.game.enemies, this.rightAttack.hitEnemyMele, null, this);
+    else if (this.dir === 'Left')
+      this.game.physics.arcade.overlap(this.leftAttack, this.game.enemies, this.leftAttack.hitEnemyMele, null, this);
+    else if (this.dir === 'Up')
+      this.game.physics.arcade.overlap(this.topAttack, this.game.enemies, this.topAttack.hitEnemyMele, null, this);
+    else if (this.dir === 'Down')
+      this.game.physics.arcade.overlap(this.downAttack, this.game.enemies, this.downAttack.hitEnemyMele, null, this);
+
+    this.canAttack = false;
+    this.game.time.events.add(Phaser.Timer.SECOND  * .5, this.attackCD, this);
+  }
+}
+
+Hero.prototype.attackCD = function(){
+  this.canAttack = true;
+}
+
+
 //Crea las teclas de input
 Hero.prototype.keyBindings = function(){
   //KeyBindings
@@ -97,7 +135,57 @@ Hero.prototype.keyBindings = function(){
   this.canShoot = true;
 }
 
-Hero.prototype.playerCollision = function(player,enemy){
+Hero.prototype.iniAttackColliders = function() {
+  this.rightAttack = new attackCollider(this.game, this.x + 16,this.y + 2);
+  this.leftAttack = new attackCollider(this.game, this.x - 16,this.y + 2);
+  this.topAttack = new attackCollider(this.game, this.x,this.y - 16);
+  this.downAttack = new attackCollider(this.game, this.x,this.y + 16);
+
+  this.game.world.addChild(this.rightAttack);
+  this.game.world.addChild(this.leftAttack);
+  this.game.world.addChild(this.topAttack);
+  this.game.world.addChild(this.downAttack);
+  
+  this.addChild(this.rightAttack);
+  this.addChild(this.leftAttack);
+  this.addChild(this.topAttack);
+  this.addChild(this.downAttack);
+
+
+}
+
+Hero.prototype.playerCollision = function(player, enemy){
   this.applyKnockback(enemy);
 }
+
+
+function attackCollider(game, nx, ny) {
+  this.game = game;
+  Phaser.Sprite.call(this, this.game, nx, ny);
+  this.game.physics.enable(this);
+  this.x = nx;
+  this.y = ny;
+}
+
+attackCollider.prototype = Object.create(Phaser.Sprite.prototype);
+attackCollider.constructor =  attackCollider;
+/*
+attackCollider.prototype.update= function(){
+  this.game.debug.body(this);
+  this.game.physics.arcade.overlap(this, this.game.enemies, this.hitEnemy, null,this);
+
+  if(this.game.physics.arcade.overlap(this, enemy)) {
+    console.log("INVISWALL") 
+   }
+}
+*/
+attackCollider.prototype.hitEnemyMele = function(attack, enemy) {
+  console.log(enemy.life);
+
+  //Se deberia llamar a la funcion damage
+  if(enemy.life >= 1)
+    enemy.life--;
+    enemy.applyKnockback(enemy.target);
+}
+
 module.exports = Hero;
