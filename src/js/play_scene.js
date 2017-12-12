@@ -11,15 +11,53 @@ var PlayScene = {
     this.game.arrows = this.game.add.group();
     this.game.enemies = this.game.add.group();
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
+    this.loadMap();
+    
+    //Debajo de todo esta el suelo
+    this.Suelo = this.createLayer("Suelo");
+    
     //Create the player sprite and enable the physics
     this.link = new Hero(this.game);
     this.link.create();
+    this.game.camera.follow(this.link);
     this.enemy = new Stalker(this.game,this.game.world.centerX,this.game.world.centerY,this.link);
     
+    //Y encima las paderes
+    this.Paredes = this.createLayer("Paredes");
+    //this.Paredes.debug =true;
+    this.map.setCollisionBetween(1,190,true,this.Paredes);
+    //Luego las vallas
+    this.Vallas = this.createLayer("Vallas");
+    this.Vallas2 = this.createLayer("Vallas 2");
+    this.Decoracion = this.createLayer("Decoracion");
+    this.Cofre = this.createLayer("Cofre");
+    //Y encima el techo
+    this.Techo = this.createLayer("Techo");
+    //
+    this.Techo.resizeWorld();
   },
   update: function(){
+    this.game.physics.arcade.collide(this.link,this.Paredes);
     this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
+  },
+  loadMap: function(){
+    //  The 'map' key here is the Loader key given in game.load.tilemap
+    this.map = this.game.add.tilemap('map');
+    
+    //  The first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
+    //  The second parameter maps this name to the Phaser.Cache key 'tiles'
+    this.map.addTilesetImage('Zelda', 'tiles');
+    //to get the tileset ID (number):
+    this.tilesetID = this.map.getTilesetIndex("Zelda");
+
+    
+    //  This resizes the game world to match the layer dimensions
+  },
+  createLayer: function(name){
+    var layer = this.map.createLayer(name);
+    layer.smoothed = false;
+    layer.setScale(5);
+    return layer;
   }
 };
 

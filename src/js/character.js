@@ -3,6 +3,7 @@ function Character(game,spriteName,x,y,vel,life,damage){
     this.game = game; 
     //Hacemos el sprite
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
+    this.scaleSprite(4.5,4.5);
     this.smoothed = false;
     //Inicializamos las fisicas
     this.initPhysics();
@@ -15,6 +16,7 @@ function Character(game,spriteName,x,y,vel,life,damage){
     this.dmg = damage;
     this.dir = 'None';
     this.life = life;
+    //this.anchor.x = this.anchor.y = this.width / 2;
     //Cosas del knockback
     this.control = true;
     this.knockback = false;
@@ -56,9 +58,9 @@ Character.prototype.die = function(){
 
 Character.prototype.initPhysics = function(){
   //Fisicas!
-  this.game.physics.enable(this);
+  this.game.physics.arcade.enable(this);
   this.body.collideWorldBounds = true;
-  this.body.bounce.setTo(1, 1);
+  //this.body.bounce.setTo(1, 1);
 
   this.body.moves = true;
   this.body.immovable = true;

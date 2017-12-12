@@ -16,7 +16,6 @@ Hero.prototype.constructor = Hero;
 Hero.prototype.create = function(){
     //Hacemos el Personaje
     Character.call(this,this.game,'link',0,0,1,3,3);
-    this.scaleSprite(2,2);
     this.keyBindings();
     this.iniAttackColliders();
 
@@ -25,6 +24,7 @@ Hero.prototype.create = function(){
 Hero.prototype.update = function(){
 
   this.game.physics.arcade.overlap(this, this.game.enemies,this.playerCollision,null,this);
+  //this.game.physics.arcade.collide(this,this.game.Paredes);
 
   if(this.life <= 0)
     this.destroy();

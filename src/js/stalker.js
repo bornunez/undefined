@@ -5,8 +5,6 @@ function Stalker(game,x,y,target){
     this.game = game;
     Character.call(this,this.game,'skeleton',x,y,1,3,1)
     this.target = target;
-    //Datos del sprite 
-    this.scaleSprite(4,4);
     this.game.enemies.add(this);
 }
 //Enlazamos las propiedades prototype   
