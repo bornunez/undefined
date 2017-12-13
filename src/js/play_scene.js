@@ -20,24 +20,37 @@ var PlayScene = {
     this.link = new Hero(this.game);
     this.link.create();
     this.game.camera.follow(this.link);
+    //Offset de la camara 
+
     this.enemy = new Stalker(this.game,this.game.world.centerX,this.game.world.centerY,this.link);
     
     //Y encima las paderes
     this.Paredes = this.createLayer("Paredes");
-    //this.Paredes.debug =true;
-    this.map.setCollisionBetween(1,190,true,this.Paredes);
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
-    this.Decoracion = this.createLayer("Decoracion");
-    this.Cofre = this.createLayer("Cofre");
+    //this.Decoracion = this.createLayer("Decoracion");
+    this.Cofres = this.createLayer("Cofres");
+    this.Jarrones = this.createLayer("Jarrones");
+    this.Colisiones = this.createLayer("Colisiones");
+    this.map.setCollision(204,true,this.Colisiones);
+    this.Colisiones.debug =true;
     //Y encima el techo
     this.Techo = this.createLayer("Techo");
-    //
+    //Y abajo del todo el HUD
+    this.HUD = this.game.add.sprite(0,0,'HUD');
+    this.HUD.smoothed = false;
+    this.HUD.width *= 5.2;
+    this.HUD.height *= 5.2;
+    this.HUD.fixedToCamera = true;
     this.Techo.resizeWorld();
-  },
+  },/*
+  preRender: function(){
+    this.HUD.x = this.camera.x;
+    this.HUD.y = this.camera.y;
+  },*/
   update: function(){
-    this.game.physics.arcade.collide(this.link,this.Paredes);
+    this.game.physics.arcade.collide(this.link,this.Colisiones);
     this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
   },
   loadMap: function(){
@@ -47,7 +60,9 @@ var PlayScene = {
     //  The first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
     //  The second parameter maps this name to the Phaser.Cache key 'tiles'
     this.map.addTilesetImage('Zelda', 'tiles');
+    this.map.addTilesetImage('Objects', 'objetos');
     //to get the tileset ID (number):
+    this.tilesetID = this.map.getTilesetIndex("Objects");
     this.tilesetID = this.map.getTilesetIndex("Zelda");
 
     
