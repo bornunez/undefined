@@ -10,45 +10,13 @@ var PlayScene = {
     
     this.game.arrows = this.game.add.group();
     this.game.enemies = this.game.add.group();
+    this.spawnG = this.game.add.group(); 
+    this.enemiesSprite = this.game.add.group();
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.loadMap();
+    this.createGO();
     
-    //Debajo de todo esta el suelo
-    this.Suelo = this.createLayer("Suelo");
-    
-    //Create the player sprite and enable the physics
-    this.link = new Hero(this.game);
-    this.link.create();
-    this.game.camera.follow(this.link);
-    //Offset de la camara 
-
-    this.enemy = new Stalker(this.game,this.game.world.centerX,this.game.world.centerY,this.link);
-    
-    //Y encima las paderes
-    this.Paredes = this.createLayer("Paredes");
-    //Luego las vallas
-    this.Vallas = this.createLayer("Vallas");
-    this.Vallas2 = this.createLayer("Vallas 2");
-    //this.Decoracion = this.createLayer("Decoracion");
-    this.Cofres = this.createLayer("Cofres");
-    this.Jarrones = this.createLayer("Jarrones");
-    this.Colisiones = this.createLayer("Colisiones");
-    this.map.setCollision(204,true,this.Colisiones);
-    this.Colisiones.debug =true;
-    //Y encima el techo
-    this.Techo = this.createLayer("Techo");
-    //Y abajo del todo el HUD
-    this.HUD = this.game.add.sprite(0,0,'HUD');
-    this.HUD.smoothed = false;
-    this.HUD.width *= 5.2;
-    this.HUD.height *= 5.2;
-    this.HUD.fixedToCamera = true;
-    this.Techo.resizeWorld();
-  },/*
-  preRender: function(){
-    this.HUD.x = this.camera.x;
-    this.HUD.y = this.camera.y;
-  },*/
+  },
   update: function(){
     this.game.physics.arcade.collide(this.link,this.Colisiones);
     this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
@@ -68,11 +36,62 @@ var PlayScene = {
     
     //  This resizes the game world to match the layer dimensions
   },
+
   createLayer: function(name){
     var layer = this.map.createLayer(name);
     layer.smoothed = false;
     layer.setScale(5);
     return layer;
+  },
+
+  createGO: function(){
+
+    //Debajo de todo esta el suelo
+    this.Suelo = this.createLayer("Suelo");
+    
+    //Create the player sprite and enable the physics
+    this.link = new Hero(this.game);
+    this.link.create();
+    this.game.camera.follow(this.link);
+    //Offset de la camara 
+    
+    //Y encima las paderes
+    this.Paredes = this.createLayer("Paredes");
+    //Luego las vallas
+    this.Vallas = this.createLayer("Vallas");
+    this.Vallas2 = this.createLayer("Vallas 2");
+    //this.Decoracion = this.createLayer("Decoracion");
+    this.Objetos = this.createLayer("Objetos");
+    this.loadEnemies();
+    
+    //Layer de los colliders de las paredes
+    this.Colisiones = this.createLayer("Colisiones");
+    this.map.setCollision(206,true,this.Colisiones);
+    //this.Colisiones.debug =true;
+    //Y encima el techo
+    this.Techo = this.createLayer("Techo");
+    //Y abajo del todo el HUD/*
+    
+    this.HUD = this.game.add.sprite(0,0,'HUD');
+    this.HUD.smoothed = false;
+    this.HUD.width *= 5.2;
+    this.HUD.height *= 5.2;
+    this.HUD.fixedToCamera = true;
+    this.Techo.resizeWorld();
+    //AQui creamos los objs
+    this.map.createFromTiles(197,null,'link',this.Objetos,this.spawnG);
+    this.link.x = this.spawnG.getChildAt(0).x;
+    this.link.y = this.spawnG.getChildAt(0).y;
+    //this.link.spawn(this.spawn.x, this.spawn.y);
+  },
+  
+  loadEnemies: function(){
+    console.log(this.map.createFromTiles(202,null,'skeleton',this.Objetos,this.enemiesSprite));
+    for(var i = 0; i < this.enemiesSprite.total;i++){
+      var enemy = new Stalker(this.game,this.enemiesSprite.getChildAt(i).x,this.enemiesSprite.getChildAt(i).y,this.link);
+      this.game.enemies.add(enemy);
+    }
+    this.game.world.bringToTop(this.game.enemies);
   }
 };
 

@@ -19,9 +19,7 @@ Hero.prototype.create = function(){
     Character.call(this,this.game,'link',0,0,3,3,3);
     this.keyBindings();
     this.iniAttackColliders();
-    this.HUD = this.game.add.sprite(0,0,'HUD');
-    this.HUD.width *= 4.5;
-    this.HUD.height *= 4.5;
+    
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){

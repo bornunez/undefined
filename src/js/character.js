@@ -111,6 +111,7 @@ Character.prototype.knockedDir = function(enemy){
 
 //Vemos si hemos acabado el knockback (*KNOCK* *KNOCK* *KNOCK* PENNY...)
 Character.prototype.stopKnocked = function(){
+  if(this.body !== null){
   //Si hemos sido empujados tan lejos como tendriamos, reset
 
   //Vemos en que direccion estamos siendo noqueados
@@ -124,6 +125,10 @@ Character.prototype.stopKnocked = function(){
   this.knockedToX = 0;
   this.knockedToY = 0;
   //Y nos ponemos normal
-  this.alpha = 1;
+  this.alpha = 1;}
+}
+Character.prototype.spawn = function(x,y){
+  this.x = x;
+  this.y = y;
 }
 module.exports = Character;

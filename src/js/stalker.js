@@ -3,9 +3,8 @@ var Character = require('./character.js');
 
 function Stalker(game,x,y,target){
     this.game = game;
-    Character.call(this,this.game,'skeleton',x,y,1,3,1)
+    Character.call(this,this.game,'skeleton',x,y,1,3,1);
     this.target = target;
-    this.game.enemies.add(this);
 }
 //Enlazamos las propiedades prototype   
 Stalker.prototype = Object.create(Character.prototype);
