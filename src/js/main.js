@@ -29,6 +29,8 @@ var PreloaderScene = {
     this.game.load.image('link', 'images/link.png');
     this.game.load.image('skeleton', 'images/skeleton.png');
     this.game.load.image('HUD', 'images/HUD.png');
+    //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
+    this.game.load.atlas('heroAnimations', 'images/heroSpritesheet.png', 'images/heroSpriteSheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     //Load map

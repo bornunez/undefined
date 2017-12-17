@@ -15,7 +15,6 @@ var PlayScene = {
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.loadMap();
     this.createGO();
-    
   },
   update: function(){
     this.game.physics.arcade.collide(this.link,this.Colisiones);
