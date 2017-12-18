@@ -135,7 +135,7 @@ Hero.prototype.shootCD = function(){
   //Ataque
 Hero.prototype.attack = function(){
   this.atacking = true;
-
+/*
   this.game.debug.body(this);
   
   this.game.debug.body(this.rightAttack);
@@ -143,7 +143,7 @@ Hero.prototype.attack = function(){
   this.game.debug.body(this.topAttack);
   this.game.debug.body(this.downAttack);
 
-
+*/
   if(this.eKey.isDown && this.canAttack){
     console.log(this.dir);  
     if (this.dir === 'Right') {
