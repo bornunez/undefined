@@ -6,7 +6,7 @@ var PlayScene = require('./play_scene.js');
 var BootScene = {
   preload: function () {
     // load here assets required for the loading screen
-    this.game.load.image('preloader_bar', 'images/preloader_bar.png');
+
   },
 
   create: function () {
@@ -21,16 +21,18 @@ var BootScene = {
 
 var PreloaderScene = {
   preload: function () {
-    this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
-    this.loadingBar.anchor.setTo(0, 0.5);
-    this.load.setPreloadSprite(this.loadingBar);
+    this.game.load.baseURL = 'https://bornunez.github.io/undefined/src';
+    
+    this.game.load.crossOrigin = 'anonymous';
+
+
 
     // TODO: load here the assets for the game
-    this.game.load.image('link', 'images/link.png');
-    this.game.load.image('skeleton', 'images/skeleton.png');
-    this.game.load.image('HUD', 'images/HUD.png');
+    this.game.load.image('link', '/images/link.png');
+    this.game.load.image('skeleton', '/images/skeleton.png');
+    this.game.load.image('HUD', '/images/HUD.png');
     //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
-    this.game.load.atlas('heroAnimations', 'images/heroSpritesheet.png', 'images/heroSpriteSheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    this.game.load.atlas('heroAnimations', '/images/heroSpritesheet.png', '/images/heroSpritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     //Load map
@@ -43,12 +45,12 @@ var PreloaderScene = {
     //  The final one tells Phaser the foramt of the map data, in this case it's a JSON file exported from the Tiled map editor.
     //  This could be Phaser.Tilemap.CSV too.
 
-    this.game.load.tilemap('map', 'mapas/EastPalace1.json',null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('map', '/mapas/EastPalace1.json',null, Phaser.Tilemap.TILED_JSON);
     
     //  Next we load the tileset. This is just an image, loaded in via the normal way we load images:
     
-    this.game.load.image('tiles', 'mapas/TileSet32.png');
-    this.game.load.image('objetos', 'mapas/TileSet16.png');
+    this.game.load.image('tiles', '/mapas/TileSet32.png');
+    this.game.load.image('objetos', '/mapas/TileSet16.png');
   },
 
   create: function () {
