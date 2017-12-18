@@ -67,6 +67,11 @@ var PlayScene = {
     this.Colisiones = this.createLayer("Colisiones");
     this.map.setCollision(206,true,this.Colisiones);
     //this.Colisiones.debug =true;
+    //AQui creamos los objs
+    this.map.createFromTiles(197,null,'link',this.Objetos,this.spawnG);
+    this.link.x = this.spawnG.getChildAt(0).x;
+    this.link.y = this.spawnG.getChildAt(0).y;
+    //this.link.spawn(this.spawn.x, this.spawn.y);
     //Y encima el techo
     this.Techo = this.createLayer("Techo");
     //Y abajo del todo el HUD/*
@@ -77,11 +82,6 @@ var PlayScene = {
     this.HUD.height *= 5.2;
     this.HUD.fixedToCamera = true;
     this.Techo.resizeWorld();
-    //AQui creamos los objs
-    this.map.createFromTiles(197,null,'link',this.Objetos,this.spawnG);
-    this.link.x = this.spawnG.getChildAt(0).x;
-    this.link.y = this.spawnG.getChildAt(0).y;
-    //this.link.spawn(this.spawn.x, this.spawn.y);
   },
   
   loadEnemies: function(){
