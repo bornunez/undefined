@@ -24,7 +24,6 @@ var PreloaderScene = {
     this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
     this.loadingBar.anchor.setTo(0, 0.5);
     this.load.setPreloadSprite(this.loadingBar);
-
     // TODO: load here the assets for the game
     this.game.load.image('link', 'images/link.png');
     this.game.load.image('skeleton', 'images/skeleton.png');
