@@ -18,7 +18,7 @@ Hero.prototype.constructor = Hero;
 Hero.prototype.create = function(){
     //Hacemos el Personaje
     Character.call(this,this.game,'heroAnimations',0,0,3,3,3);
-    //this.anchor.setTo(0.5, 0.5);
+    this.anchor.setTo(0.5, 0.5);
 
     this.keyBindings();
     this.iniAttackColliders();
@@ -27,10 +27,10 @@ Hero.prototype.create = function(){
     this.animations.add('walkTop', Phaser.Animation.generateFrameNames('walk', 16, 23), 12, true);
     this.animations.add('walkDown', Phaser.Animation.generateFrameNames('walk', 24, 31), 12, true);
 
-    this.animations.add('idleRight', Phaser.Animation.generateFrameNames('walk', 0, 0), 1, false);
-    this.animations.add('idleLeft', Phaser.Animation.generateFrameNames('walk', 8, 8), 1, false);
-    this.animations.add('idleTop', Phaser.Animation.generateFrameNames('walk', 16, 16), 1, false);
-    this.animations.add('idleDown', Phaser.Animation.generateFrameNames('walk', 24, 24), 1, false);
+    this.animations.add('idleRight', Phaser.Animation.generateFrameNames('dying', 0, 0), 1, false);
+    this.animations.add('idleLeft', Phaser.Animation.generateFrameNames('dying', 2, 2), 1, false);
+    this.animations.add('idleTop', Phaser.Animation.generateFrameNames('dying', 3, 3), 1, false);
+    this.animations.add('idleDown', Phaser.Animation.generateFrameNames('dying', 1, 1), 1, false);
 
     this.animations.add('attackRight', Phaser.Animation.generateFrameNames('attack', 0, 11), 20, false);
     this.animations.add('attackTop', Phaser.Animation.generateFrameNames('attack', 12, 23), 20, false);

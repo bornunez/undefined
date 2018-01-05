@@ -21,18 +21,18 @@ var BootScene = {
 
 var PreloaderScene = {
   preload: function () {
-    this.game.load.baseURL = 'https://bornunez.github.io/undefined/src';
+    //this.game.load.baseURL = 'https://bornunez.github.io/undefined/src';
     
-    this.game.load.crossOrigin = 'anonymous';
+    //this.game.load.crossOrigin = 'anonymous';
 
 
 
     // TODO: load here the assets for the game
-    this.game.load.image('link', '/images/link.png');
+    //this.game.load.image('link', '/images/link.png');
     this.game.load.image('skeleton', '/images/skeleton.png');
     this.game.load.image('HUD', '/images/HUD.png');
     //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
-    this.game.load.atlas('heroAnimations', '/images/heroSpritesheet.png', '/images/heroSpritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/images/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     //Load map
