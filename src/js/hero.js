@@ -40,10 +40,10 @@ Hero.prototype.create = function(){
     this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 24, 35), 20, false);
     this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 36, 47), 20, false);
 
-    this.animations.add('bowRight', Phaser.Animation.generateFrameNames('bow', 0, 2), 3, false);
-    this.animations.add('bowTop', Phaser.Animation.generateFrameNames('bow', 3, 5), 3, false);
-    this.animations.add('bowLeft', Phaser.Animation.generateFrameNames('bow', 6, 8), 3, false);
-    this.animations.add('bowDown', Phaser.Animation.generateFrameNames('bow', 9, 11), 3, false);
+    this.animations.add('bowRight', Phaser.Animation.generateFrameNames('bow', 0, 2), 5, false);
+    this.animations.add('bowTop', Phaser.Animation.generateFrameNames('bow', 3, 5), 5, false);
+    this.animations.add('bowLeft', Phaser.Animation.generateFrameNames('bow', 6, 8), 5, false);
+    this.animations.add('bowDown', Phaser.Animation.generateFrameNames('bow', 9, 11), 5, false);
 
 }
 //Update, lee input y se mueve / dispara
@@ -139,9 +139,10 @@ Hero.prototype.input = function(){
 //Disparo
 Hero.prototype.shoot = function(){
   //Creamos la nueva flecha, la añadimos al mundo y al grupo
-  var arrow = new Shot(this.game,this.x,this.y,5,this.velX,this.velY,'link');
+  var arrow = new Shot(this.game,this.x,this.y,5,this.velX,this.velY,'skeleton');
   this.game.world.addChild(arrow);
   this.game.arrows.add(arrow);
+  this.game.world.bringToTop(this.game.arrows);
   //Y preparamos las cosas para que no puedas disparar hasta dentro de 1 sec
   this.canShoot = false;
   this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
