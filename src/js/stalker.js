@@ -3,14 +3,34 @@ var Character = require('./character.js');
 
 function Stalker(game,x,y,target){
     this.game = game;
-    Character.call(this,this.game,'skeleton',x,y,1,3,1);
+    Character.call(this,this.game,'enemyAnimations',x,y,1,3,1);
     this.target = target;
+
+    this.animations.add('enemyWalkRight', Phaser.Animation.generateFrameNames('enemy', 0, 1), 3, true);
+    this.animations.add('enemyWalkLeft', Phaser.Animation.generateFrameNames('enemy', 2, 3), 3, true);
+    this.animations.add('enemyWalkDown', Phaser.Animation.generateFrameNames('enemy', 4, 6), 3, true);
+    this.animations.add('enemyWalkTop', Phaser.Animation.generateFrameNames('enemy', 7, 9), 3, true);
 }
 //Enlazamos las propiedades prototype   
 Stalker.prototype = Object.create(Character.prototype);
 Stalker.prototype.constructor = Stalker;
 
 Stalker.prototype.update = function() {
+
+    //Hay que ajustarlo
+    if (this.x < this.target.x && this.y > this.target.y)
+        this.animations.play('enemyWalkRight');
+    else if (this.x > this.target.x && this.y < this.target.y)
+        this.animations.play('enemyWalkLeft');
+   
+    else if (this.y < this.target.y)
+        this.animations.play('enemyWalkDown');
+    else if (this.y > this.target.y)
+        this.animations.play('enemyWalkTop');
+
+    
+    
+
     if(this.life <= 0)
         this.destroy();
     else if(this.control)
@@ -32,6 +52,7 @@ Stalker.prototype.move = function(){
             targetMoving = true;
     }    
     if (targetMoving)  {
+        this.animations.play('WalkTop');
         // Calcula el angulo entre el target y el enemigo
         var rotation = this.game.math.angleBetween(this.x, this.y, t.x, t.y);
         // Calcula el vector velocidad basandose en su rotacion

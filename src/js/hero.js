@@ -19,6 +19,9 @@ Hero.prototype.create = function(){
     //Hacemos el Personaje
     Character.call(this,this.game,'heroAnimations',0,0,3,3,3);
     this.anchor.setTo(0.5, 0.5);
+    this.body.setSize(16, 24, 8, 4);
+    
+
 
     this.keyBindings();
     this.iniAttackColliders();
@@ -36,6 +39,9 @@ Hero.prototype.create = function(){
     this.animations.add('attackTop', Phaser.Animation.generateFrameNames('attack', 12, 23), 20, false);
     this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 24, 35), 20, false);
     this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 36, 47), 20, false);
+
+    
+
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
@@ -135,15 +141,15 @@ Hero.prototype.shootCD = function(){
   //Ataque
 Hero.prototype.attack = function(){
   this.atacking = true;
-/*
+
   this.game.debug.body(this);
   
   this.game.debug.body(this.rightAttack);
-  this.game.debug.body(this.leftAttack);
-  this.game.debug.body(this.topAttack);
-  this.game.debug.body(this.downAttack);
+  //this.game.debug.body(this.leftAttack);
+  //this.game.debug.body(this.topAttack);
+  //this.game.debug.body(this.downAttack);
 
-*/
+
   if(this.eKey.isDown && this.canAttack){
     console.log(this.dir);  
     if (this.dir === 'Right') {
@@ -186,10 +192,10 @@ Hero.prototype.keyBindings = function(){
 }
 
 Hero.prototype.iniAttackColliders = function() {
-  this.rightAttack = new attackCollider(this.game, this.x  + 16, this.y, this.width, this.height);
-  this.leftAttack = new attackCollider(this.game, this.x - 16,this.y, this.width, this.height);
-  this.topAttack = new attackCollider(this.game, this.x, this.y - 16, this.width, this.height);
-  this.downAttack = new attackCollider(this.game, this.x, this.y + 16, this.width, this.height);
+  this.rightAttack = new attackCollider(this.game, this.x+8, this.y-16, this.width/2, this.height);
+  this.leftAttack = new attackCollider(this.game, this.x - 16,this.y, this.width/2, this.height);
+  this.topAttack = new attackCollider(this.game, this.x, this.y - 16, this.width, this.height/2);
+  this.downAttack = new attackCollider(this.game, this.x, this.y + 16, this.width, this.height/2);
 
   this.game.world.addChild(this.rightAttack);
   this.game.world.addChild(this.leftAttack);
