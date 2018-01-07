@@ -232,12 +232,15 @@ Hero.prototype.playerCollision = function(player, enemy){
 
 function attackCollider(game, nx, ny, nw, nh) {
   this.game = game;
-  Phaser.Sprite.call(this, this.game, nx, ny);
+ // Phaser.Sprite.call(this,this.game,nx,ny,'skeleton');
+  Phaser.Sprite.call(this,this.game,nx,ny);
   this.game.physics.enable(this);
-  //this.x = nx;
-  //this.y = ny;
+  this.x = nx;
+  this.y = ny;
   this.body.width = nw;
   this.body.height = nh;
+
+
 }
 
 attackCollider.prototype = Object.create(Phaser.Sprite.prototype);
