@@ -40,14 +40,17 @@ Hero.prototype.create = function(){
     this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 24, 35), 20, false);
     this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 36, 47), 20, false);
 
-    
+    this.animations.add('bowRight', Phaser.Animation.generateFrameNames('bow', 0, 2), 3, false);
+    this.animations.add('bowTop', Phaser.Animation.generateFrameNames('bow', 3, 5), 3, false);
+    this.animations.add('bowLeft', Phaser.Animation.generateFrameNames('bow', 6, 8), 3, false);
+    this.animations.add('bowDown', Phaser.Animation.generateFrameNames('bow', 9, 11), 3, false);
 
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
   this.game.physics.arcade.overlap(this, this.game.enemies,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
-if (this.move && this.canAttack) {
+if (this.move && this.canAttack && this.canShoot) {
   if (this.dir === 'Up') 
     this.animations.play('walkTop');
   else if(this.dir ==='Down')
@@ -57,7 +60,7 @@ if (this.move && this.canAttack) {
   else 
     this.animations.play('walkRight');
 }
-else if (this.canAttack){
+else if (this.canAttack && this.canShoot){
   if (this.dir === 'Up') 
     this.animations.play('idleTop');
   else if(this.dir ==='Down')
@@ -74,10 +77,20 @@ console.log(this.dir);
     this.destroy();
   this.input();
   this.walk();
-  //Objeto(Disparar)
+  //Objeto(Disparar)  HAY QUE PONER QUE NO PUEDA MOVERSE CUANDO DISPARA
   if(this.space.isDown){
-    if(this.canShoot)
+    if(this.canShoot) {
+      if (this.dir === 'Up') 
+        this.animations.play('bowTop');
+      else if(this.dir ==='Down')
+      this.animations.play('bowDown');
+      else if(this.dir === 'Left')
+        this.animations.play('bowLeft');
+      else 
+        this.animations.play('bowRight');
+
       this.shoot();
+    }
   }
   this.attack();
   
@@ -131,7 +144,7 @@ Hero.prototype.shoot = function(){
   this.game.arrows.add(arrow);
   //Y preparamos las cosas para que no puedas disparar hasta dentro de 1 sec
   this.canShoot = false;
-  this.game.time.events.add(Phaser.Timer.SECOND  * .5, this.shootCD, this);
+  this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
 }
 //Vuelve a poner el cd a 0
 Hero.prototype.shootCD = function(){
