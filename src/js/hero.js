@@ -158,7 +158,7 @@ Hero.prototype.attack = function(){
 
   this.game.debug.body(this);
   
-  this.game.debug.body(this.rightAttack);
+  //this.game.debug.body(this.rightAttack);
   //this.game.debug.body(this.leftAttack);
   //this.game.debug.body(this.topAttack);
   //this.game.debug.body(this.downAttack);

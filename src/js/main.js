@@ -30,6 +30,7 @@ var PreloaderScene = {
     // TODO: load here the assets for the game
     //this.game.load.image('link', '/images/link.png');
     this.game.load.image('skeleton', '/images/skeleton.png');
+    this.game.load.image('trigger','/images/trigger.png');
     this.game.load.image('HUD', '/images/HUD.png');
     //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
     this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/images/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);

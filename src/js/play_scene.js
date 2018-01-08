@@ -17,8 +17,14 @@ var PlayScene = {
     this.createGO();
   },
   update: function(){
+    /*
+    console.log("Link X: " + this.link.x);
+    console.log("Link Y: " + this.link.y);
+    console.log("Trigger X : " + this.game.Triggers.getChildAt(0).x);
+    console.log("Trigger Y: " + this.game.Triggers.getChildAt(0).y);*/
     this.game.physics.arcade.collide(this.link,this.Colisiones);
     this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
+
   },
   loadMap: function(){
     //  The 'map' key here is the Loader key given in game.load.tilemap
@@ -61,7 +67,7 @@ var PlayScene = {
     this.Vallas2 = this.createLayer("Vallas 2");
     //this.Decoracion = this.createLayer("Decoracion");
     this.Objetos = this.createLayer("Objetos");
-    this.loadEnemies();
+    //this.loadEnemies();
     
     //Layer de los colliders de las paredes
     this.Colisiones = this.createLayer("Colisiones");
@@ -82,89 +88,75 @@ var PlayScene = {
     this.HUD.height *= 5.2;
     this.HUD.fixedToCamera = true;
     this.Techo.resizeWorld();
+
+    this.loadTriggers();
+
   },
   
   loadEnemies: function(){
-    console.log(this.map.createFromTiles(202,null,'skeleton',this.Objetos,this.enemiesSprite));
+    //console.log(this.map.createFromTiles(202,null,'skeleton',this.Objetos,this.enemiesSprite));
+    /*
     for(var i = 0; i < this.enemiesSprite.total;i++){
       var enemy = new Stalker(this.game,this.enemiesSprite.getChildAt(i).x,this.enemiesSprite.getChildAt(i).y,this.link);
       this.game.enemies.add(enemy);
-    }
-    this.game.world.bringToTop(this.game.enemies);
-  }
+    }*/
+    //this.game.world.bringToTop(this.game.enemies);
+  },
+  loadTriggers: function(){
+    this.game.Triggers = this.game.add.group();
+    console.log(this.map.objects['Triggers']);
+    this.map.objects['Triggers'].forEach(function(element) {
+      //element.y -= this.map.tileHeight;
+      var trigger = new ZoneTrigger(this,this.game,element.x*5,element.y*5,element.type);
+      //var trigger = new ZoneTrigger(this,this.game,this.link.x,this.link.y,element.type);
+      console.log(trigger);
+      this.game.Triggers.add(trigger);
+    }, this);
+    this.game.world.bringToTop(this.game.Triggers);
+  },
+  //Devuelve un array de objetos con la propiedad 'type' en la capa 'layer'
+  findObjectsByType: function(type, layer) {
+    var result = new Array();
+    this.map.objects[layer].forEach(function(element){
+      if(element.type === type) {
+        result.push(element);
+      }      
+    });
+    return result;
+  },
 };
 
-/*
-Arrow.prototype = Object.create(Phaser.Sprite.prototype);
-Arrow.constructor = Arrow;
+//No vamos a crear un modulo para algo tan pequeño (creo)
+function ZoneTrigger(playScene,game,x,y, zone){
+  this.game = game;
+  this.playScene = playScene;
 
-Arrow.prototype.update = function(){
-    this.body.velocity.x = this._velX;
-    this.body.velocity.y = this._velY;
+  Phaser.Sprite.call(this,this.game,x,y,'trigger');
+  this.width *=5;
+  this.height *= 5;
 
-    this.game.physics.arcade.collide(this, PlayScene.enemy, this.hitEnemy, null, this);
-    
+  this.game.physics.arcade.enable(this);
+  this.zone = zone;
+  this.game.physics.arcade.overlap(this, this.game.link, this.spawn, null, this);
+  this.game.debug.body(this);
 }
 
-Arrow.prototype.arrowdestroy = function(){
-    this.destroy();
-    console.log("arrowDestroy");
-}
-
-Arrow.prototype.hitEnemy = function() {
-  PlayScene.enemy.life--;
+ZoneTrigger.prototype = Object.create(Phaser.Sprite.prototype);
+ZoneTrigger.prototype.constructor = ZoneTrigger;
+ZoneTrigger.prototype.spawnZone = function(){
+  var zoneEnemies = this.playScene.findObjectsByType('spawn'+this.zone,'Esqueletos');
+  console.log(zoneEnemies);
+  zoneEnemies.forEach(function(element) {
+    var nStalker = new Stalker(this.game,element.x*5,element.y*5,this.playScene.link);
+    this.game.enemies.add(nStalker);
+  }, this);
+  this.game.world.bringToTop(this.game.enemies);
   this.destroy();
+  console.log("Hola");
 }
-*/
-
-function Enemy(nx, ny, target){
-  Phaser.Sprite.call(this, PlayScene.game, nx, ny, 'skeleton');
-  this.target = target;
-  this.x = nx;
-  this.y = ny;
-  this.life = 3;
-  //Datos del sprite 
-  this.width *= 4;
-  this.height *= 4;
-  this.smoothed = false;
-};
-
-Enemy.prototype = Object.create(Phaser.Sprite.prototype);
-Enemy.constructor = Enemy;
-
-Enemy.prototype.update = function() {
-
-console.log(this.life)
-
-  var t = {};
-  var targetMoving = false;
-
-      //Se asigna la x y la y del target
-      t.x = this.target.x;
-      t.y = this.target.y;
-      
-      // Calcula la distancia que lo separa del target
-      // Si el target esta lo suficientemente lejos el enemigo se movera
-      var distance = this.game.math.distance(this.x, this.y, t.x, t.y);
-      if (distance > 32) targetMoving = true;
-
-      if (targetMoving)  {
-        // Calcula el angulo entre el target y el enemigo
-        var rotation = this.game.math.angleBetween(this.x, this.y, t.x, t.y);
-
-        // Calcula el vector velocidad basandose en su rotacion
-        this.body.velocity.x = Math.cos(rotation) * 150;
-        this.body.velocity.y = Math.sin(rotation) *150;
-    } else {
-        this.body.velocity.setTo(0, 0);
-    }
-
-    //Este if puede ir arriba del todo si todo lo demas entra en un else
-    if (this.life === 0) {
-      this.destroy();
-    }
-};
-
+ZoneTrigger.prototype.update = function(){
+  this.game.physics.arcade.overlap(this.playScene.link,this,this.spawnZone,null,this);
+}
 
 
 
