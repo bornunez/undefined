@@ -12,19 +12,25 @@ var PlayScene = {
     this.game.enemies = this.game.add.group();
     this.spawnG = this.game.add.group(); 
     this.enemiesSprite = this.game.add.group();
+    this.kb = this.game.input.keyboard;
+    this.esc = this.kb.addKey(Phaser.Keyboard.ESC);
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.loadMap();
     this.createGO();
+    this.esc.onDown.add(function unpause(self){
+      self.game.paused = false;     
+    });
+
+    
   },
   update: function(){
-    /*
-    console.log("Link X: " + this.link.x);
-    console.log("Link Y: " + this.link.y);
-    console.log("Trigger X : " + this.game.Triggers.getChildAt(0).x);
-    console.log("Trigger Y: " + this.game.Triggers.getChildAt(0).y);*/
+    console.log(this.esc);
     this.game.physics.arcade.collide(this.link,this.Colisiones);
     this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
-
+    if(this.esc.isDown){
+      this.game.paused = true;
+    }
+    
   },
   loadMap: function(){
     //  The 'map' key here is the Loader key given in game.load.tilemap
