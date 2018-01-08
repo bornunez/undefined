@@ -21,7 +21,7 @@ var PlayScene = {
       self.game.paused = false;     
     });
 
-    
+    this.hearts = new Hearts(this,this.game,20,100)
   },
   update: function(){
     console.log(this.esc);
@@ -162,6 +162,24 @@ ZoneTrigger.prototype.spawnZone = function(){
 }
 ZoneTrigger.prototype.update = function(){
   this.game.physics.arcade.overlap(this.playScene.link,this,this.spawnZone,null,this);
+}
+
+
+
+//Prueba para el HUD
+Hearts.prototype = Object.create(Phaser.Sprite.prototype);
+Hearts.prototype.constructor = Hearts;
+
+function Hearts(playScene,game,x,y){
+  this.game = game;
+  this.playScene = playScene;
+
+  Phaser.Sprite.call(this,this.game,x,y,'hearts');
+  this.frame = 0;
+  this.fixedToCamera = true;
+
+  this.game.world.addChild(this);
+  this.game.world.bringToTop(this);
 }
 
 
