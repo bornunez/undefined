@@ -3,11 +3,13 @@ var Character = require('./character.js');
 var Shot = require('./shot.js');
 
 
-function Hero(game){
+function Hero(game,playScene){
     this.game = game;
+    this.playScene = playScene;
     this.keyboard = this.game.input.keyboard;
     this.canAttack = true;
     this.attacking = false;
+    this.canMove = true;
 }
 
 //Enlazamos las propiedades prototype   
@@ -48,7 +50,7 @@ Hero.prototype.create = function(){
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
-  this.game.physics.arcade.overlap(this, this.game.enemies,this.playerCollision,null,this);
+  this.game.physics.arcade.overlap(this, this.playScene.activeEnemies,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 if (this.move && this.canAttack && this.canShoot) {
   if (this.dir === 'Up') 
@@ -70,8 +72,6 @@ else if (this.canAttack && this.canShoot){
   else 
     this.animations.play('idleRight');
   }
-
-console.log(this.dir);
 
   if(this.life <= 0)
     this.destroy();
@@ -98,6 +98,7 @@ console.log(this.dir);
 
 //Input del Heroe ////FEOOO////
 Hero.prototype.input = function(){
+  if(this.canMove){
       //Y axis
       if(this.upKey.isDown){
         //if(this.dir === 'None')
@@ -134,6 +135,12 @@ Hero.prototype.input = function(){
         else
           this.move = false;  
       }
+    }
+    else{
+      this.velY = 0;
+      this.velX = 0;
+      this.move = false;  
+    }
 
 }
 //Disparo
@@ -145,47 +152,51 @@ Hero.prototype.shoot = function(){
   this.game.world.bringToTop(this.game.arrows);
   //Y preparamos las cosas para que no puedas disparar hasta dentro de 1 sec
   this.canShoot = false;
+  this.canMove = false;
+  this.canAttack = false;
   this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
 }
 //Vuelve a poner el cd a 0
 Hero.prototype.shootCD = function(){
+  this.canAttack = true;
+  this.canMove = true;
   this.canShoot = true;
 }
 
   //Ataque
 Hero.prototype.attack = function(){
   this.atacking = true;
-
+/*
   this.game.debug.body(this);
   
-  //this.game.debug.body(this.rightAttack);
-  //this.game.debug.body(this.leftAttack);
-  //this.game.debug.body(this.topAttack);
-  //this.game.debug.body(this.downAttack);
-
+  this.game.debug.body(this.rightAttack);
+  this.game.debug.body(this.leftAttack);
+  this.game.debug.body(this.topAttack);
+  this.game.debug.body(this.downAttack);
+*/
 
   if(this.eKey.isDown && this.canAttack){
-    console.log(this.dir);  
     if (this.dir === 'Right') {
       this.animations.play('attackRight');
-      this.game.physics.arcade.overlap(this.rightAttack, this.game.enemies, this.rightAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.rightAttack, this.playScene.activeEnemies, this.rightAttack.hitEnemyMele, null, this);
       this.rightAttack.playAttack('A');
     }
     else if (this.dir === 'Left') {
       this.animations.play('attackLeft');
-      this.game.physics.arcade.overlap(this.leftAttack, this.game.enemies, this.leftAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.leftAttack, this.playScene.activeEnemies, this.leftAttack.hitEnemyMele, null, this);
       this.leftAttack.playAttack('B');
     }
     else if (this.dir === 'Up') {
       this.animations.play('attackTop');
-      this.game.physics.arcade.overlap(this.topAttack, this.game.enemies, this.topAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.topAttack, this.playScene.activeEnemies, this.topAttack.hitEnemyMele, null, this);
       this.topAttack.playAttack('C');
     }
     else if (this.dir === 'Down') {
       this.animations.play('attackDown');
-      this.game.physics.arcade.overlap(this.downAttack, this.game.enemies, this.downAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.downAttack,this.playScene.activeEnemies, this.downAttack.hitEnemyMele, null, this);
       this.downAttack.playAttack('D');
     }
+    this.canMove = false;
     this.canAttack = false;
 
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.attackCD, this);
@@ -193,6 +204,7 @@ Hero.prototype.attack = function(){
 }
 
 Hero.prototype.attackCD = function(){
+  this.canMove = true;
   this.canAttack = true;
 }
 
@@ -209,10 +221,10 @@ Hero.prototype.keyBindings = function(){
 }
 
 Hero.prototype.iniAttackColliders = function() {
-  this.rightAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height);
-  this.leftAttack = new attackCollider(this.game, this.x,this.y, this.width, this.height);
-  this.topAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height);
-  this.downAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height);
+  this.rightAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height/2);
+  this.leftAttack = new attackCollider(this.game, this.x,this.y, this.width, this.height/2);
+  this.topAttack = new attackCollider(this.game, this.x, this.y, this.width/2, this.height);
+  this.downAttack = new attackCollider(this.game, this.x, this.y, this.width/2, this.height);
 
   this.game.world.addChild(this.rightAttack);
   this.game.world.addChild(this.leftAttack);

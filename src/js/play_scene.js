@@ -4,12 +4,17 @@
 var Hero = require('./hero.js');
 var Character = require('./character.js');
 var Stalker = require('./stalker.js');
+var Room = require('./room.js');
+
+var NUMROOMS = 11;
+var MAPSCALE = 5;
 
 var PlayScene = {
   create: function () {
     
     this.game.arrows = this.game.add.group();
-    this.game.enemies = this.game.add.group();
+    this.PoolEnemies = this.game.add.group();
+    this.activeEnemies = this.game.add.group();
     this.spawnG = this.game.add.group(); 
     this.enemiesSprite = this.game.add.group();
     this.kb = this.game.input.keyboard;
@@ -17,6 +22,9 @@ var PlayScene = {
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.loadMap();
     this.createGO();
+    this.loadEnemies();
+    this.loadRooms();
+
     this.esc.onDown.add(function unpause(self){
       self.game.paused = false;     
     });
@@ -24,13 +32,17 @@ var PlayScene = {
     this.hearts = new Hearts(this,this.game,20,100)
   },
   update: function(){
-    console.log(this.esc);
+
+    this.rooms.forEach(function(element) {
+      element.update();
+    }, this);
+     
     this.game.physics.arcade.collide(this.link,this.Colisiones);
-    this.game.physics.arcade.overlap(this.link, this.enemies,this.playerCollision,null,this);
+    this.game.physics.arcade.overlap(this.link, this.activeEnemies,this.playerCollision,null,this);
     if(this.esc.isDown){
       this.game.paused = true;
     }
-    
+    //console.log(this.activeEnemies);
   },
   loadMap: function(){
     //  The 'map' key here is the Loader key given in game.load.tilemap
@@ -51,17 +63,17 @@ var PlayScene = {
   createLayer: function(name){
     var layer = this.map.createLayer(name);
     layer.smoothed = false;
-    layer.setScale(5);
+    layer.setScale(MAPSCALE);
     return layer;
   },
 
   createGO: function(){
 
-    //Debajo de todo esta el suelo
+    //ajo de todo esta el suelo
     this.Suelo = this.createLayer("Suelo");
     
     //Create the player sprite and enable the physics
-    this.link = new Hero(this.game);
+    this.link = new Hero(this.game,this);
     this.link.create();
     this.game.camera.follow(this.link);
     //Offset de la camara 
@@ -75,7 +87,7 @@ var PlayScene = {
     this.Objetos = this.createLayer("Objetos");
     //this.loadEnemies();
     
-    //Layer de los colliders de las paredes
+    //Layer de los s de las paredes
     this.Colisiones = this.createLayer("Colisiones");
     this.map.setCollision(206,true,this.Colisiones);
     //this.Colisiones.debug =true;
@@ -90,36 +102,46 @@ var PlayScene = {
     
     this.HUD = this.game.add.sprite(0,0,'HUD');
     this.HUD.smoothed = false;
-    this.HUD.width *= 5.2;
-    this.HUD.height *= 5.2;
+    this.HUD.width *= 26/25 * MAPSCALE;
+    this.HUD.height *= 26/25 * MAPSCALE ;
     this.HUD.fixedToCamera = true;
     this.Techo.resizeWorld();
 
-    this.loadTriggers();
-
   },
-  
+  loadRooms: function(){
+    console.log("HOLA");
+    this.rooms = new Array();
+    for(var i = 0;i<NUMROOMS;i++){
+      var room = new Room(this.game,this,MAPSCALE,i);
+      this.rooms.push(room);
+    }
+  },
+  //Pooling
   loadEnemies: function(){
-    //console.log(this.map.createFromTiles(202,null,'skeleton',this.Objetos,this.enemiesSprite));
-    /*
-    for(var i = 0; i < this.enemiesSprite.total;i++){
-      var enemy = new Stalker(this.game,this.enemiesSprite.getChildAt(i).x,this.enemiesSprite.getChildAt(i).y,this.link);
-      this.game.enemies.add(enemy);
-    }*/
-    //this.game.world.bringToTop(this.game.enemies);
+    for(var i=0;i<10;i++){
+      var enemy = new Stalker(this.game,this,0,0,this.link);
+      enemy.kill();
+      this.PoolEnemies.add(enemy);
+    }
   },
-  loadTriggers: function(){
-    this.game.Triggers = this.game.add.group();
-    console.log(this.map.objects['Triggers']);
-    this.map.objects['Triggers'].forEach(function(element) {
-      //element.y -= this.map.tileHeight;
-      var trigger = new ZoneTrigger(this,this.game,element.x*5,element.y*5,element.type);
-      //var trigger = new ZoneTrigger(this,this.game,this.link.x,this.link.y,element.type);
-      console.log(trigger);
-      this.game.Triggers.add(trigger);
-    }, this);
-    this.game.world.bringToTop(this.game.Triggers);
+
+  addEnemy: function(x,y,group){
+    var enemy;
+    console.log(this.PoolEnemies);
+    if(this.PoolEnemies.length>0){
+      enemy = this.PoolEnemies.getChildAt(0);
+      console.log(enemy);
+      enemy.reset(x,y);
+      //this.PoolEnemies.removeChild(enemy);
+    }
+    else{
+      enemy = new Stalker(this.game,this,x,y,this.link);
+    }
+    this.activeEnemies.add(enemy);
+    this.game.world.bringToTop(this.activeEnemies);
+    return enemy;
   },
+
   //Devuelve un array de objetos con la propiedad 'type' en la capa 'layer'
   findObjectsByType: function(type, layer) {
     var result = new Array();
@@ -132,37 +154,7 @@ var PlayScene = {
   },
 };
 
-//No vamos a crear un modulo para algo tan pequeño (creo)
-function ZoneTrigger(playScene,game,x,y, zone){
-  this.game = game;
-  this.playScene = playScene;
 
-  Phaser.Sprite.call(this,this.game,x,y,'trigger');
-  this.width *=5;
-  this.height *= 5;
-
-  this.game.physics.arcade.enable(this);
-  this.zone = zone;
-  this.game.physics.arcade.overlap(this, this.game.link, this.spawn, null, this);
-  this.game.debug.body(this);
-}
-
-ZoneTrigger.prototype = Object.create(Phaser.Sprite.prototype);
-ZoneTrigger.prototype.constructor = ZoneTrigger;
-ZoneTrigger.prototype.spawnZone = function(){
-  var zoneEnemies = this.playScene.findObjectsByType('spawn'+this.zone,'Esqueletos');
-  console.log(zoneEnemies);
-  zoneEnemies.forEach(function(element) {
-    var nStalker = new Stalker(this.game,element.x*5,element.y*5,this.playScene.link);
-    this.game.enemies.add(nStalker);
-  }, this);
-  this.game.world.bringToTop(this.game.enemies);
-  this.destroy();
-  console.log("Hola");
-}
-ZoneTrigger.prototype.update = function(){
-  this.game.physics.arcade.overlap(this.playScene.link,this,this.spawnZone,null,this);
-}
 
 
 

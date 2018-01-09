@@ -31,8 +31,8 @@ Shot.prototype.hitEnemy = function(arrow,enemy) {
     this.destroy();
 }
 Shot.prototype.initPhysics = function(){
+    this.game.physics.arcade.enable(this);
     //Fisicas!
-    this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
     this.body.bounce.setTo(1, 1);
   
