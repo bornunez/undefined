@@ -23,15 +23,19 @@
 
 
 #### Imprevistos ####
+Sprites de 32 bit en el mapa de celdas (jeje) de 16 bits -> Rehacer el mapa
+Colisiones en los sprites de 32 bits, crea una colision de 16 x 16 bits en la esquina inf izq -> Hacer capa collisions
+
 
 
 ====== HITO 3 ====== 19 Enero
 
--Logica Mapa(Puertas, Botones): Borja
--Enemigo que dispara: Miguel
+-Hacer sprites 100% "originales" no copyright profesor contento :D  : Borja
+-Logica Mapa(Puertas, Botones, Loot): Miguel
+//-Enemigo que dispara: Miguel
 -Boss: Borja y Miguel
--HUD: Borja y Miguel
--Ciclo de partida: Borja
+-HUD: Borja
+-Ciclo de partida: Menu
 
 
 #### Imprevistos ####
