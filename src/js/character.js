@@ -63,7 +63,7 @@ Character.prototype.initPhysics = function(){
   //this.body.bounce.setTo(1, 1);
 
   this.body.moves = true;
-  this.body.immovable = true;
+  //this.body.immovable = true;
 }
 
 Character.prototype.scaleSprite = function(w,h){

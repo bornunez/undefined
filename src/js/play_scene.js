@@ -127,7 +127,7 @@ var PlayScene = {
     }
   },
 
-  addEnemy: function(x,y,group){
+  addEnemy: function(x,y,room){
     var enemy;
     console.log(this.PoolEnemies);
     if(this.PoolEnemies.length>0){
@@ -139,6 +139,7 @@ var PlayScene = {
     else{
       enemy = new Stalker(this.game,this,x,y,this.link);
     }
+    enemy.room = room;
     this.activeEnemies.add(enemy);
     this.game.world.bringToTop(this.activeEnemies);
     return enemy;

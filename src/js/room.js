@@ -30,14 +30,19 @@ Room.prototype.loadEnemies = function(){
     this.enemiesInfo = this.playScene.findObjectsByType('spawn'+this.number,'Esqueletos');
     this.enemies = new Array();
 }
+
+//Primero creamos la informacion de cada puerta, y luego las instanciamos como objetos inmovibles.
 Room.prototype.loadDoors = function(){
+    //Primero queremos la info
     this.doorsInfo = this.playScene.findObjectsByType('D'+ this.number, 'Puertas');
     this.Doors = this.game.add.group();
+    //Y luego los instanciamos
     this.doorsInfo.forEach(function(element) {
+        //Creamos el sprite
         var door = this.createFromTiledObj(element.x,element.y,'door');
-        this.game.physics.arcade.enable(door);
-        //door.body.inmovable = true;
-        door.body.moves = false;
+        //Y le aplicamos las fisicas
+        this.game.physics.enable(door, Phaser.Physics.ARCADE);
+        door.body.immovable = true;
         this.Doors.add(door);
     }, this);
 }
@@ -49,7 +54,7 @@ Room.prototype.Spawn = function(){
     }, this);
     if(this.active === true){ 
         this.enemiesInfo.forEach(function(element) {
-            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this.enemies);    
+            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this);    
             this.enemies.push(enemy);
         }, this);
         this.active = false;    
@@ -67,5 +72,16 @@ Room.prototype.createFromTiledObj = function(x,y,spritename){
     obj.smoothed = false;
     return obj;
 }
-
+Room.prototype.checkEnemies = function(){
+    //Simple: Si no quedan enemigos, se abre la puerta
+    if(this.enemies.length<=0)
+        this.Doors.destroy(true);
+}
+Room.prototype.killEnemy = function(enemy){
+    //Borramos al enemigo del array, pero sin destruir su entidad, 
+    //,ya que esta sera enviada de nuevo a la pool de enemigos
+    var enemyN = this.enemies.indexOf(enemy);
+    if(enemyN >= 0)
+        this.enemies.splice(enemyN,1);
+}
   module.exports = Room;

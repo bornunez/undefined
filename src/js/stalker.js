@@ -36,6 +36,8 @@ Stalker.prototype.update = function() {
 
     if(this.life <= 0){
         this.kill();
+        this.room.killEnemy(this);
+        this.room.checkEnemies();
         this.playscene.PoolEnemies.add(this);
     }
     else if(this.control)
