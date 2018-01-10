@@ -76,6 +76,8 @@ Character.prototype.applyKnockback = function(enemy){
   var distance = 200;
 
   if(!this.knockback){
+    //Quita vida
+    enemy.damage(this);
     //Nos volvemos invulnerables
     this.inmortal = true;
     this.control = false;

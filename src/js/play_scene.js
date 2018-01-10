@@ -5,6 +5,7 @@ var Hero = require('./hero.js');
 var Character = require('./character.js');
 var Stalker = require('./stalker.js');
 var Room = require('./room.js');
+var HUD = require('./HUD.js');
 
 var NUMROOMS = 11;
 var MAPSCALE = 5;
@@ -29,7 +30,8 @@ var PlayScene = {
       self.game.paused = false;     
     });
 
-    this.hearts = new Hearts(this,this.game,20,100)
+    this.HUD = new HUD(this.game, this.link);
+
   },
   update: function(){
 
@@ -44,6 +46,8 @@ var PlayScene = {
     if(this.esc.isDown){
       this.game.paused = true;
     }
+    this.HUD.update();
+
     //console.log(this.activeEnemies);
   },
   loadMap: function(){
@@ -156,27 +160,5 @@ var PlayScene = {
     return result;
   },
 };
-
-
-
-
-
-//Prueba para el HUD
-Hearts.prototype = Object.create(Phaser.Sprite.prototype);
-Hearts.prototype.constructor = Hearts;
-
-function Hearts(playScene,game,x,y){
-  this.game = game;
-  this.playScene = playScene;
-
-  Phaser.Sprite.call(this,this.game,x,y,'hearts');
-  this.frame = 0;
-  this.fixedToCamera = true;
-
-  this.game.world.addChild(this);
-  this.game.world.bringToTop(this);
-}
-
-
 
 module.exports = PlayScene;

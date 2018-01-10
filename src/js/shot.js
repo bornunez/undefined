@@ -1,13 +1,38 @@
-'use strict'
+    'use strict'
 var Character = require('./character.js');
 
 function Shot(game,x,y,vel,velX,velY,spriteName){
     this.game = game;
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
+    this.anchor.setTo(0.5, 0.5);
+    this.scale.setTo(5,5);
+    this.smoothed = false;
     this.initPhysics();
     this.vel = vel;
     this.velX = velX;
     this.velY = velY;
+
+    //hacer funcion
+    if(velX < 0 && velY === 0)
+        this.angle = 180;
+    else if(velX === 0 && velY < 0)
+        this.angle = 270;
+    else if(velX === 0 && velY > 0)
+        this.angle = 90;
+    //Diagonal abajoderecha
+    else if(velX > 0 && velY > 0) 
+        this.angle =  45;
+    //Diagonal arribaderecha
+    else if(velX > 0 && velY < 0) 
+        this.angle = 315;
+    //Diagonal abajoizquierda
+    else if(velX < 0 && velY > 0) 
+        this.angle = 135;
+    //Diagonal arribaizquierda
+    else if(velX < 0 && velY < 0) 
+        this.angle =  225;
+    
+
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.arrowDestroy, this);
 }
 Shot.prototype = Object.create(Phaser.Sprite.prototype);
@@ -25,7 +50,7 @@ Shot.prototype.arrowDestroy = function(){
 }
 
 Shot.prototype.hitEnemy = function(arrow,enemy) {
-    enemy.life--;
+    //enemy.life--;
     //enemy.scaleSprite(5,5);
     enemy.applyKnockback(enemy.target);
     this.destroy();

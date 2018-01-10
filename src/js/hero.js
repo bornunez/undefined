@@ -10,6 +10,7 @@ function Hero(game,playScene){
     this.canAttack = true;
     this.attacking = false;
     this.canMove = true;
+    this.dead = false;
 }
 
 //Enlazamos las propiedades prototype   
@@ -19,7 +20,7 @@ Hero.prototype.constructor = Hero;
 //La funcion para inicializar, crear el sprite y sus variables
 Hero.prototype.create = function(){
     //Hacemos el Personaje
-    Character.call(this,this.game,'heroAnimations',0,0,3,3,3);
+    Character.call(this,this.game,'heroAnimations', 0, 0, 3, 6, 1);
     this.anchor.setTo(0.5, 0.5);
     this.body.setSize(16, 24, 8, 4);
     
@@ -37,66 +38,41 @@ Hero.prototype.create = function(){
     this.animations.add('idleTop', Phaser.Animation.generateFrameNames('dying', 3, 3), 1, false);
     this.animations.add('idleDown', Phaser.Animation.generateFrameNames('dying', 1, 1), 1, false);
 
-    this.animations.add('attackRight', Phaser.Animation.generateFrameNames('attack', 0, 11), 12, false);
-    this.animations.add('attackTop', Phaser.Animation.generateFrameNames('attack', 12, 23), 12, false);
-    this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 24, 35), 12, false);
-    this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 36, 47), 12, false);
+    this.animations.add('attackRight', Phaser.Animation.generateFrameNames('attack', 0, 9), 12, false);
+    this.animations.add('attackTop', Phaser.Animation.generateFrameNames('attack', 10, 19), 12, false);
+    this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 20, 29), 12, false);
+    this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 30, 39), 12, false);
 
     this.animations.add('bowRight', Phaser.Animation.generateFrameNames('bow', 0, 2), 5, false);
     this.animations.add('bowTop', Phaser.Animation.generateFrameNames('bow', 3, 5), 5, false);
     this.animations.add('bowLeft', Phaser.Animation.generateFrameNames('bow', 6, 8), 5, false);
     this.animations.add('bowDown', Phaser.Animation.generateFrameNames('bow', 9, 11), 5, false);
 
+    this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
-
+  console.log(this.life);
   this.game.debug.body(this.rightAttack);
+  this.game.debug.body(this.leftAttack);
+  this.game.debug.body(this.topAttack);
+  this.game.debug.body(this.downAttack);
 
   this.game.physics.arcade.overlap(this, this.playScene.activeEnemies,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
-if (this.move && this.canAttack && this.canShoot) {
-  if (this.dir === 'Up') 
-    this.animations.play('walkTop');
-  else if(this.dir ==='Down')
-    this.animations.play('walkDown');
-  else if(this.dir === 'Left')
-    this.animations.play('walkLeft');
-  else 
-    this.animations.play('walkRight');
-}
-else if (this.canAttack && this.canShoot){
-  if (this.dir === 'Up') 
-    this.animations.play('idleTop');
-  else if(this.dir ==='Down')
-   this.animations.play('idleDown');
-  else if(this.dir === 'Left')
-    this.animations.play('idleLeft');
-  else 
-    this.animations.play('idleRight');
-  }
 
-  if(this.life <= 0)
-    this.destroy();
-  this.input();
-  this.walk();
-  //Objeto(Disparar)  HAY QUE PONER QUE NO PUEDA MOVERSE CUANDO DISPARA
-  if(this.space.isDown){
-    if(this.canShoot) {
-      if (this.dir === 'Up') 
-        this.animations.play('bowTop');
-      else if(this.dir ==='Down')
-      this.animations.play('bowDown');
-      else if(this.dir === 'Left')
-        this.animations.play('bowLeft');
-      else 
-        this.animations.play('bowRight');
 
-      this.shoot();
-    }
+  if (this.life > 0){
+    this.playAnims();
+    this.input();
+    this.walk();
+    this.attack();
   }
-  this.attack();
-  
+  else if(this.life <= 0 && !this.dead) {
+  //this.destroy();
+  this.animations.play('dying');
+  this.dead = true;
+  }
 }
 
 //Input del Heroe ////FEOOO////
@@ -149,7 +125,7 @@ Hero.prototype.input = function(){
 //Disparo
 Hero.prototype.shoot = function(){
   //Creamos la nueva flecha, la añadimos al mundo y al grupo
-  var arrow = new Shot(this.game,this.x,this.y,5,this.velX,this.velY,'skeleton');
+  var arrow = new Shot(this.game,this.x,this.y,5,this.velX,this.velY,'arrow');
   this.game.world.addChild(arrow);
   this.game.arrows.add(arrow);
   this.game.world.bringToTop(this.game.arrows);
@@ -172,9 +148,6 @@ Hero.prototype.attack = function(){
 
   this.game.debug.body(this);
   
-
-
-
   if(this.eKey.isDown && this.canAttack){
     if (this.dir === 'Right') {
       this.animations.play('attackRight');
@@ -208,6 +181,46 @@ Hero.prototype.attackCD = function(){
   this.canAttack = true;
 }
 
+Hero.prototype.playAnims = function(){
+  if (this.move && this.canAttack && this.canShoot) {
+    if (this.dir === 'Up') 
+      this.animations.play('walkTop');
+    else if(this.dir ==='Down')
+      this.animations.play('walkDown');
+    else if(this.dir === 'Left')
+      this.animations.play('walkLeft');
+    else 
+      this.animations.play('walkRight');
+  }
+  else if (this.canAttack && this.canShoot){
+    if (this.dir === 'Up') 
+      this.animations.play('idleTop');
+    else if(this.dir ==='Down')
+     this.animations.play('idleDown');
+    else if(this.dir === 'Left')
+      this.animations.play('idleLeft');
+    else 
+      this.animations.play('idleRight');
+    }
+
+    //Objeto(Disparar) 
+  if(this.space.isDown){
+    if(this.canShoot) {
+      if (this.dir === 'Up') 
+        this.animations.play('bowTop');
+      else if(this.dir ==='Down')
+      this.animations.play('bowDown');
+      else if(this.dir === 'Left')
+        this.animations.play('bowLeft');
+      else 
+        this.animations.play('bowRight');
+
+      this.shoot();
+    }
+  }
+}
+
+
 //Crea las teclas de input
 Hero.prototype.keyBindings = function(){
   //KeyBindings
@@ -226,6 +239,12 @@ Hero.prototype.iniAttackColliders = function() {
   this.topAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height, this.x,- this.height);
   this.downAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height, this.x, this.height);
 
+  //Se ajustan los colliders
+  this.rightAttack.body.setSize(100, 100, 64, -14);
+  this.leftAttack.body.setSize(100, 100, -92, -14);
+  this.topAttack.body.setSize(100, 100, -16, -90);
+  this.downAttack.body.setSize(100, 100, -16, 64);
+  
   this.game.world.addChild(this.rightAttack);
   this.game.world.addChild(this.leftAttack);
   this.game.world.addChild(this.topAttack);
@@ -258,9 +277,7 @@ function attackCollider(game, nx, ny, nw, nh,colX,colY) {
   this.anchor.setTo(0.5, 0.5);
   //this.col = this.game.add.sprite(colX,colY,null);
   this.game.physics.arcade.enable(this);
-  /*
-  this.col.body.setSize(nw, nh, 0, 0);
-  this.game.world.addChild(this.col);*/
+
   console.log(this);
 
 }
@@ -286,9 +303,9 @@ attackCollider.prototype.update= function(){
 attackCollider.prototype.hitEnemyMele = function(attack, enemy) {
   console.log(enemy.life);
 
-  //Se deberia llamar a la funcion damage
   if(enemy.life >= 1)
-    enemy.life--;
+    //this.damage(enemy);
+    //this.applyKnockback(enemy);
     enemy.applyKnockback(enemy.target);
 }
 
