@@ -50,6 +50,9 @@ Hero.prototype.create = function(){
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
+
+  this.game.debug.body(this.rightAttack);
+
   this.game.physics.arcade.overlap(this, this.playScene.activeEnemies,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 if (this.move && this.canAttack && this.canShoot) {
@@ -166,14 +169,11 @@ Hero.prototype.shootCD = function(){
   //Ataque
 Hero.prototype.attack = function(){
   this.atacking = true;
-/*
+
   this.game.debug.body(this);
   
-  this.game.debug.body(this.rightAttack);
-  this.game.debug.body(this.leftAttack);
-  this.game.debug.body(this.topAttack);
-  this.game.debug.body(this.downAttack);
-*/
+
+
 
   if(this.eKey.isDown && this.canAttack){
     if (this.dir === 'Right') {
@@ -221,10 +221,10 @@ Hero.prototype.keyBindings = function(){
 }
 
 Hero.prototype.iniAttackColliders = function() {
-  this.rightAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height/2);
-  this.leftAttack = new attackCollider(this.game, this.x,this.y, this.width, this.height/2);
-  this.topAttack = new attackCollider(this.game, this.x, this.y, this.width/2, this.height);
-  this.downAttack = new attackCollider(this.game, this.x, this.y, this.width/2, this.height);
+  this.rightAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height,this.width/2,this.y);
+  this.leftAttack = new attackCollider(this.game, this.x,this.y, this.width, this.height,- this.width,this.y);
+  this.topAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height, this.x,- this.height);
+  this.downAttack = new attackCollider(this.game, this.x, this.y, this.width, this.height, this.x, this.height);
 
   this.game.world.addChild(this.rightAttack);
   this.game.world.addChild(this.leftAttack);
@@ -248,17 +248,21 @@ Hero.prototype.playerCollision = function(player, enemy){
 }
 
 
-function attackCollider(game, nx, ny, nw, nh) {
+function attackCollider(game, nx, ny, nw, nh,colX,colY) {
   this.game = game;
   Phaser.Sprite.call(this,this.game,nx,ny,'swordAnimations');
   this.smoothed = false;
   //Phaser.Sprite.call(this,this.game,nx,ny);
-  this.game.physics.enable(this);
   this.x = nx;
   this.y = ny;
   this.anchor.setTo(0.5, 0.5);
-  this.body.width = nw;
-  this.body.height = nh;
+  //this.col = this.game.add.sprite(colX,colY,null);
+  this.game.physics.arcade.enable(this);
+  /*
+  this.col.body.setSize(nw, nh, 0, 0);
+  this.game.world.addChild(this.col);*/
+  console.log(this);
+
 }
 
 attackCollider.prototype = Object.create(Phaser.Sprite.prototype);

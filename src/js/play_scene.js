@@ -37,8 +37,10 @@ var PlayScene = {
       element.update();
     }, this);
      
+
+    this.game.physics.arcade.collide(this.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.link,this.Colisiones);
-    this.game.physics.arcade.overlap(this.link, this.activeEnemies,this.playerCollision,null,this);
+    //this.game.physics.arcade.overlap(this.link, this.activeEnemies,this.playerCollision,null,this);
     if(this.esc.isDown){
       this.game.paused = true;
     }

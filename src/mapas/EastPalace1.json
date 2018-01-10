@@ -81,7 +81,7 @@
                  "type":"spawn1",
                  "visible":true,
                  "width":16,
-                 "x":1120,
+                 "x":1190,
                  "y":672
                 }, 
                 {
@@ -899,7 +899,7 @@
                  "id":105,
                  "name":"Puerta 0",
                  "rotation":0,
-                 "type":"0",
+                 "type":"D0",
                  "visible":true,
                  "width":32,
                  "x":1120,
@@ -911,7 +911,7 @@
                  "id":106,
                  "name":"Puerta 1",
                  "rotation":0,
-                 "type":"1",
+                 "type":"D1",
                  "visible":true,
                  "width":32,
                  "x":384,

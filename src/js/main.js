@@ -31,6 +31,7 @@ var PreloaderScene = {
     //this.game.load.image('link', '/images/link.png');
     this.game.load.image('skeleton', '/images/skeleton.png');
     this.game.load.image('trigger','/images/trigger.png');
+    this.game.load.image('door','/images/Puertas.png');
     this.game.load.image('HUD', '/images/HUD.png');
     this.game.load.spritesheet('hearts', '/images/hearts.png', 3, 24, 8);
     //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
