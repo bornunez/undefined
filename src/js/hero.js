@@ -53,11 +53,12 @@ Hero.prototype.create = function(){
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
   //console.log(this.health);
+  /*
   this.game.debug.body(this.rightAttack);
   this.game.debug.body(this.leftAttack);
   this.game.debug.body(this.topAttack);
   this.game.debug.body(this.downAttack);
-
+*/
   this.game.physics.arcade.overlap(this, this.playScene.activeEnemies,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
@@ -146,7 +147,7 @@ Hero.prototype.shootCD = function(){
 Hero.prototype.attack = function(){
   this.atacking = true;
 
-  this.game.debug.body(this);
+  //this.game.debug.body(this);
   
   if(this.eKey.isDown && this.canAttack){
     if (this.dir === 'Right') {

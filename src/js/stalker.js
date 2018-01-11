@@ -25,7 +25,7 @@ Stalker.prototype = Object.create(Character.prototype);
 Stalker.prototype.constructor = Stalker;
 
 Stalker.prototype.update = function() {
-    this.game.debug.body(this);
+    //this.game.debug.body(this);
     //Hay que ajustarlo
     if (this.x < this.target.x && this.y > this.target.y)
         this.animations.play('enemyWalkRight');
@@ -41,13 +41,15 @@ Stalker.prototype.update = function() {
     if(this.health >= 0 &&  this.control)
         this.move();
 }
+//OBVIAMENTE, a esto se le llama cuando vaya a morir
 Stalker.prototype.die = function(){
+    //Primero nos desactivamos
     this.kill();
-    this.room.killEnemy(this);
-    this.room.checkEnemies();
-    //console.log(this.playscene.PoolEnemies.length);
+    //Despues informamos a la sala en la que estamos de que nos hemos muerto ( Si estamos en alguna)
+    if(this.room != undefined && this.room != null)
+        this.room.killEnemy(this);
+    //Y finalmente volvemos a la pool de enemigos
     this.playscene.PoolEnemies.add(this);
-    //console.log(this.playscene.PoolEnemies.length);
 }
 Stalker.prototype.move = function(){
     var t = {};
