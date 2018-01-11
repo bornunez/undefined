@@ -46,6 +46,7 @@ var PlayScene = {
     if(this.esc.isDown){
       this.game.paused = true;
     }
+    this.game.world.bringToTop(this.HUDNegro);
     this.HUD.update();
 
     //console.log(this.activeEnemies);
@@ -106,16 +107,16 @@ var PlayScene = {
     this.Techo = this.createLayer("Techo");
     //Y abajo del todo el HUD/*
     
-    this.HUD = this.game.add.sprite(0,0,'HUD');
-    this.HUD.smoothed = false;
-    this.HUD.width *= 26/25 * MAPSCALE;
-    this.HUD.height *= 26/25 * MAPSCALE ;
-    this.HUD.fixedToCamera = true;
+    this.HUDNegro = this.game.add.sprite(0,0,'HUD');
+    this.HUDNegro.smoothed = false;
+    this.HUDNegro.width *= 26/25 * MAPSCALE;
+    this.HUDNegro.height *= 26/25 * MAPSCALE ;
+    this.HUDNegro.fixedToCamera = true;
     this.Techo.resizeWorld();
 
   },
   loadRooms: function(){
-    console.log("HOLA");
+    //console.log("HOLA");
     this.rooms = new Array();
     for(var i = 0;i<NUMROOMS;i++){
       var room = new Room(this.game,this,MAPSCALE,i);
@@ -133,11 +134,11 @@ var PlayScene = {
 
   addEnemy: function(x,y,room){
     var enemy;
-    console.log(this.PoolEnemies);
+    console.log("Enemigos en Pool: " + this.PoolEnemies.length);
     if(this.PoolEnemies.length>0){
       enemy = this.PoolEnemies.getChildAt(0);
-      console.log(enemy);
-      enemy.reset(x,y);
+      //console.log(enemy);
+      enemy.reset(x,y,3);
       //this.PoolEnemies.removeChild(enemy);
     }
     else{

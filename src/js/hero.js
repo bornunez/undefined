@@ -52,7 +52,7 @@ Hero.prototype.create = function(){
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
-  console.log(this.life);
+  //console.log(this.health);
   this.game.debug.body(this.rightAttack);
   this.game.debug.body(this.leftAttack);
   this.game.debug.body(this.topAttack);
@@ -62,13 +62,13 @@ Hero.prototype.update = function(){
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
 
-  if (this.life > 0){
+  if (this.health > 0){
     this.playAnims();
     this.input();
     this.walk();
     this.attack();
   }
-  else if(this.life <= 0 && !this.dead) {
+  else if(this.health <= 0 && !this.dead) {
   //this.destroy();
   this.animations.play('dying');
   this.dead = true;
@@ -278,7 +278,7 @@ function attackCollider(game, nx, ny, nw, nh,colX,colY) {
   //this.col = this.game.add.sprite(colX,colY,null);
   this.game.physics.arcade.enable(this);
 
-  console.log(this);
+  //console.log(this);
 
 }
 
@@ -301,12 +301,13 @@ attackCollider.prototype.update= function(){
 }
 */
 attackCollider.prototype.hitEnemyMele = function(attack, enemy) {
-  console.log(enemy.life);
+  //console.log(enemy.health);
 
-  if(enemy.life >= 1)
-    //this.damage(enemy);
-    //this.applyKnockback(enemy);
+  if(enemy.health >= 1)
     enemy.applyKnockback(enemy.target);
+  else{
+    enemy.die();
+  }
 }
 
 module.exports = Hero;

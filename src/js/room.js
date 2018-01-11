@@ -59,7 +59,7 @@ Room.prototype.Spawn = function(){
         }, this);
         this.active = false;    
     }
-    console.log(this.enemies.length);
+    console.log("Enemigos activos: " + this.enemies.length);
 }
 Room.prototype.update = function(){
     this.game.debug.body(this.Doors);

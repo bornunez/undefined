@@ -12,7 +12,13 @@ function Stalker(game,playscene,x,y,target){
     this.animations.add('enemyWalkDown', Phaser.Animation.generateFrameNames('enemy', 4, 6), 3, true);
     this.animations.add('enemyWalkTop', Phaser.Animation.generateFrameNames('enemy', 7, 9), 3, true);
 
+    this.minDistance = 320;
+    this.maxDistance = 800;
+    this.triggered = false;
+
     this.body.setSize(24, 24, 4, 4);
+
+
 }
 //Enlazamos las propiedades prototype   
 Stalker.prototype = Object.create(Character.prototype);
@@ -31,19 +37,18 @@ Stalker.prototype.update = function() {
     else if (this.y > this.target.y)
         this.animations.play('enemyWalkTop');
 
-    
-    
 
-    if(this.life <= 0){
-        this.kill();
-        this.room.killEnemy(this);
-        this.room.checkEnemies();
-        this.playscene.PoolEnemies.add(this);
-    }
-    else if(this.control)
+    if(this.health >= 0 &&  this.control)
         this.move();
 }
-
+Stalker.prototype.die = function(){
+    this.kill();
+    this.room.killEnemy(this);
+    this.room.checkEnemies();
+    //console.log(this.playscene.PoolEnemies.length);
+    this.playscene.PoolEnemies.add(this);
+    //console.log(this.playscene.PoolEnemies.length);
+}
 Stalker.prototype.move = function(){
     var t = {};
     var targetMoving = false;
@@ -55,9 +60,15 @@ Stalker.prototype.move = function(){
     // Calcula la distancia que lo separa del target
     // Si el target esta lo suficientemente lejos el enemigo se movera
     var distance = this.game.math.distance(this.x, this.y, t.x, t.y);
-    if (distance > 32 && distance < 320){ 
+    if (!this.triggered && distance > 32 && distance < this.minDistance){ 
             targetMoving = true;
-    }    
+            this.triggered = true;
+    }
+    else if(this.triggered && distance > 32 && distance < this.maxDistance)
+        targetMoving = true;
+    else
+        this.triggered = false;
+
     if (targetMoving)  {
         this.animations.play('WalkTop');
         // Calcula el angulo entre el target y el enemigo
@@ -66,7 +77,7 @@ Stalker.prototype.move = function(){
         this.body.velocity.x = Math.cos(rotation) * 100;
         this.body.velocity.y = Math.sin(rotation) * 100;
     } else {
-        //this.body.velocity.setTo(0, 0);
+        this.body.velocity.setTo(0, 0);
     }
 }
 

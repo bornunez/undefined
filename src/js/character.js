@@ -1,5 +1,5 @@
 'use strict';
-function Character(game,spriteName,x,y,vel,life,damage){
+function Character(game,spriteName,x,y,vel,health,damage){
     this.game = game; 
     //Hacemos el sprite
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
@@ -15,7 +15,7 @@ function Character(game,spriteName,x,y,vel,life,damage){
     this.velY = 0;
     this.dmg = damage;
     this.dir = 'None';
-    this.life = life;
+    this.health = health;
     //this.anchor.x = this.anchor.y = this.width / 2;
     //Cosas del knockback
     this.control = true;
@@ -41,18 +41,18 @@ Character.prototype.walk = function(){
   }
 }
 Character.prototype.update = function(){
-  if(this.life <= 0)
+  if(this.health <= 0)
     this.destroy();
   if(this.knockback)
     checkKnocked();
 }
 
 Character.prototype.damage= function(character){
-    character.life -= this.dmg;
+    character.health -= this.dmg;
 }
 
 Character.prototype.die = function(){
-    if(this.life <= 0)
+    if(this.health <= 0)
         this.destroy();
 }
 
@@ -83,7 +83,7 @@ Character.prototype.applyKnockback = function(enemy){
     this.control = false;
     //Vector de direccion del knockback
     this.knockedDir (enemy);	
-    console.log("DirX : " +this.knockDirX + " DirY: " +this.knockDirY);
+    //console.log("DirX : " +this.knockDirX + " DirY: " +this.knockDirY);
     //Empuje
     var knockedVelocityX= this.knockDirX * 500;	
     var knockedVelocityY= this.knockDirY * 500;
@@ -117,7 +117,7 @@ Character.prototype.stopKnocked = function(){
   //Si hemos sido empujados tan lejos como tendriamos, reset
 
   //Vemos en que direccion estamos siendo noqueados
-  console.log("He parado el knock");
+  //console.log("He parado el knock");
   this.knockback = false;
   //La velocidad
   this.body.velocity.x = 0;
