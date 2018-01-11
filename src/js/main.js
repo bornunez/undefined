@@ -34,6 +34,9 @@ var PreloaderScene = {
     this.game.load.image('door','/images/Puertas.png');
     this.game.load.image('HUD', '/images/HUD.png');
     this.game.load.image('arrow', '/images/arrow.png');
+    this.game.load.image('itembox', '/images/itembox.png');
+    this.game.load.image('arrowicon', '/images/arrowicon.png');
+
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
     //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
     this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/images/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
