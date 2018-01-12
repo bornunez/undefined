@@ -38,10 +38,10 @@ Hero.prototype.create = function(){
     this.animations.add('idleTop', Phaser.Animation.generateFrameNames('dying', 3, 3), 1, false);
     this.animations.add('idleDown', Phaser.Animation.generateFrameNames('dying', 1, 1), 1, false);
 
-    this.animations.add('attackRight', Phaser.Animation.generateFrameNames('attack', 0, 9), 12, false);
-    this.animations.add('attackTop', Phaser.Animation.generateFrameNames('attack', 10, 19), 12, false);
-    this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 20, 29), 12, false);
-    this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 30, 39), 12, false);
+    this.animations.add('attackRight', Phaser.Animation.generateFrameNames('attack', 0, 9), 27, false);
+    this.animations.add('attackTop', Phaser.Animation.generateFrameNames('attack', 10, 19), 27, false);
+    this.animations.add('attackLeft', Phaser.Animation.generateFrameNames('attack', 20, 29), 27, false);
+    this.animations.add('attackDown', Phaser.Animation.generateFrameNames('attack', 30, 39), 27, false);
 
     this.animations.add('bowRight', Phaser.Animation.generateFrameNames('bow', 0, 2), 5, false);
     this.animations.add('bowTop', Phaser.Animation.generateFrameNames('bow', 3, 5), 5, false);
@@ -173,7 +173,8 @@ Hero.prototype.attack = function(){
     this.canMove = false;
     this.canAttack = false;
 
-    this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.attackCD, this);
+    this.animations.currentAnim.onComplete.add(this.attackCD, this);
+    //this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.attackCD, this);
   }
 }
 
@@ -256,10 +257,10 @@ Hero.prototype.iniAttackColliders = function() {
   this.addChild(this.topAttack);
   this.addChild(this.downAttack);
 
-  this.rightAttack.animations.add('A', Phaser.Animation.generateFrameNames('sprite', 1, 12), 12, false);
-  this.topAttack.animations.add('C', Phaser.Animation.generateFrameNames('sprite', 13, 24), 12, false);
-  this.leftAttack.animations.add('B', Phaser.Animation.generateFrameNames('sprite',25, 36), 12, false);
-  this.downAttack.animations.add('D', Phaser.Animation.generateFrameNames('sprite', 37, 48), 12, false);
+  this.rightAttack.animations.add('A', Phaser.Animation.generateFrameNames('sprite', 1, 10), 27, false);
+  this.topAttack.animations.add('C', Phaser.Animation.generateFrameNames('sprite', 11, 20), 27, false);
+  this.leftAttack.animations.add('B', Phaser.Animation.generateFrameNames('sprite',21, 30), 27, false);
+  this.downAttack.animations.add('D', Phaser.Animation.generateFrameNames('sprite', 31, 40), 27, false);
 
 }
 
