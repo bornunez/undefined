@@ -1,7 +1,7 @@
 'use strict';
 var Character = require('./character.js');
 var Shot = require('./shot.js');
-
+var ItemType = require('./ItemType.js');
 
 function Hero(game,playScene){
     this.game = game;
@@ -11,6 +11,8 @@ function Hero(game,playScene){
     this.attacking = false;
     this.canMove = true;
     this.dead = false;
+
+    this.items = new Array(0,0,0);
 }
 
 //Enlazamos las propiedades prototype   
@@ -28,6 +30,8 @@ Hero.prototype.create = function(){
 
     this.keyBindings();
     this.iniAttackColliders();
+
+    //CARLOS HA DICHO QUE SE PUEDE QUEDAR AQUI (Si, tu)
     this.animations.add('walkRight', Phaser.Animation.generateFrameNames('walk', 0, 7), 12, true);
     this.animations.add('walkLeft', Phaser.Animation.generateFrameNames('walk', 8, 15), 12, true);
     this.animations.add('walkTop', Phaser.Animation.generateFrameNames('walk', 16, 23), 12, true);
@@ -59,7 +63,7 @@ Hero.prototype.update = function(){
   this.game.debug.body(this.topAttack);
   this.game.debug.body(this.downAttack);
 */
-  this.game.physics.arcade.overlap(this, this.playScene.activeEnemies,this.playerCollision,null,this);
+  this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
 
@@ -152,22 +156,22 @@ Hero.prototype.attack = function(){
   if(this.eKey.isDown && this.canAttack){
     if (this.dir === 'Right') {
       this.animations.play('attackRight');
-      this.game.physics.arcade.overlap(this.rightAttack, this.playScene.activeEnemies, this.rightAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.rightAttack, this.game.activeEnemies, this.rightAttack.hitEnemyMele, null, this);
       this.rightAttack.playAttack('swordRight');
     }
     else if (this.dir === 'Left') {
       this.animations.play('attackLeft');
-      this.game.physics.arcade.overlap(this.leftAttack, this.playScene.activeEnemies, this.leftAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.leftAttack, this.game.activeEnemies, this.leftAttack.hitEnemyMele, null, this);
       this.leftAttack.playAttack('swordLeft');
     }
     else if (this.dir === 'Up') {
       this.animations.play('attackTop');
-      this.game.physics.arcade.overlap(this.topAttack, this.playScene.activeEnemies, this.topAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.topAttack, this.game.activeEnemies, this.topAttack.hitEnemyMele, null, this);
       this.topAttack.playAttack('swordTop');
     }
     else if (this.dir === 'Down') {
       this.animations.play('attackDown');
-      this.game.physics.arcade.overlap(this.downAttack,this.playScene.activeEnemies, this.downAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.downAttack,this.game.activeEnemies, this.downAttack.hitEnemyMele, null, this);
       this.downAttack.playAttack('swordDown');
     }
     this.canMove = false;
@@ -207,7 +211,7 @@ Hero.prototype.playAnims = function(){
 
     //Objeto(Disparar) 
   if(this.space.isDown){
-    if(this.canShoot) {
+    if(this.canShoot && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Up') 
         this.animations.play('bowTop');
       else if(this.dir ==='Down')
@@ -218,6 +222,7 @@ Hero.prototype.playAnims = function(){
         this.animations.play('bowRight');
 
       this.shoot();
+      this.items[ItemType.Arrows]--;
     }
   }
 }

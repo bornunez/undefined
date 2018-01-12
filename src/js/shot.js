@@ -41,7 +41,8 @@ Shot.prototype.constructor = Shot;
 Shot.prototype.update = function(){
     this.body.velocity.x = this.velX * this.vel;
     this.body.velocity.y = this.velY * this.vel;
-    this.game.physics.arcade.overlap(this, this.game.enemies, this.hitEnemy, null, this);
+    if(this!=null && this != undefined){
+        this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);}
     
 }
 
@@ -53,7 +54,7 @@ Shot.prototype.hitEnemy = function(arrow,enemy) {
     //enemy.life--;
     //enemy.scaleSprite(5,5);
     enemy.applyKnockback(enemy.target);
-    this.destroy();
+    this.kill();
 }
 Shot.prototype.initPhysics = function(){
     this.game.physics.arcade.enable(this);
@@ -62,9 +63,7 @@ Shot.prototype.initPhysics = function(){
     this.body.bounce.setTo(1, 1);
   
     this.body.moves = true;
-  
-    this.body.checkCollision.up = true;
-    this.body.checkCollision.down = true;
+
     this.body.immovable = true;
   }
 module.exports = Shot;

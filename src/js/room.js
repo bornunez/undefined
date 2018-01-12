@@ -1,4 +1,7 @@
 'use strict'
+var Item = require('./Item.js');
+var ItemType = require('./ItemType.js');
+
 function Room(game,playScene,MAPSCALE,number){
     this.playScene = playScene;
     this.game = game;
@@ -13,6 +16,7 @@ Room.prototype.init = function(){
     this.loadTriggers();
     this.loadEnemies();
     this.loadDoors();
+    this.loadButtons();
 }
 //Vamos a guardar todos los trigger de la sala en el array
 Room.prototype.loadTriggers = function(){
@@ -31,6 +35,20 @@ Room.prototype.loadTriggers = function(){
 Room.prototype.loadEnemies = function(){
     this.enemiesInfo = this.playScene.findObjectsByType('spawn'+this.number,'Esqueletos');
     this.enemies = new Array();
+}
+
+Room.prototype.loadButtons = function(){
+    this.buttonsInfo = this.playScene.findObjectsByType('B'+this.number,'Botones');
+    console.log(this.buttonsInfo);
+    this.Buttons = this.game.add.group();
+
+    this.buttonsInfo.forEach(function(element) {
+        var button = this.createFromTiledObj(element.x,element.y,'door');
+        //Y le aplicamos las fisicas
+        this.game.physics.enable(button, Phaser.Physics.ARCADE);
+        button.body.immovable = true;
+        this.Buttons.add(button);
+    }, this);
 }
 
 //Primero creamos la informacion de cada puerta, y luego las instanciamos como objetos inmovibles.
@@ -75,6 +93,7 @@ Room.prototype.update = function(){
     this.game.debug.body(this.Doors);
     this.game.physics.arcade.overlap(this.playScene.link,this.Triggers,this.Spawn,null,this);
     this.game.physics.arcade.collide(this.playScene.link,this.Doors);
+    this.game.physics.arcade.overlap(this.playScene.link,this.Buttons,this.openDoors,null,this);
 }
 
 //Dada una x y una y de un objeto de tiled, se encargara de crear un sprite 'sprite' en la posicion correspondiente del mapa
@@ -88,7 +107,11 @@ Room.prototype.createFromTiledObj = function(x,y,spritename){
 Room.prototype.checkEnemies = function(){
     //Simple: Si no quedan enemigos, se abre la puerta
     if(this.enemies.length<=0)
-        this.Doors.destroy(true);
+        this.openDoors();
+}
+
+Room.prototype.openDoors = function(){
+    this.Doors.destroy(true);
 }
 
 //Esta funcion sera la encargada de manejar la muerte de un enemigo de esta sala, y la llamaran los enemigos cuando mueran

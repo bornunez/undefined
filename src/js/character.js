@@ -1,4 +1,6 @@
 'use strict';
+
+
 function Character(game,spriteName,x,y,vel,health,damage){
     this.game = game; 
     //Hacemos el sprite

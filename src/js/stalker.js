@@ -1,8 +1,11 @@
 'use strict';
 var Character = require('./character.js');
+var Item = require('./Item.js');
+var ItemType = require('./ItemType.js');
 
-function Stalker(game,playscene,x,y,target){
+function Stalker(game,playscene,x,y,target,MAPSCALE){
     this.playscene = playscene;
+    this.MAPSCALE =MAPSCALE;
     this.game = game;
     Character.call(this,this.game,'enemyAnimations',x,y,1,3,1);
     this.target = target;
@@ -50,6 +53,8 @@ Stalker.prototype.die = function(){
         this.room.killEnemy(this);
     //Y finalmente volvemos a la pool de enemigos
     this.playscene.PoolEnemies.add(this);
+
+    var drop = new Item(this.game,this.target,ItemType.Arrows,this.x,this.y,'arrow',this.MAPSCALE);
 }
 Stalker.prototype.move = function(){
     var t = {};

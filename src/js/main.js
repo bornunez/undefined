@@ -29,6 +29,8 @@ var PreloaderScene = {
     this.game.load.audio('theme', '/music/theme.mp3');
 
     // TODO: load here the assets for the game
+
+    //Cargar de json key - ruta 
     //this.game.load.image('link', '/images/link.png');
     this.game.load.image('skeleton', '/images/skeleton.png');
     this.game.load.image('trigger','/images/trigger.png');

@@ -15,9 +15,10 @@ var PlayScene = {
     
     this.game.arrows = this.game.add.group();
     this.PoolEnemies = this.game.add.group();
-    this.activeEnemies = this.game.add.group();
+    this.game.activeEnemies = this.game.add.group();
     this.spawnG = this.game.add.group(); 
     this.enemiesSprite = this.game.add.group();
+    this.game.items = this.game.add.group();
     this.kb = this.game.input.keyboard;
     this.esc = this.kb.addKey(Phaser.Keyboard.ESC);
     //this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -40,7 +41,7 @@ var PlayScene = {
     }, this);
      
 
-    this.game.physics.arcade.collide(this.activeEnemies,this.Colisiones);
+    this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.link,this.Colisiones);
     //this.game.physics.arcade.overlap(this.link, this.activeEnemies,this.playerCollision,null,this);
     if(this.esc.isDown){
@@ -126,7 +127,7 @@ var PlayScene = {
   //Pooling
   loadEnemies: function(){
     for(var i=0;i<10;i++){
-      var enemy = new Stalker(this.game,this,0,0,this.link);
+      var enemy = new Stalker(this.game,this,0,0,this.link,MAPSCALE);
       enemy.kill();
       this.PoolEnemies.add(enemy);
     }
@@ -142,11 +143,11 @@ var PlayScene = {
       //this.PoolEnemies.removeChild(enemy);
     }
     else{
-      enemy = new Stalker(this.game,this,x,y,this.link);
+      enemy = new Stalker(this.game,this,x,y,this.link,MAPSCALE);
     }
     enemy.room = room;
-    this.activeEnemies.add(enemy);
-    this.game.world.bringToTop(this.activeEnemies);
+    this.game.activeEnemies.add(enemy);
+    this.game.world.bringToTop(this.game.activeEnemies);
     return enemy;
   },
 
