@@ -25,7 +25,8 @@ var PreloaderScene = {
     
     //this.game.load.crossOrigin = 'anonymous';
 
-
+    //Carga el tema principal
+    this.game.load.audio('theme', '/music/theme.mp3');
 
     // TODO: load here the assets for the game
     //this.game.load.image('link', '/images/link.png');
@@ -63,6 +64,10 @@ var PreloaderScene = {
   },
 
   create: function () {
+    //Comienza la musica
+    this.music = this.game.add.audio('theme');
+    this.music.play();
+
     this.game.state.start('play');
   }
 };
@@ -76,6 +81,4 @@ window.onload = function () {
   game.state.add('play', PlayScene);
 
   game.state.start('boot');
-
-  
 };

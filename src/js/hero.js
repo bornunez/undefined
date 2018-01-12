@@ -153,22 +153,22 @@ Hero.prototype.attack = function(){
     if (this.dir === 'Right') {
       this.animations.play('attackRight');
       this.game.physics.arcade.overlap(this.rightAttack, this.playScene.activeEnemies, this.rightAttack.hitEnemyMele, null, this);
-      this.rightAttack.playAttack('A');
+      this.rightAttack.playAttack('swordRight');
     }
     else if (this.dir === 'Left') {
       this.animations.play('attackLeft');
       this.game.physics.arcade.overlap(this.leftAttack, this.playScene.activeEnemies, this.leftAttack.hitEnemyMele, null, this);
-      this.leftAttack.playAttack('B');
+      this.leftAttack.playAttack('swordLeft');
     }
     else if (this.dir === 'Up') {
       this.animations.play('attackTop');
       this.game.physics.arcade.overlap(this.topAttack, this.playScene.activeEnemies, this.topAttack.hitEnemyMele, null, this);
-      this.topAttack.playAttack('C');
+      this.topAttack.playAttack('swordTop');
     }
     else if (this.dir === 'Down') {
       this.animations.play('attackDown');
       this.game.physics.arcade.overlap(this.downAttack,this.playScene.activeEnemies, this.downAttack.hitEnemyMele, null, this);
-      this.downAttack.playAttack('D');
+      this.downAttack.playAttack('swordDown');
     }
     this.canMove = false;
     this.canAttack = false;
@@ -257,10 +257,10 @@ Hero.prototype.iniAttackColliders = function() {
   this.addChild(this.topAttack);
   this.addChild(this.downAttack);
 
-  this.rightAttack.animations.add('A', Phaser.Animation.generateFrameNames('sprite', 1, 10), 27, false);
-  this.topAttack.animations.add('C', Phaser.Animation.generateFrameNames('sprite', 11, 20), 27, false);
-  this.leftAttack.animations.add('B', Phaser.Animation.generateFrameNames('sprite',21, 30), 27, false);
-  this.downAttack.animations.add('D', Phaser.Animation.generateFrameNames('sprite', 31, 40), 27, false);
+  this.rightAttack.animations.add('swordRight', Phaser.Animation.generateFrameNames('sword', 0, 9), 27, false);
+  this.topAttack.animations.add('swordTop', Phaser.Animation.generateFrameNames('sword', 10, 19), 27, false);
+  this.leftAttack.animations.add('swordLeft', Phaser.Animation.generateFrameNames('sword',20, 29), 27, false);
+  this.downAttack.animations.add('swordDown', Phaser.Animation.generateFrameNames('sword', 30, 39), 27, false);
 
 }
 
@@ -272,16 +272,12 @@ Hero.prototype.playerCollision = function(player, enemy){
 function attackCollider(game, nx, ny, nw, nh,colX,colY) {
   this.game = game;
   Phaser.Sprite.call(this,this.game,nx,ny,'swordAnimations');
+  this.frame = 9;     //Este es el frame vacio
   this.smoothed = false;
-  //Phaser.Sprite.call(this,this.game,nx,ny);
   this.x = nx;
   this.y = ny;
   this.anchor.setTo(0.5, 0.5);
-  //this.col = this.game.add.sprite(colX,colY,null);
   this.game.physics.arcade.enable(this);
-
-  //console.log(this);
-
 }
 
 attackCollider.prototype = Object.create(Phaser.Sprite.prototype);
@@ -292,19 +288,8 @@ attackCollider.prototype.playAttack = function(anim){
 attackCollider.prototype.addAnimations = function(type){
 
 }
-/*
-attackCollider.prototype.update= function(){
-  this.game.debug.body(this);
-  this.game.physics.arcade.overlap(this, this.game.enemies, this.hitEnemy, null,this);
 
-  if(this.game.physics.arcade.overlap(this, enemy)) {
-    console.log("INVISWALL") 
-   }
-}
-*/
 attackCollider.prototype.hitEnemyMele = function(attack, enemy) {
-  //console.log(enemy.health);
-
   if(enemy.health >= 1)
     enemy.applyKnockback(enemy.target);
   else{
