@@ -16,6 +16,7 @@ Room.prototype.init = function(){
     this.loadTriggers();
     this.loadEnemies();
     this.loadDoors();
+    this.loadBossPoint();
     //this.loadButtons();
 }
 //Vamos a guardar todos los trigger de la sala en el array
@@ -25,10 +26,13 @@ Room.prototype.loadTriggers = function(){
     //Usando la informacion de los Triggers ,creamos el trigger en si, y lo guardamos en el Array Triggers.
     this.TriggersInfo.forEach(function(element) {
         var trigger = this.createFromTiledObj(element.x,element.y,'trigger');
+        this.bossRoom = element.name === 'BossTrigger';
         
         this.game.physics.arcade.enable(trigger);
         this.Triggers.add(trigger);
     }, this);
+    if(this.bossRoom)
+        console.log(this);
 }
 
 //Aqui solo vamos a leer y guardar la posicion de los enemigos de esta sala
@@ -37,6 +41,11 @@ Room.prototype.loadEnemies = function(){
     this.cicloInfo = this.playScene.findObjectsByType('ciclo'+this.number,'Esqueletos');
     this.enemies = new Array();
 }
+
+Room.prototype.loadBossPoint = function(){
+    this.bossPoints = this.playScene.findObjectsByType('point','Boss Points');
+}
+
 /*
 Room.prototype.loadButtons = function(){
     this.buttonsInfo = this.playScene.findObjectsByType('B'+this.number,'Botones');
@@ -90,6 +99,7 @@ Room.prototype.Spawn = function(){
         }, this);
         this.active = false;    
     }
+
     console.log("Enemigos activos: " + this.enemies.length);
 }
 
