@@ -18,7 +18,7 @@ var PlayScene = {
     
     this.game.arrows = this.game.add.group();
     this.PoolEnemies = this.game.add.group();
-    this.PoolCiclo = this.game.add.group();
+    this.PoolCyclops = this.game.add.group();
     this.game.activeEnemies = this.game.add.group();
     this.game.activeCyclops = this.game.add.group();
     this.spawnG = this.game.add.group(); 
@@ -142,7 +142,7 @@ var PlayScene = {
       var ciclo = new Cyclops(this.game,this,0,0,this.link,this.MAPSCALE, 'cyclopsAnimations');
       enemy.kill();
       ciclo.kill();
-      this.PoolCiclo.add(ciclo);
+      this.PoolCyclops.add(ciclo);
       this.PoolEnemies.add(enemy);
     }
   },
@@ -163,8 +163,8 @@ var PlayScene = {
       this.game.activeEnemies.add(enemy);
     }
     else if(enemyType === 'ciclo'){
-      if (this.PoolCiclo.length > 0) {
-        enemy = this.PoolCiclo.getChildAt(0);
+      if (this.PoolCyclops.length > 0) {
+        enemy = this.PoolCyclops.getChildAt(0);
         //console.log(enemy);
         enemy.reset(x, y, 3);
         //this.PoolEnemies.removeChild(enemy);

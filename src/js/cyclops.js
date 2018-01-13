@@ -3,6 +3,7 @@ var Character = require('./character.js');
 var Stalker= require('./stalker.js');
 var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
+var ItemSprite = ['arrow','rublos','hearts']
 
 function Cyclops(game,playscene,x,y,target,MAPSCALE, spriteName){
     Stalker.call(this, game, playscene, x, y , target, MAPSCALE, spriteName);
@@ -67,7 +68,7 @@ Cyclops.prototype.die = function(){
     if(this.room != undefined && this.room != null)
         this.room.killEnemy(this);
     //Y finalmente volvemos a la pool de enemigos
-    this.playscene.PoolCyclo.add(this);
+    this.playscene.PoolCyclops.add(this);
 
     var itemType = Math.floor((Math.random() * 10) + 1) % 3;
     console.log("Item to spawn: " + itemType);

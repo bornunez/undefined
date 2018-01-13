@@ -47,10 +47,9 @@ Shot.prototype.update = function(){
         this.game.physics.arcade.overlap(this, this.game.bossArmy.bosses, this.hitEnemy, null, this);
 
         //PRUEBA CICLOPE    
-        if(!this.game.cyclops.sleep && this.game.cyclops.checkDir())
-            this.game.physics.arcade.overlap(this, this.game.cyclops, this.hitEnemy, null, this);
-        else
-            this.game.physics.arcade.overlap(this, this.game.cyclops, this.kill, null, this);
+
+        this.game.physics.arcade.overlap(this, this.game.activeCyclops, this.hitCyclops, null, this);
+
     }
     
 }
@@ -66,6 +65,19 @@ Shot.prototype.hitEnemy = function(arrow,enemy) {
         enemy.die();
 
     this.kill();
+}
+
+
+
+Shot.prototype.hitCyclops = function(arrow, cyclops) {
+    if(!cyclops.sleep && cyclops.checkDir()) {
+        if(cyclops.health >= 1)
+            cyclops.applyKnockback(cyclops.target);
+        else
+            cyclops.die();
+    }
+    this.kill();
+    
 }
 
 Shot.prototype.initPhysics = function() {
