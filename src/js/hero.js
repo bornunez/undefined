@@ -255,6 +255,8 @@ Hero.prototype.playAnims = function(){
       this.items[ItemType.Arrows]--;
     }
   }
+  if(this.flyKey.isDown)
+    this.fly = !this.fly;
 }
 
 
@@ -267,6 +269,7 @@ Hero.prototype.keyBindings = function(){
   this.rightKey = this.keyboard.addKey(Phaser.Keyboard.RIGHT);
   this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.eKey = this.keyboard.addKey(Phaser.Keyboard.E);
+  this.flyKey = this.keyboard.addKey(Phaser.Keyboard.F);
   this.canShoot = true;
 }
 

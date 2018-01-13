@@ -5,8 +5,8 @@ var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
 var ItemSprite = ['arrow','rublos','hearts']
 
-function Cyclops(game,playscene,x,y,target,MAPSCALE, spriteName){
-    Stalker.call(this, game, playscene, x, y , target, MAPSCALE, spriteName);
+function Cyclops(game,playscene,x,y,targetC,MAPSCALE, spriteName){
+    Stalker.call(this, game, playscene, x, y , targetC, MAPSCALE, spriteName);
 
     this.animations.add('cyclopsWake', Phaser.Animation.generateFrameNames('enemy', 10, 11), 1, false);
 
@@ -27,7 +27,6 @@ Cyclops.prototype.update = function() {
 
     if (!this.sleep) {
         Stalker.prototype.update.call(this);
-        this.move();
     }
 
    

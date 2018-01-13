@@ -47,7 +47,7 @@ Stalker.prototype.update = function() {
     }
 
 
-    if(this.health >= 0 &&  this.control)
+    if(this.health >= 0 &&  !this.knockback)
         this.move();
 }
 //OBVIAMENTE, a esto se le llama cuando vaya a morir
@@ -65,6 +65,7 @@ Stalker.prototype.die = function(){
     var drop = new Item(this.game,this.target,itemType,this.x+this.width/3,this.y+this.height/3,ItemSprite[itemType],this.MAPSCALE);
 }
 Stalker.prototype.move = function(){
+
     var t = {};
     var targetMoving = false;
   
