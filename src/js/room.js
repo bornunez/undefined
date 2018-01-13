@@ -34,6 +34,7 @@ Room.prototype.loadTriggers = function(){
 //Aqui solo vamos a leer y guardar la posicion de los enemigos de esta sala
 Room.prototype.loadEnemies = function(){
     this.enemiesInfo = this.playScene.findObjectsByType('spawn'+this.number,'Esqueletos');
+    this.cicloInfo = this.playScene.findObjectsByType('ciclo'+this.number,'Esqueletos');
     this.enemies = new Array();
 }
 /*
@@ -79,9 +80,13 @@ Room.prototype.Spawn = function(){
     if(this.active === true){ 
         this.enemiesInfo.forEach(function(element) {
             //Los spawneamos y los metemos en el array que los manejara
-            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this);    
+            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this,'stalker');    
             this.enemies.push(enemy);
 
+        }, this);
+        this.cicloInfo.forEach(function(element) {
+            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this,'ciclo');
+            this.enemies.push(enemy);
         }, this);
         this.active = false;    
     }

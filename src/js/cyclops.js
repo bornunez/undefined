@@ -59,5 +59,19 @@ Cyclops.prototype.checkDir =  function(){
         return false;
 }
 
+//OBVIAMENTE, a esto se le llama cuando vaya a morir
+Cyclops.prototype.die = function(){
+    //Primero nos desactivamos
+    this.kill();
+    //Despues informamos a la sala en la que estamos de que nos hemos muerto ( Si estamos en alguna)
+    if(this.room != undefined && this.room != null)
+        this.room.killEnemy(this);
+    //Y finalmente volvemos a la pool de enemigos
+    this.playscene.PoolCyclo.add(this);
+
+    var itemType = Math.floor((Math.random() * 10) + 1) % 3;
+    console.log("Item to spawn: " + itemType);
+    var drop = new Item(this.game,this.target,itemType,this.x+this.width/3,this.y+this.height/3,ItemSprite[itemType],this.MAPSCALE);
+}
 
 module.exports = Cyclops;

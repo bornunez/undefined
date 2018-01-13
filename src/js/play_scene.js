@@ -18,7 +18,9 @@ var PlayScene = {
     
     this.game.arrows = this.game.add.group();
     this.PoolEnemies = this.game.add.group();
+    this.PoolCiclo = this.game.add.group();
     this.game.activeEnemies = this.game.add.group();
+    this.game.activeCyclops = this.game.add.group();
     this.spawnG = this.game.add.group(); 
     this.enemiesSprite = this.game.add.group();
     this.game.items = this.game.add.group();
@@ -137,26 +139,44 @@ var PlayScene = {
   loadEnemies: function(){
     for(var i=0;i<10;i++){
       var enemy = new Stalker(this.game,this,0,0,this.link,MAPSCALE, 'enemyAnimations');
+      var ciclo = new Cyclops(this.game,this,0,0,this.link,this.MAPSCALE, 'cyclopsAnimations');
       enemy.kill();
+      ciclo.kill();
+      this.PoolCiclo.add(ciclo);
       this.PoolEnemies.add(enemy);
     }
   },
 
-  addEnemy: function(x,y,room){
+  addEnemy: function(x,y,room,enemyType){
     var enemy;
     console.log("Enemigos en Pool: " + this.PoolEnemies.length);
-    if(this.PoolEnemies.length>0){
-      enemy = this.PoolEnemies.getChildAt(0);
-      //console.log(enemy);
-      enemy.reset(x,y,3);
-      //this.PoolEnemies.removeChild(enemy);
+    if(enemyType === 'stalker'){
+      if (this.PoolEnemies.length > 0) {
+        enemy = this.PoolEnemies.getChildAt(0);
+        //console.log(enemy);
+        enemy.reset(x, y, 3);
+        //this.PoolEnemies.removeChild(enemy);
+      }
+      else {
+        enemy = new Stalker(this.game, this, x, y, this.link, MAPSCALE, 'enemyAnimations');
+      }
+      this.game.activeEnemies.add(enemy);
     }
-    else{
-      enemy = new Stalker(this.game,this,x,y,this.link,MAPSCALE, 'enemyAnimations');
+    else if(enemyType === 'ciclo'){
+      if (this.PoolCiclo.length > 0) {
+        enemy = this.PoolCiclo.getChildAt(0);
+        //console.log(enemy);
+        enemy.reset(x, y, 3);
+        //this.PoolEnemies.removeChild(enemy);
+      }
+      else {
+        enemy = new Cyclops(this.game, this, x, y, this.link, MAPSCALE, 'cyclopsAnimations');
+      }
+      this.game.activeCyclops.add(enemy);
     }
     enemy.room = room;
-    this.game.activeEnemies.add(enemy);
     this.game.world.bringToTop(this.game.activeEnemies);
+    this.game.world.bringToTop(this.game.activeCyclops);
     return enemy;
   },
 

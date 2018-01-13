@@ -12,7 +12,7 @@ function Hero(game,playScene){
     this.canMove = true;
     this.dead = false;
 
-    this.items = new Array(0,0,6);
+    this.items = new Array(20,0,6);
     this.maxItems = [10,50,6];
     this.items[ItemType.Hearts] = 6;
 }
@@ -69,7 +69,7 @@ Hero.prototype.update = function(){
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
 
   //PRUEBA CICLOPE
-  this.game.physics.arcade.overlap(this, this.game.cyclops,this.playerCollision,null,this);
+  this.game.physics.arcade.overlap(this, this.game.activeCyclops,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.bossArmy.bosses, this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
