@@ -3,11 +3,11 @@ var Character = require('./character.js');
 var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
 
-function Stalker(game,playscene,x,y,target,MAPSCALE){
+function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.playscene = playscene;
     this.MAPSCALE =MAPSCALE;
     this.game = game;
-    Character.call(this,this.game,'enemyAnimations',x,y,1,3,1);
+    Character.call(this,this.game, spriteName,x,y,1,3,1);
     this.target = target;
 
     this.animations.add('enemyWalkRight', Phaser.Animation.generateFrameNames('enemy', 0, 1), 3, true);
@@ -77,7 +77,6 @@ Stalker.prototype.move = function(){
         this.triggered = false;
 
     if (targetMoving)  {
-        this.animations.play('WalkTop');
         // Calcula el angulo entre el target y el enemigo
         var rotation = this.game.math.angleBetween(this.x, this.y, t.x, t.y);
         // Calcula el vector velocidad basandose en su rotacion

@@ -51,12 +51,15 @@ Shot.prototype.arrowDestroy = function(){
 }
 
 Shot.prototype.hitEnemy = function(arrow,enemy) {
-    //enemy.life--;
-    //enemy.scaleSprite(5,5);
-    enemy.applyKnockback(enemy.target);
+    if(enemy.health >= 1)
+        enemy.applyKnockback(enemy.target);
+    else
+        enemy.die();
+
     this.kill();
 }
-Shot.prototype.initPhysics = function(){
+
+Shot.prototype.initPhysics = function() {
     this.game.physics.arcade.enable(this);
     //Fisicas!
     this.body.collideWorldBounds = true;
@@ -66,4 +69,6 @@ Shot.prototype.initPhysics = function(){
 
     this.body.immovable = true;
   }
+
+
 module.exports = Shot;

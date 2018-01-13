@@ -12,7 +12,7 @@ function Hero(game,playScene){
     this.canMove = true;
     this.dead = false;
 
-    this.items = new Array(0,0,0);
+    this.items = new Array(20,0,0);
 }
 
 //Enlazamos las propiedades prototype   
@@ -64,6 +64,9 @@ Hero.prototype.update = function(){
   this.game.debug.body(this.downAttack);
 */
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
+
+  //PRUEBA CICLOPE
+  this.game.physics.arcade.overlap(this, this.game.cyclops,this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
 

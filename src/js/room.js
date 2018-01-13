@@ -16,7 +16,7 @@ Room.prototype.init = function(){
     this.loadTriggers();
     this.loadEnemies();
     this.loadDoors();
-    this.loadButtons();
+    //this.loadButtons();
 }
 //Vamos a guardar todos los trigger de la sala en el array
 Room.prototype.loadTriggers = function(){
@@ -36,7 +36,7 @@ Room.prototype.loadEnemies = function(){
     this.enemiesInfo = this.playScene.findObjectsByType('spawn'+this.number,'Esqueletos');
     this.enemies = new Array();
 }
-
+/*
 Room.prototype.loadButtons = function(){
     this.buttonsInfo = this.playScene.findObjectsByType('B'+this.number,'Botones');
     console.log(this.buttonsInfo);
@@ -50,7 +50,7 @@ Room.prototype.loadButtons = function(){
         this.Buttons.add(button);
     }, this);
 }
-
+*/
 //Primero creamos la informacion de cada puerta, y luego las instanciamos como objetos inmovibles.
 Room.prototype.loadDoors = function(){
     //Primero queremos la info

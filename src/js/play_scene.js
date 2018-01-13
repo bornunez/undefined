@@ -4,6 +4,7 @@
 var Hero = require('./hero.js');
 var Character = require('./character.js');
 var Stalker = require('./stalker.js');
+var Cyclops = require('./cyclops.js');
 var Room = require('./room.js');
 var HUD = require('./HUD.js');
 
@@ -27,6 +28,11 @@ var PlayScene = {
     this.loadEnemies();
     this.loadRooms();
 
+    //PRUEBA CICLOPE
+    this.game.cyclops = new Cyclops(this.game,this, this.link.x+20,this.link.y-600,this.link,MAPSCALE, 'cyclopsAnimations');
+
+
+    //METER EN FUNCION
     this.esc.onDown.add(function unpause(self){
       self.game.paused = false;     
     });
@@ -43,6 +49,7 @@ var PlayScene = {
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.link,this.Colisiones);
+
     //this.game.physics.arcade.overlap(this.link, this.activeEnemies,this.playerCollision,null,this);
     if(this.esc.isDown){
       this.game.paused = true;
@@ -127,7 +134,7 @@ var PlayScene = {
   //Pooling
   loadEnemies: function(){
     for(var i=0;i<10;i++){
-      var enemy = new Stalker(this.game,this,0,0,this.link,MAPSCALE);
+      var enemy = new Stalker(this.game,this,0,0,this.link,MAPSCALE, 'enemyAnimations');
       enemy.kill();
       this.PoolEnemies.add(enemy);
     }
@@ -143,7 +150,7 @@ var PlayScene = {
       //this.PoolEnemies.removeChild(enemy);
     }
     else{
-      enemy = new Stalker(this.game,this,x,y,this.link,MAPSCALE);
+      enemy = new Stalker(this.game,this,x,y,this.link,MAPSCALE, 'enemyAnimations');
     }
     enemy.room = room;
     this.game.activeEnemies.add(enemy);

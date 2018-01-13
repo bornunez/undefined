@@ -28,10 +28,8 @@ var PreloaderScene = {
     //Carga el tema principal
     this.game.load.audio('theme', '/music/theme.mp3');
 
-    // TODO: load here the assets for the game
 
     //Cargar de json key - ruta 
-    //this.game.load.image('link', '/images/link.png');
     this.game.load.image('skeleton', '/images/skeleton.png');
     this.game.load.image('trigger','/images/trigger.png');
     this.game.load.image('door','/images/Puertas.png');
@@ -39,9 +37,9 @@ var PreloaderScene = {
     this.game.load.image('arrow', '/images/arrow.png');
     this.game.load.image('itembox', '/images/itembox.png');
     this.game.load.image('arrowicon', '/images/arrowicon.png');
-
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
-    //this.game.load.spritesheet('linkWalk', 'images/Walk.png',  24, 32, 32);
+
+    this.game.load.atlas('cyclopsAnimations', '/images/cyclopsspritesheet.png', '/images/cyclopsspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/images/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     this.game.load.atlas('enemyAnimations', '/images/enemyspritesheet.png', '/images/enemyspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     this.game.load.atlas('swordAnimations', '/images/swordspritesheet.png', '/images/swordspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
