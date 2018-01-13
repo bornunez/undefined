@@ -37,6 +37,7 @@ var PreloaderScene = {
     this.game.load.image('arrow', '/images/arrow.png');
     this.game.load.image('itembox', '/images/itembox.png');
     this.game.load.image('arrowicon', '/images/arrowicon.png');
+    this.game.load.image('rublos', '/images/rublos.png');
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
 
     this.game.load.atlas('bossAnimations', '/images/bossspritesheet.png', '/images/bossspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
