@@ -2,6 +2,7 @@
 var Character = require('./character.js');
 var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
+var ItemSprite = ['arrow','rublos','hearts']
 
 function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.playscene = playscene;
@@ -59,7 +60,9 @@ Stalker.prototype.die = function(){
     //Y finalmente volvemos a la pool de enemigos
     this.playscene.PoolEnemies.add(this);
 
-    var drop = new Item(this.game,this.target,ItemType.Arrows,this.x,this.y,'arrow',this.MAPSCALE);
+    var itemType = Math.floor((Math.random() * 10) + 1) % 3;
+    console.log("Item to spawn: " + itemType);
+    var drop = new Item(this.game,this.target,itemType,this.x+this.width/3,this.y+this.height/3,ItemSprite[itemType],this.MAPSCALE);
 }
 Stalker.prototype.move = function(){
     var t = {};

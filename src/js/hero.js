@@ -12,7 +12,9 @@ function Hero(game,playScene){
     this.canMove = true;
     this.dead = false;
 
-    this.items = new Array(20,0,0);
+    this.items = new Array(0,0,6);
+    this.maxItems = [10,50,6];
+    this.items[ItemType.Hearts] = 6;
 }
 
 //Enlazamos las propiedades prototype   
@@ -56,6 +58,7 @@ Hero.prototype.create = function(){
 }
 //Update, lee input y se mueve / dispara
 Hero.prototype.update = function(){
+  this.items[ItemType.Hearts] = this.health;
   //console.log(this.health);
   /*
   this.game.debug.body(this.rightAttack);
@@ -71,13 +74,13 @@ Hero.prototype.update = function(){
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
 
-  if (this.health > 0){
+  if (this.items[ItemType.Hearts] > 0){
     this.playAnims();
     this.input();
     this.walk();
     this.attack();
   }
-  else if(this.health <= 0 && !this.dead) {
+  else if(this.items[ItemType.Hearts] <= 0 && !this.dead) {
   //this.destroy();
   this.animations.play('dying');
   this.dead = true;
@@ -184,6 +187,29 @@ Hero.prototype.attack = function(){
     this.animations.currentAnim.onComplete.add(this.attackCD, this);
     //this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.attackCD, this);
   }
+}
+
+Hero.prototype.addItem = function(itemType,quantity){
+
+  console.log("Cantidad de items: " + quantity);
+  console.log("Item que le llega a Link: " + itemType);
+  //Aqui ponemos la de defecto para el pickup de cada item (Habria que llevarlo a un json con valores de drops etc.... (Si da tiempo))
+  if(quantity === undefined){
+    if(itemType === ItemType.Arrows)
+      quantity = 3;
+    else if (itemType === ItemType.Rublos)
+      quantity = 2;
+    else if (itemType === ItemType.Hearts)
+      quantity = 2;
+  }
+  //Y añadimos la cantidad de items siempre y cuando no estemos en el maximo
+  this.items[itemType] = this.items[itemType] + quantity;
+
+  if(this.items[itemType] > this.maxItems[itemType]){
+    this.items[itemType] =this.maxItems[itemType];}
+  this.health = this.items[ItemType.Hearts];
+
+    console.log(this.items[itemType]);
 }
 
 Hero.prototype.attackCD = function(){

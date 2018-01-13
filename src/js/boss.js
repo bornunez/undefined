@@ -48,7 +48,17 @@ Boss.prototype.move = function() {
     this.pointNumber++;
     if(this.pointNumber >= NUM_POINTS)
       this.pointNumber = 0;
+<<<<<<< HEAD
     }
+=======
+
+  }
+
+  //console.log(this.y)
+  //console.log(this.points.y[this.pointNumber]);
+
+
+>>>>>>> 12422db890ea9b462cf43d78751bf3b9271d92d7
 }
 
 Boss.prototype.goToPoint = function() {
