@@ -70,6 +70,7 @@ Hero.prototype.update = function(){
 
   //PRUEBA CICLOPE
   this.game.physics.arcade.overlap(this, this.game.cyclops,this.playerCollision,null,this);
+  this.game.physics.arcade.overlap(this, this.game.bossArmy.bosses, this.playerCollision,null,this);
   //this.game.physics.arcade.collide(this,this.game.Paredes);
 
 

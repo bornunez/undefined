@@ -5,7 +5,8 @@ function Character(game,spriteName,x,y,vel,health,damage){
     this.game = game; 
     //Hacemos el sprite
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
-    this.scale.setTo(5,5);
+    this.scale.setTo(4.5,4.5);
+    this.anchor.setTo(0.5, 0.5)
     this.smoothed = false;
     //Inicializamos las fisicas
     this.initPhysics();

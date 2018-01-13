@@ -8,8 +8,8 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.playscene = playscene;
     this.MAPSCALE = MAPSCALE;
     this.game = game;
-    Character.call(this,this.game, spriteName,x,y,1,3,1);
     this.target = target;
+    Character.call(this,this.game, spriteName,x,y,1,3,1);
 
     this.animations.add('enemyWalkRight', Phaser.Animation.generateFrameNames('enemy', 0, 1), 3, true);
     this.animations.add('enemyWalkLeft', Phaser.Animation.generateFrameNames('enemy', 2, 3), 3, true);
@@ -21,8 +21,6 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.triggered = false;
 
     this.body.setSize(24, 24, 4, 4);
-
-
 }
 //Enlazamos las propiedades prototype   
 Stalker.prototype = Object.create(Character.prototype);
