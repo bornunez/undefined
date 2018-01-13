@@ -75,7 +75,7 @@ var PreloaderScene = {
 
 var IntroMenu = {
   preload: function(){
-    this.game.load.image('introBG','./images/IntroBG.png');
+    this.game.load.image('introBG','./images/intro.png');
     //game.load.image(  )
   },
   create:function(){
