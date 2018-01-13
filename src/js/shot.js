@@ -43,6 +43,8 @@ Shot.prototype.update = function(){
     this.body.velocity.y = this.velY * this.vel;
     if(this!=null && this != undefined){
         this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);
+        //PRUEBA BOSS
+        this.game.physics.arcade.overlap(this, this.game.bossArmy.bosses, this.hitEnemy, null, this);
 
         //PRUEBA CICLOPE    
         if(!this.game.cyclops.sleep && this.game.cyclops.checkDir())

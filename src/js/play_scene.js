@@ -5,6 +5,7 @@ var Hero = require('./hero.js');
 var Character = require('./character.js');
 var Stalker = require('./stalker.js');
 var Cyclops = require('./cyclops.js');
+var BossArmy = require('./bossArmy.js');
 var Boss = require('./boss.js');
 var Room = require('./room.js');
 var HUD = require('./HUD.js');
@@ -31,7 +32,7 @@ var PlayScene = {
 
     //PRUEBA CICLOPE
     this.game.cyclops = new Cyclops(this.game,this, this.link.x+20,this.link.y-600,this.link,MAPSCALE, 'cyclopsAnimations');
-    this.game.boss = new Boss(this.game, this.link.x+60,this.link.y-500,this.link,MAPSCALE, 200,1,1, 'bossAnimations');
+    this.game.bossArmy = new BossArmy(this.game, this.link.x+60, this.link.y-500, this.link, MAPSCALE, 1, 1, 'bossAnimations');
 
     //METER EN FUNCION
     this.esc.onDown.add(function unpause(self){

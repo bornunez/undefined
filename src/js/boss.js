@@ -1,31 +1,19 @@
 'use strict';
-
+var Character = require('./character.js');
 const NUM_POINTS = 2
 
 function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
     this.game = game; 
     this.target = target;
-    //Hacemos el sprite
-    Phaser.Sprite.call(this,this.game,x,y,spriteName);
-    this.scale.setTo(4.5,4.5);
-    this.anchor.setTo(0.5, 0.5);
-
-    
-    this.smoothed = false;
-    //Inicializamos las fisicas
-   // this.initPhysics();
-    //Rellenamos e inicializamos los fields
-    this.x = x;
-    this.y = y;
-    this.vel = vel;
-    this.velX = 0;
-    this.velY = 0;
-    this.dmg = damage;
-    //this.dir = 'None';
-    this.health = health;
-    this.game.world.addChild(this);
     this.pointNumber = 0;
-    this.jumping = false;
+    Character.call(this,this.game, spriteName,x,y,1,3,1);
+    this.body.setSize(32, 32, 0, 16);
+    this.focus = false;
+    this.invulnerable = true;
+    this.enragePoint = {
+      'x': [],
+      'y': []
+      };
 
     this.points = {
       'x': [ this.target.x, this.target.x+200],
@@ -33,19 +21,22 @@ function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
       };
 
     this.animations.add('bossJump', Phaser.Animation.generateFrameNames('boss', 0, 9), 18, true);
-
-
-
+    this.animations.add('bossEnraged', Phaser.Animation.generateFrameNames('enraged', 0, 9), 9, false);
+    this.animations.add('bossHit', Phaser.Animation.generateFrameNames('enraged', 9, 18), 9, false);
+   this.animations.play('bossJump');
+  //this.animations.play('bossEnraged');
 }
 //Herencia
-Boss.prototype = Object.create(Phaser.Sprite.prototype);
+Boss.prototype =  Object.create(Character.prototype);
 Boss.prototype.constructor = Boss;
 
-
-
 Boss.prototype.update = function(){
-  this.move();
+  this.game.debug.body(this);
 
+  //MODO NORMAL
+  this.move();
+  //LLAMAR CUANDO QUEDA UNO
+  //this.enrageMode();
 }
 
 Boss.prototype.move = function() {
@@ -53,19 +44,11 @@ Boss.prototype.move = function() {
   if(this.x != this.points.x[this.pointNumber]  || this.y != this.points.y[this.pointNumber]) {
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.goToPoint, this);
   }
-  else if(this.x === this.points.x[this.pointNumber] && this.y === this.points.y[this.pointNumber]) {
-    this.jumping = true;
-    this.animations.play('bossJump');
+  else {
     this.pointNumber++;
     if(this.pointNumber >= NUM_POINTS)
       this.pointNumber = 0;
-
-  }
-
-  console.log(this.y)
-  console.log(this.points.y[this.pointNumber]);
-
-
+    }
 }
 
 Boss.prototype.goToPoint = function() {
@@ -78,119 +61,44 @@ Boss.prototype.goToPoint = function() {
     this.y++;
   else if(this.y > this.points.y[this.pointNumber])
     this.y--;
-
-
 }
-/*
-Character.prototype.walk = function(){
-  //Movemos
-  if(this.control){
-    if(this.move){
-      this.body.velocity.x = this.velX*this.vel;
-      this.body.velocity.y = this.velY*this.vel;
-    }
-    else {
-      this.body.velocity.x = 0;
-      this.body.velocity.y = 0;
-    }
+
+Boss.prototype.enrageMode = function() {
+  if(!this.focus) {
+    this.enragePoint.x = this.target.x;
+    this.enragePoint.y = this.target.y;
+    this.focus = true;
   }
-}
-Character.prototype.update = function(){
-  if(this.health <= 0)
-    this.destroy();
-  if(this.knockback)
-    checkKnocked();
-}
 
-Character.prototype.damage= function(character){
-    character.health -= this.dmg;
-}
+  if(this.x < this.enragePoint.x)
+    this.x++;
+  else if(this.x >  this.enragePoint.x)
+    this.x--;
 
-Character.prototype.die = function(){
-    if(this.health <= 0)
-        this.destroy();
-}
+  if(this.y <  this.enragePoint.y)
+    this.y++;
+  else if(this.y >  this.enragePoint.y)
+    this.y--;
 
-Character.prototype.initPhysics = function(){
-  //Fisicas!
-  this.game.physics.arcade.enable(this);
-  this.body.collideWorldBounds = true;
-  //this.body.bounce.setTo(1, 1);
-
-  this.body.moves = true;
-  //this.body.immovable = true;
-}
-
-Character.prototype.scaleSprite = function(w,h){
-  this.width *=w;
-  this.height *=h;
-}
-
-Character.prototype.applyKnockback = function(enemy){
-
-  var distance = 200;
-
-  if(!this.knockback){
-    //Quita vida
-    enemy.damage(this);
-    //Nos volvemos invulnerables
-    this.inmortal = true;
-    this.control = false;
-    //Vector de direccion del knockback
-    this.knockedDir (enemy);	
-    //console.log("DirX : " +this.knockDirX + " DirY: " +this.knockDirY);
-    //Empuje
-    var knockedVelocityX= this.knockDirX * 500;	
-    var knockedVelocityY= this.knockDirY * 500;
-    //console.log(knockedVelocityX);	
-    this.body.velocity.x = knockedVelocityX;
-    this.body.velocity.y = knockedVelocityY;
-    //Y nos ponemos translucidos
-    this.alpha = 0.5;
-    this.knockback = true;
-    this.game.time.events.add(Phaser.Timer.SECOND  * 0.2, this.stopKnocked, this);
+  if(this.x === this.enragePoint.x  && this.y === this.enragePoint.y && this.invulnerable) {
+    this.invulnerable = false;
+    this.animations.play('bossHit');
+    this.animations.currentAnim.onComplete.add(this.hit, this);
   }
 }
 
-Character.prototype.knockedDir = function(enemy){
-  //Vector direccion del knockback
-  var dx = this.x - enemy.x;
-  var dy = this.y - enemy.y;
-  if(Math.abs(dx) > Math.abs(dy)){
-    this.knockDirX = dx / Math.abs(dx);
-    this.knockDirY = 0;
-  }
-  else{
-    this.knockDirY = dy / Math.abs(dy);
-    this.knockDirX = 0;
-  }
+
+Boss.prototype.hit = function() {
+  this.body.enable = true; 
+  this.game.time.events.add(Phaser.Timer.SECOND  * 4, this.resetFocus, this);
 }
 
-//Vemos si hemos acabado el knockback (*KNOCK* *KNOCK* *KNOCK* PENNY...)
-Character.prototype.stopKnocked = function(){
-  if(this.body !== null){
-  //Si hemos sido empujados tan lejos como tendriamos, reset
+Boss.prototype.resetFocus = function() {
+  this.animations.play('bossEnraged'); 
+  this.body.enable = false; 
+  this.focus = false; 
+  this.invulnerable = true;
 
-  //Vemos en que direccion estamos siendo noqueados
-  //console.log("He parado el knock");
-  this.knockback = false;
-  //La velocidad
-  this.body.velocity.x = 0;
-  this.body.velocity.y = 0;
-  //Y activamos el flag de control
-  this.control = true;
-  this.knockedToX = 0;
-  this.knockedToY = 0;
-  //Y nos ponemos normal
-  this.alpha = 1;}
-}
-Character.prototype.spawn = function(x,y){
-  this.x = x;
-  this.y = y;
 }
 
-
-
-
-      */
 module.exports = Boss;
