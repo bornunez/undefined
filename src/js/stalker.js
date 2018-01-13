@@ -30,15 +30,22 @@ Stalker.prototype.constructor = Stalker;
 Stalker.prototype.update = function() {
     //this.game.debug.body(this);
     //Hay que ajustarlo
-    if (this.x < this.target.x && this.y > this.target.y)
+    if (this.x < this.target.x && this.y > this.target.y) {
         this.animations.play('enemyWalkRight');
-    else if (this.x > this.target.x && this.y < this.target.y)
+        this.dir = 'Right'
+    }
+    else if (this.x > this.target.x && this.y < this.target.y) {
         this.animations.play('enemyWalkLeft');
-   
-    else if (this.y < this.target.y)
+        this.dir = 'Left'
+    }
+    else if (this.y < this.target.y) {
         this.animations.play('enemyWalkDown');
-    else if (this.y > this.target.y)
+        this.dir = 'Down'
+    }
+    else if (this.y > this.target.y) {
         this.animations.play('enemyWalkTop');
+        this.dir = 'Top'
+    }
 
 
     if(this.health >= 0 &&  this.control)

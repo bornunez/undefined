@@ -89,7 +89,7 @@ Hero.prototype.input = function(){
       //Y axis
       if(this.upKey.isDown){
         //if(this.dir === 'None')
-          this.dir = 'Up'
+          this.dir = 'Top'
         this.velY = -200;
         this.move = true;
       }
@@ -167,7 +167,7 @@ Hero.prototype.attack = function(){
       this.game.physics.arcade.overlap(this.leftAttack, this.game.activeEnemies, this.leftAttack.hitEnemyMele, null, this);
       this.leftAttack.playAttack('swordLeft');
     }
-    else if (this.dir === 'Up') {
+    else if (this.dir === 'Top') {
       this.animations.play('attackTop');
       this.game.physics.arcade.overlap(this.topAttack, this.game.activeEnemies, this.topAttack.hitEnemyMele, null, this);
       this.topAttack.playAttack('swordTop');
@@ -192,7 +192,7 @@ Hero.prototype.attackCD = function(){
 
 Hero.prototype.playAnims = function(){
   if (this.move && this.canAttack && this.canShoot) {
-    if (this.dir === 'Up') 
+    if (this.dir === 'Top') 
       this.animations.play('walkTop');
     else if(this.dir ==='Down')
       this.animations.play('walkDown');
@@ -202,7 +202,7 @@ Hero.prototype.playAnims = function(){
       this.animations.play('walkRight');
   }
   else if (this.canAttack && this.canShoot){
-    if (this.dir === 'Up') 
+    if (this.dir === 'Top') 
       this.animations.play('idleTop');
     else if(this.dir ==='Down')
      this.animations.play('idleDown');
@@ -215,7 +215,7 @@ Hero.prototype.playAnims = function(){
     //Objeto(Disparar) 
   if(this.space.isDown){
     if(this.canShoot && this.items[ItemType.Arrows] > 0) {
-      if (this.dir === 'Up') 
+      if (this.dir === 'Top') 
         this.animations.play('bowTop');
       else if(this.dir ==='Down')
       this.animations.play('bowDown');

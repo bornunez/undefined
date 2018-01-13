@@ -11,6 +11,7 @@ function Cyclops(game,playscene,x,y,target,MAPSCALE, spriteName){
 
     this.sleep = true;
     this.frame = 10;
+    this.dir = 'Down';
 }
 //Enlazamos las propiedades prototype   
 Cyclops.prototype = Object.create(Stalker.prototype);
@@ -25,27 +26,11 @@ Cyclops.prototype.update = function() {
 
     if (!this.sleep) {
         Stalker.prototype.update.call(this);
-    
-}
+        this.move();
+    }
 
    
 }
-/*
-//OBVIAMENTE, a esto se le llama cuando vaya a morir
-Cyclops.prototype.die = function(){
-    //Primero nos desactivamos
-    this.kill();
-    //Despues informamos a la sala en la que estamos de que nos hemos muerto ( Si estamos en alguna)
-    if(this.room != undefined && this.room != null)
-        this.room.killEnemy(this);
-    //Y finalmente volvemos a la pool de enemigos
-    this.playscene.PoolEnemies.add(this);
-
-    var drop = new Item(this.game,this.target,ItemType.Arrows,this.x,this.y,'arrow',this.MAPSCALE);
-}
-
-*/
-
 
 Cyclops.prototype.wake = function() {
     var distance = this.game.math.distance(this.x, this.y, this.target.x,  this.target.y);
@@ -63,5 +48,16 @@ Cyclops.prototype.move = function(){
        this.frame = 10;
     }
 }
+
+Cyclops.prototype.checkDir =  function(){
+    if((this.dir === 'Right' && this.target.dir === 'Left') ||
+        (this.dir === 'Left' && this.target.dir === 'Right') ||
+        (this.dir === 'Top' && this.target.dir === 'Down') ||
+        (this.dir === 'Down' && this.target.dir === 'Top'))
+            return true;
+    else
+        return false;
+}
+
 
 module.exports = Cyclops;

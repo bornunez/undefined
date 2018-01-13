@@ -42,7 +42,14 @@ Shot.prototype.update = function(){
     this.body.velocity.x = this.velX * this.vel;
     this.body.velocity.y = this.velY * this.vel;
     if(this!=null && this != undefined){
-        this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);}
+        this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);
+
+        //PRUEBA CICLOPE    
+        if(!this.game.cyclops.sleep && this.game.cyclops.checkDir())
+            this.game.physics.arcade.overlap(this, this.game.cyclops, this.hitEnemy, null, this);
+        else
+            this.game.physics.arcade.overlap(this, this.game.cyclops, this.kill, null, this);
+    }
     
 }
 
