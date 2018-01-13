@@ -1,11 +1,13 @@
 'use strict';
 
+const NUM_POINTS = 2
 
 function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
     this.game = game; 
     this.target = target;
     //Hacemos el sprite
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
+    this.scale.setTo(4.5,4.5);
     this.anchor.setTo(0.5, 0.5);
 
     
@@ -22,14 +24,15 @@ function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
     //this.dir = 'None';
     this.health = health;
     this.game.world.addChild(this);
-
+    this.pointNumber = 0;
+    this.jumping = false;
 
     this.points = {
-      'x': [ this.target.x+20, this.target.x+200],
-      'y': [ this.target.y+20, this.target.y+200 ]
+      'x': [ this.target.x, this.target.x+200],
+      'y': [ this.target.y, this.target.y+200 ]
       };
 
-    this.animations.add('bossJump', Phaser.Animation.generateFrameNames('boss', 0, 9), 9, true);
+    this.animations.add('bossJump', Phaser.Animation.generateFrameNames('boss', 0, 9), 18, true);
 
 
 
@@ -38,6 +41,46 @@ function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
 Boss.prototype = Object.create(Phaser.Sprite.prototype);
 Boss.prototype.constructor = Boss;
 
+
+
+Boss.prototype.update = function(){
+  this.move();
+
+}
+
+Boss.prototype.move = function() {
+
+  if(this.x != this.points.x[this.pointNumber]  || this.y != this.points.y[this.pointNumber]) {
+    this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.goToPoint, this);
+  }
+  else if(this.x === this.points.x[this.pointNumber] && this.y === this.points.y[this.pointNumber]) {
+    this.jumping = true;
+    this.animations.play('bossJump');
+    this.pointNumber++;
+    if(this.pointNumber >= NUM_POINTS)
+      this.pointNumber = 0;
+
+  }
+
+  console.log(this.y)
+  console.log(this.points.y[this.pointNumber]);
+
+
+}
+
+Boss.prototype.goToPoint = function() {
+  if(this.x < this.points.x[this.pointNumber])
+    this.x++;
+  else if(this.x > this.points.x[this.pointNumber])
+    this.x--;
+
+  if(this.y < this.points.y[this.pointNumber])
+    this.y++;
+  else if(this.y > this.points.y[this.pointNumber])
+    this.y--;
+
+
+}
 /*
 Character.prototype.walk = function(){
   //Movemos

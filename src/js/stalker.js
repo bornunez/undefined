@@ -5,7 +5,7 @@ var ItemType = require('./ItemType.js');
 
 function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.playscene = playscene;
-    this.MAPSCALE =MAPSCALE;
+    this.MAPSCALE = MAPSCALE;
     this.game = game;
     Character.call(this,this.game, spriteName,x,y,1,3,1);
     this.target = target;

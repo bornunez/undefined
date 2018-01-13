@@ -5,7 +5,7 @@ function Character(game,spriteName,x,y,vel,health,damage){
     this.game = game; 
     //Hacemos el sprite
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
-    this.scaleSprite(4.5,4.5);
+    this.scale.setTo(4.5,4.5);
     this.smoothed = false;
     //Inicializamos las fisicas
     this.initPhysics();
@@ -68,10 +68,6 @@ Character.prototype.initPhysics = function(){
   //this.body.immovable = true;
 }
 
-Character.prototype.scaleSprite = function(w,h){
-  this.width *=w;
-  this.height *=h;
-}
 
 Character.prototype.applyKnockback = function(enemy){
 
