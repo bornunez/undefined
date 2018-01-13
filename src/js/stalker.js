@@ -62,9 +62,9 @@ Stalker.prototype.die = function(){
     //Y finalmente volvemos a la pool de enemigos
     this.playscene.PoolEnemies.add(this);
 
-    var itemType = Math.floor((Math.random() * 10) + 1) % 6;
-    console.log(itemType);
-    var drop = new Item(this.game,this.target,itemType,this.x+this.width/4,this.y+this.height/4,ItemSprite[itemType],this.MAPSCALE);
+    var itemType = Math.floor((Math.random() * 10) + 1) % 3;
+    console.log("Item to spawn: " + itemType);
+    var drop = new Item(this.game,this.target,itemType,this.x+this.width/3,this.y+this.height/3,ItemSprite[itemType],this.MAPSCALE);
 }
 Stalker.prototype.move = function(){
     var t = {};

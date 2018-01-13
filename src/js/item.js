@@ -3,7 +3,8 @@
 function Item(game,hero,type,x,y, spriteName,MAPSCALE){
     this.game = game;
     this.hero = hero;
-    this.type = type;
+    this.itType = type;
+    console.log("Spawned Item: " + this.itType);
     //Creamos el objeto y le damos cuerpo
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
     this.smoothed = false;
@@ -23,8 +24,9 @@ Item.prototype.update = function (){
 }
 
 Item.prototype.addItem= function(){
-    this.hero.items[this.type]++;
-    console.log(this.hero.items[this.type]);
+    console.log(this);
+    console.log("Tipo del Item: " + this.itType);
+    this.hero.addItem(this.itType);
     this.kill();
 }
 

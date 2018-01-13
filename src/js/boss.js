@@ -62,8 +62,8 @@ Boss.prototype.move = function() {
 
   }
 
-  console.log(this.y)
-  console.log(this.points.y[this.pointNumber]);
+  //console.log(this.y)
+  //console.log(this.points.y[this.pointNumber]);
 
 
 }

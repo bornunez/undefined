@@ -1,4 +1,5 @@
 'require strict'
+var ItemType = require('./ItemType.js');
 
 function HUD(game, hero){
     this.game = game;
@@ -30,37 +31,37 @@ HUD.prototype.update = function() {
 
 //Ver si puede llamarse solo cuando el heroe reciba daño
 HUD.prototype.updateHealth = function(){
-    if(this.hero.health  === 6) {
+    if(this.hero.items[ItemType.Hearts]  === 6) {
         this.heart1.frame = 0;
         this.heart2.frame = 0;
         this.heart3.frame = 0;
     }
-    else if(this.hero.health  === 5) {
+    else if(this.hero.items[ItemType.Hearts]  === 5) {
         this.heart1.frame = 1;
         this.heart2.frame = 0;
         this.heart3.frame = 0;
     }
-    else if(this.hero.health  === 4) {
+    else if(this.hero.items[ItemType.Hearts]  === 4) {
         this.heart1.frame = 2;
         this.heart2.frame = 0;
         this.heart3.frame = 0;
     }
-    else if(this.hero.health  === 3) {
+    else if(this.hero.items[ItemType.Hearts]  === 3) {
         this.heart1.frame = 2;
         this.heart2.frame = 1;
         this.heart3.frame = 0;
     }
-    else if(this.hero.health  === 2) {
+    else if(this.hero.items[ItemType.Hearts]  === 2) {
         this.heart1.frame = 2;
         this.heart2.frame = 2;
         this.heart3.frame = 0;
     }
-    else if(this.hero.health  === 1) {
+    else if(this.hero.items[ItemType.Hearts]  === 1) {
         this.heart1.frame = 2;
         this.heart2.frame = 2;
         this.heart3.frame = 1;
     }
-    else if(this.hero.health  === 0) {
+    else if(this.hero.items[ItemType.Hearts]  === 0) {
         this.heart1.frame = 2;
         this.heart2.frame = 2;
         this.heart3.frame = 2;
