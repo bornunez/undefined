@@ -81,7 +81,7 @@ var IntroMenu = {
   create:function(){
     var background  = this.game.add.sprite(0,0,'introBG');
     background.smoothed = false;
-    background.width = this.game.stage.width
+    background.width = this.game.stage.width;
     background.height =this.game.stage.height;
 
     var button = this.game.add.button(0,0, 'playButton', this.actionOnClick, this);

@@ -16,7 +16,9 @@ Room.prototype.init = function(){
     this.loadTriggers();
     this.loadEnemies();
     this.loadDoors();
-    this.loadBossPoint();
+    if(this.bossRoom){
+        this.loadBossPoint();
+    }
     //this.loadButtons();
 }
 //Vamos a guardar todos los trigger de la sala en el array
