@@ -10,7 +10,7 @@ var Boss = require('./boss.js');
 var Room = require('./room.js');
 var HUD = require('./HUD.js');
 
-var NUMROOMS = 11;
+var NUMROOMS = 12;
 var MAPSCALE = 5;
 
 var PlayScene = {

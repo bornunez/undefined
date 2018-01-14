@@ -3,7 +3,7 @@ var Character = require('./character.js');
 var Boss = require('./boss.js');
 
 const NUM_POINTS = 2;
-const NUM_BOSS = 1;
+const NUM_BOSS = 2;
 const BOSS_VEL = 300;
 
 
@@ -14,7 +14,7 @@ function BossArmy(game, x, y, target, MAPSCALE, health,damage,spriteName){
 
     this.points = {
       'x': [ this.target.x, this.target.x+200],
-      'y': [ this.target.y, this.target.y+200 ]
+      'y':  [ this.target.y, this.target.y+200 ]
       };
 
  
