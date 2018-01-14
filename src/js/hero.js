@@ -56,7 +56,7 @@ Hero.prototype.create = function(){
 
     this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
 }
-//Update, lee input y se mueve / dispara
+//Update, lee readInput y se mueve / dispara
 Hero.prototype.update = function(){
   this.items[ItemType.Hearts] = this.health;
   //console.log(this.health);
@@ -74,7 +74,7 @@ Hero.prototype.update = function(){
 
   if (this.items[ItemType.Hearts] > 0){
     this.playAnims();
-    this.input();
+    this.readInput();
     this.walk();
     this.attack();
   }
@@ -82,11 +82,18 @@ Hero.prototype.update = function(){
   //this.destroy();
   this.animations.play('dying');
   this.dead = true;
-  }
+  this.animations.currentAnim.onComplete.add(this.end, this);
 }
-
-//Input del Heroe ////FEOOO////
-Hero.prototype.input = function(){
+}
+Hero.prototype.end = function(){
+  /*this.input.destroy = function(){
+    console.log("AAAA")
+  }*/
+  this.kill();
+  this.game.state.start('end');
+}
+//readInput del Heroe ////FEOOO////
+Hero.prototype.readInput = function(){
   if(this.canMove){
       //Y axis
       if(this.upKey.isDown){
@@ -258,7 +265,7 @@ Hero.prototype.playAnims = function(){
 }
 
 
-//Crea las teclas de input
+//Crea las teclas de readInput
 Hero.prototype.keyBindings = function(){
   //KeyBindings
   this.upKey = this.keyboard.addKey(Phaser.Keyboard.UP);

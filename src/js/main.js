@@ -1,6 +1,8 @@
 'use strict';
 
 var PlayScene = require('./play_scene.js');
+var IntroMenu = require('./IntroMenu');
+var EndMenu = require('./EndMenu');
 
 var BootScene = {
   preload: function () {
@@ -64,26 +66,7 @@ var PreloaderScene = {
   }
 };
 
-var IntroMenu = {
-  preload: function(){
-    this.game.load.image('introBG','./images/intro.png');
-  },
-  create:function(){
-    var background  = this.game.add.sprite(0,0,'introBG');
-    background.smoothed = false;
-    background.width = this.game.stage.width;
-    background.height =this.game.stage.height;
 
-    var button = this.game.add.button(0,0, 'playButton', this.actionOnClick, this);
-    button.anchor.setTo(0.5, 0.5);
-    button.x = this.game.world.centerX;
-    button.y = this.game.world.centerY + 50;
-    button.smoothed = false;
-  },
-  actionOnClick: function () {
-    this.game.state.start('play');
-    }
-}
 window.onload = function () {
   var game = new Phaser.Game(1080, 720, Phaser.AUTO, 'game');
 
@@ -91,6 +74,7 @@ window.onload = function () {
   game.state.add('preloader', PreloaderScene);
   game.state.add('introMenu',IntroMenu);
   game.state.add('play', PlayScene);
+  game.state.add('end', EndMenu);
 
   game.state.start('boot');
 };
