@@ -51,7 +51,8 @@ var PlayScene = {
      
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
-    this.game.physics.arcade.collide(this.link,this.Colisiones);
+    if(!this.link.fly)
+      this.game.physics.arcade.collide(this.link,this.Colisiones);
 
     this.game.world.bringToTop(this.HUDNegro);
     this.HUD.update();
