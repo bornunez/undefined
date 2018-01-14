@@ -44,7 +44,7 @@ Shot.prototype.update = function(){
     if(this!=null && this != undefined){
         this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);
         //PRUEBA BOSS
-        this.game.physics.arcade.overlap(this, this.game.bossArmy.bosses, this.hitEnemy, null, this);
+        this.game.physics.arcade.overlap(this, this.game.bosses, this.hitEnemy, null, this);
 
         //PRUEBA CICLOPE    
 

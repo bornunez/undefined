@@ -113,20 +113,23 @@ Character.prototype.knockedDir = function(enemy){
 //Vemos si hemos acabado el knockback (*KNOCK* *KNOCK* *KNOCK* PENNY...)
 Character.prototype.stopKnocked = function(){
   if(this.body !== null){
-  //Si hemos sido empujados tan lejos como tendriamos, reset
+    //Si hemos sido empujados tan lejos como tendriamos, reset
 
-  //Vemos en que direccion estamos siendo noqueados
-  //console.log("He parado el knock");
-  this.knockback = false;
-  //La velocidad
-  this.body.velocity.x = 0;
-  this.body.velocity.y = 0;
-  //Y activamos el flag de control
-  this.control = true;
-  this.knockedToX = 0;
-  this.knockedToY = 0;
-  //Y nos ponemos normal
-  this.alpha = 1;}
+    //Vemos en que direccion estamos siendo noqueados
+    //console.log("He parado el knock");
+    this.knockback = false;
+    //La velocidad
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+    //Y activamos el flag de control
+    this.control = true;
+    this.knockedToX = 0;
+    this.knockedToY = 0;
+    //Y nos ponemos normal
+    this.alpha = 1;
+    this.x =Math.trunc(this.x);
+    this.y = Math.trunc(this.y);
+  }
 }
 Character.prototype.spawn = function(x,y){
   this.x = x;

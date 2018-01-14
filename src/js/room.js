@@ -111,7 +111,7 @@ Room.prototype.Spawn = function(){
 Room.prototype.SpawnBoss = function(){
     var bossArmy = new BossArmy(this.game,0,0,this.playScene.link,this.MAPSCALE,1,1,'bossAnimations');
     this.bossPoints.forEach(function(element) {
-        bossArmy.points.push({x: element.x,y:element.y});
+        bossArmy.points.push({x: element.x * this.MAPSCALE, y:element.y * this.MAPSCALE});
     }, this);
     console.log(bossArmy.points);
     bossArmy.create();

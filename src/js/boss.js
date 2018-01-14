@@ -1,12 +1,12 @@
 'use strict';
 var Character = require('./character.js');
-const NUM_POINTS = 2
+const NUM_POINTS = 6;
 
-function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
+function Boss(game,x,y, target, vel,health,damage, points, spriteName, pointNumber){
     this.game = game; 
     this.target = target;
-    this.pointNumber = 0;
-    Character.call(this,this.game, spriteName,x,y,1,3,1);
+    this.pointNumber = pointNumber;
+    Character.call(this,this.game, spriteName, x, y, 1, 0, 1);
     this.body.setSize(32, 32, 0, 16);
     this.focus = false;
     this.invulnerable = true;
@@ -14,17 +14,12 @@ function Boss(game,x,y, target, MAPSCALE, vel,health,damage,spriteName){
       'x': [],
       'y': []
       };
-
-    this.points = {
-      'x': [ this.target.x, this.target.x+200],
-      'y': [ this.target.y, this.target.y+200 ]
-      };
-
+    this.path ="first";
+    this.points = points;
     this.animations.add('bossJump', Phaser.Animation.generateFrameNames('boss', 0, 9), 18, true);
     this.animations.add('bossEnraged', Phaser.Animation.generateFrameNames('enraged', 0, 9), 9, false);
-    this.animations.add('bossHit', Phaser.Animation.generateFrameNames('enraged', 9, 18), 9, false);
-   this.animations.play('bossJump');
-  //this.animations.play('bossEnraged');
+    this.animations.add('bossHit', Phaser.Animation.generateFrameNames('enraged', 9, 18), 18, false);
+    this.animations.play('bossJump');
 }
 //Herencia
 Boss.prototype =  Object.create(Character.prototype);
@@ -33,15 +28,16 @@ Boss.prototype.constructor = Boss;
 Boss.prototype.update = function(){
   this.game.debug.body(this);
 
-  //MODO NORMAL
-  this.move();
-  //LLAMAR CUANDO QUEDA UNO
-  //this.enrageMode();
+  if (this.game.bosses.length < 2) {
+    this.enrageMode();
+  }
+  else 
+    this.move();
 }
 
-Boss.prototype.move = function() {
 
-  if(this.x != this.points.x[this.pointNumber]  || this.y != this.points.y[this.pointNumber]) {
+Boss.prototype.move = function() {
+  if(this.x != this.points[this.pointNumber].x  || this.y != this.points[this.pointNumber].y) {
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.goToPoint, this);
   }
   else {
@@ -52,53 +48,64 @@ Boss.prototype.move = function() {
 }
 
 Boss.prototype.goToPoint = function() {
-  if(this.x < this.points.x[this.pointNumber])
+  if(this.x < this.points[this.pointNumber].x)
     this.x++;
-  else if(this.x > this.points.x[this.pointNumber])
+  else if(this.x > this.points[this.pointNumber].x)
     this.x--;
 
-  if(this.y < this.points.y[this.pointNumber])
+  if(this.y < this.points[this.pointNumber].y)
     this.y++;
-  else if(this.y > this.points.y[this.pointNumber])
+  else if(this.y > this.points[this.pointNumber].y)
     this.y--;
 }
 
 Boss.prototype.enrageMode = function() {
   if(!this.focus) {
+    this.animations.play('bossEnraged'); 
     this.enragePoint.x = this.target.x;
     this.enragePoint.y = this.target.y;
     this.focus = true;
   }
 
   if(this.x < this.enragePoint.x)
-    this.x++;
+    this.x +=4;
   else if(this.x >  this.enragePoint.x)
-    this.x--;
+    this.x -=4;
 
   if(this.y <  this.enragePoint.y)
-    this.y++;
+    this.y +=4;
   else if(this.y >  this.enragePoint.y)
-    this.y--;
+    this.y -=4;
 
+
+    if(this.x < this.enragePoint.x+10 && this.x > this.enragePoint.x-10  && this.y < this.enragePoint.y +10 && this.y > this.enragePoint.y -10 && this.invulnerable) {
+      this.invulnerable = false;
+      this.animations.play('bossHit');
+      this.animations.currentAnim.onComplete.add(this.hit, this);
+    }
+
+    //Version para hacerlo con velocidad
+    /*
   if(this.x === this.enragePoint.x  && this.y === this.enragePoint.y && this.invulnerable) {
     this.invulnerable = false;
     this.animations.play('bossHit');
     this.animations.currentAnim.onComplete.add(this.hit, this);
   }
+  */
 }
 
 
 Boss.prototype.hit = function() {
   this.body.enable = true; 
-  this.game.time.events.add(Phaser.Timer.SECOND  * 4, this.resetFocus, this);
+  this.game.time.events.add(Phaser.Timer.SECOND  * 2, this.resetFocus, this);
 }
 
+//error aqui al matar al boss
 Boss.prototype.resetFocus = function() {
-  this.animations.play('bossEnraged'); 
-  this.body.enable = false; 
-  this.focus = false; 
-  this.invulnerable = true;
-
+    this.animations.play('bossEnraged'); 
+    this.body.enable = false; 
+    this.focus = false; 
+    this.invulnerable = true;
 }
 
 module.exports = Boss;

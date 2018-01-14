@@ -48,7 +48,8 @@ var PlayScene = {
     this.rooms.forEach(function(element) {
       element.update();
     }, this);
-     
+    
+     this.game.bossArmy.update();
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     if(!this.link.fly)
