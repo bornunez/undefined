@@ -1,7 +1,7 @@
     'use strict'
 var Character = require('./character.js');
 
-function Shot(game,x,y,vel,velX,velY,spriteName){
+function Shot(game, x, y, vel, velX, velY, dir,spriteName){
     this.game = game;
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
     this.anchor.setTo(0.5, 0.5);
@@ -11,27 +11,8 @@ function Shot(game,x,y,vel,velX,velY,spriteName){
     this.vel = vel;
     this.velX = velX;
     this.velY = velY;
-
-    //hacer funcion
-    if(velX < 0 && velY === 0)
-        this.angle = 180;
-    else if(velX === 0 && velY < 0)
-        this.angle = 270;
-    else if(velX === 0 && velY > 0)
-        this.angle = 90;
-    //Diagonal abajoderecha
-    else if(velX > 0 && velY > 0) 
-        this.angle =  45;
-    //Diagonal arribaderecha
-    else if(velX > 0 && velY < 0) 
-        this.angle = 315;
-    //Diagonal abajoizquierda
-    else if(velX < 0 && velY > 0) 
-        this.angle = 135;
-    //Diagonal arribaizquierda
-    else if(velX < 0 && velY < 0) 
-        this.angle =  225;
-    
+    this.dir = dir;
+    this.selectDir();
 
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.arrowDestroy, this);
 }
@@ -43,15 +24,9 @@ Shot.prototype.update = function(){
     this.body.velocity.y = this.velY * this.vel;
     if(this!=null && this != undefined){
         this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);
-        //PRUEBA BOSS
         this.game.physics.arcade.overlap(this, this.game.bosses, this.hitEnemy, null, this);
-
-        //PRUEBA CICLOPE    
-
         this.game.physics.arcade.overlap(this, this.game.activeCyclops, this.hitCyclops, null, this);
-
     }
-    
 }
 
 Shot.prototype.arrowDestroy = function(){
@@ -85,11 +60,41 @@ Shot.prototype.initPhysics = function() {
     //Fisicas!
     this.body.collideWorldBounds = true;
     this.body.bounce.setTo(1, 1);
-  
     this.body.moves = true;
-
     this.body.immovable = true;
   }
 
+
+Shot.prototype.selectDir = function() {
+    if(this.velX === 0 && this.velY === 0) {
+        if(this.dir === 'Right')
+            this.velX = 200;
+        else if (this.dir === 'Left')
+            this.velX = -200;
+        else if (this.dir === 'Top')
+            this.velY = -200;
+        else if (this.dir === 'Down')
+            this.velY = 200;
+    }
+    //Diagonal abajoderecha
+    if(this.velX > 0 && this.velY > 0) 
+        this.angle =  45;
+    //Diagonal arribaderecha
+    else if(this.velX > 0 && this.velY < 0) 
+        this.angle = 315;
+    //Diagonal abajo izquierda
+    else if(this.velX < 0 && this.velY > 0) 
+        this.angle = 135;
+    //Diagonal arribaizquierda
+    else if(this.velX < 0 && this.velY < 0) 
+        this.angle =  225;
+    //Direcciones normales
+    else if(this.dir === 'Left')
+        this.angle = 180;
+    else if(this.dir === 'Top')
+        this.angle = 270;
+    else if(this.dir === 'Down')
+        this.angle = 90;
+  }
 
 module.exports = Shot;
