@@ -2,8 +2,8 @@
 var Character = require('./character.js');
 var Boss = require('./boss.js');
 
-const NUM_POINTS = 2;
-const NUM_BOSS = 2;
+const NUM_POINTS = 6;
+const NUM_BOSS = 6;
 const BOSS_VEL = 300;
 
 
@@ -11,24 +11,21 @@ function BossArmy(game, x, y, target, MAPSCALE, health,damage,spriteName){
     this.game = game; 
     this.target = target;
     this.pointNumber = 0;
-
-    this.points = {
-      'x': [ this.target.x, this.target.x+200],
-      'y':  [ this.target.y, this.target.y+200 ]
-      };
-
- 
-      this.bosses = this.game.add.group();
-
-      for(var i = 0; i < NUM_BOSS; i++) {
-        var boss =  new Boss(this.game, this.target.x+60 + (i*100), this.target.y- (i*100), target, MAPSCALE, BOSS_VEL, 1, 1, 'bossAnimations'); 
-        this.bosses.add(boss);
-    }
+    this.points =new Array(); 
+    this.bosses = this.game.add.group();
 }
 
 //Herencia
 BossArmy.prototype =  Object.create(Phaser.Sprite.prototype);
 BossArmy.prototype.constructor = Boss;
+
+BossArmy.prototype.create = function(){
+  this.points.forEach(function(element) {
+    var boss =  new Boss(this.game, element.x*this.MAPSCALE, element.y*this.MAPSCALE, this.target, this.MAPSCALE, BOSS_VEL, 1, 1, 'bossAnimations'); 
+    this.bosses.add(boss);
+      }, this);
+    this.game.world.bringToTop(this.bosses);
+}
 
 BossArmy.prototype.update = function(){
   this.game.debug.body(this);

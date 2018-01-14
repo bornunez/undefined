@@ -1,6 +1,7 @@
 'use strict'
 var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
+var BossArmy = require('./BossArmy.js');
 
 function Room(game,playScene,MAPSCALE,number){
     this.playScene = playScene;
@@ -81,30 +82,40 @@ Room.prototype.loadDoors = function(){
 
 //Metodo encargado de generar a los enemigos de la sala
 Room.prototype.Spawn = function(){
-
     //Primero borramos todos los triggers de la sala, ya que estos han sido activados
     this.Triggers.forEach(function(element) {
         element.destroy();
     }, this);
 
-    //Ahora vamos a crear un enemigo a partir de la informacion que guardamos del json
-    if(this.active === true){ 
-        this.enemiesInfo.forEach(function(element) {
-            //Los spawneamos y los metemos en el array que los manejara
-            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this,'stalker');    
-            this.enemies.push(enemy);
+    if(!this.bossRoom){
+        //Ahora vamos a crear un enemigo a partir de la informacion que guardamos del json
+        if (this.active === true) {
+            this.enemiesInfo.forEach(function (element) {
+                //Los spawneamos y los metemos en el array que los manejara
+                var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'stalker');
+                this.enemies.push(enemy);
 
-        }, this);
-        this.cicloInfo.forEach(function(element) {
-            var enemy = this.playScene.addEnemy(element.x*this.MAPSCALE,element.y*this.MAPSCALE,this,'ciclo');
-            this.enemies.push(enemy);
-        }, this);
-        this.active = false;    
+            }, this);
+            this.cicloInfo.forEach(function (element) {
+                var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'ciclo');
+                this.enemies.push(enemy);
+            }, this);
+            this.active = false;
+        }
     }
-
+    else{
+        this.SpawnBoss();
+    }
     console.log("Enemigos activos: " + this.enemies.length);
 }
-
+Room.prototype.SpawnBoss = function(){
+    var bossArmy = new BossArmy(this.game,0,0,this.playScene.link,this.MAPSCALE,1,1,'bossAnimations');
+    this.bossPoints.forEach(function(element) {
+        bossArmy.points.push({x: element.x,y:element.y});
+    }, this);
+    console.log(bossArmy.points);
+    bossArmy.create();
+}
 
 Room.prototype.update = function(){
     this.game.debug.body(this.Doors);
