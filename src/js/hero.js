@@ -135,7 +135,7 @@ Hero.prototype.input = function(){
 //Disparo
 Hero.prototype.shoot = function(){
   //Creamos la nueva flecha, la añadimos al mundo y al grupo
-  var arrow = new Shot(this.game,this.x,this.y,5,this.velX,this.velY,'arrow');
+  var arrow = new Shot(this.game, this.x, this.y, 5, this.velX, this.velY, this.dir, 'arrow');
   this.game.world.addChild(arrow);
   this.game.arrows.add(arrow);
   this.game.world.bringToTop(this.game.arrows);
@@ -143,7 +143,8 @@ Hero.prototype.shoot = function(){
   this.canShoot = false;
   this.canMove = false;
   this.canAttack = false;
-  this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
+  //this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
+  this.animations.currentAnim.onComplete.add(this.shootCD, this);
 }
 //Vuelve a poner el cd a 0
 Hero.prototype.shootCD = function(){

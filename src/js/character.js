@@ -17,7 +17,7 @@ function Character(game,spriteName,x,y,vel,health,damage){
     this.velX = 0;
     this.velY = 0;
     this.dmg = damage;
-    this.dir = 'None';
+    this.dir = 'Down';
     this.health = health;
     //this.anchor.x = this.anchor.y = this.width / 2;
     //Cosas del knockback
