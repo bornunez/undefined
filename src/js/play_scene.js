@@ -26,21 +26,20 @@ var PlayScene = {
     this.game.items = this.game.add.group();
     this.kb = this.game.input.keyboard;
     this.esc = this.kb.addKey(Phaser.Keyboard.ESC);
-    //this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+
+
+    
     this.loadMap();
     this.createGO();
     this.loadEnemies();
     this.loadRooms();
 
-    //PRUEBA CICLOPE
-    this.game.cyclops = new Cyclops(this.game,this, this.link.x+20,this.link.y-600,this.link,MAPSCALE, 'cyclopsAnimations');
+    //BOSS
     this.game.bossArmy = new BossArmy(this.game, this.link.x+60, this.link.y-500, this.link, MAPSCALE, 1, 1, 'bossAnimations');
 
-    //METER EN FUNCION
-    this.esc.onDown.add(function unpause(self){
-      self.game.paused = false;     
-    });
-
+    this.pauseGame();
+    
     this.HUD = new HUD(this.game, this.link);
 
   },
@@ -52,17 +51,16 @@ var PlayScene = {
      
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
-    if(!this.link.fly)
-      this.game.physics.arcade.collide(this.link,this.Colisiones);
+    this.game.physics.arcade.collide(this.link,this.Colisiones);
 
-    //this.game.physics.arcade.overlap(this.link, this.activeEnemies,this.playerCollision,null,this);
-    if(this.esc.isDown){
-      this.game.paused = true;
-    }
     this.game.world.bringToTop(this.HUDNegro);
     this.HUD.update();
-
-    //console.log(this.activeEnemies);
+ 
+    if(this.esc.isDown){
+      this.game.inventory.reset(0,0,100);
+      this.game.world.bringToTop(this.game.inventory);
+      this.game.paused = true;
+    }
   },
   loadMap: function(){
     //  The 'map' key here is the Loader key given in game.load.tilemap
@@ -126,6 +124,16 @@ var PlayScene = {
     this.HUDNegro.height *= 26/25 * MAPSCALE ;
     this.HUDNegro.fixedToCamera = true;
     this.Techo.resizeWorld();
+
+
+    
+    this.game.inventory  = this.game.add.sprite(0, 0,'inventory');
+    this.game.inventory.fixedToCamera = true;
+    this.game.inventory.smoothed = false;
+    this.game.inventory.width = this.game.width;
+    this.game.inventory.height = this.game.height;
+    this.game.inventory.kill();
+ 
 
   },
   loadRooms: function(){
@@ -191,6 +199,15 @@ var PlayScene = {
     });
     return result;
   },
+
+
+  pauseGame: function() {
+    this.esc.onDown.add(function unpause(self){
+      self.game.inventory.kill(); 
+      self.game.paused = false; 
+    });
+
+  }
 };
 
 module.exports = PlayScene;

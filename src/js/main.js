@@ -38,6 +38,7 @@ var PreloaderScene = {
     this.game.load.image('arrowicon', '/images/arrowicon.png');
     this.game.load.image('rublos', '/images/rublos.png');
     this.game.load.image('playButton','/images/playButton.png');
+    this.game.load.image('inventory','/images/inventory.png');
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
 
     this.game.load.atlas('bossAnimations', '/images/bossspritesheet.png', '/images/bossspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -47,20 +48,10 @@ var PreloaderScene = {
     this.game.load.atlas('swordAnimations', '/images/swordspritesheet.png', '/images/swordspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    //Load map
-    //Here we'll load the tilemap data. The first parameter is a unique key for the map data.
-
-    //  The second is a URL to the JSON file the map data is stored in. This is actually optional, you can pass the JSON object as the 3rd
-    //  parameter if you already have it loaded. In which case pass 'null' as the URL and
-    //  the JSON object as the 3rd parameter.
-
-    //  The final one tells Phaser the foramt of the map data, in this case it's a JSON file exported from the Tiled map editor.
-    //  This could be Phaser.Tilemap.CSV too.
+   
 
     this.game.load.tilemap('map', '/mapas/EastPalace1.json',null, Phaser.Tilemap.TILED_JSON);
-    
-    //  Next we load the tileset. This is just an image, loaded in via the normal way we load images:
-    
+  
     this.game.load.image('tiles', '/mapas/TileSet32.png');
     this.game.load.image('objetos', '/mapas/TileSet16.png');
   },
@@ -76,7 +67,6 @@ var PreloaderScene = {
 var IntroMenu = {
   preload: function(){
     this.game.load.image('introBG','./images/intro.png');
-    //game.load.image(  )
   },
   create:function(){
     var background  = this.game.add.sprite(0,0,'introBG');
