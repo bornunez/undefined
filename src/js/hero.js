@@ -305,7 +305,6 @@ Hero.prototype.iniAttackColliders = function() {
   this.topAttack.animations.add('swordTop', Phaser.Animation.generateFrameNames('sword', 10, 19), 27, false);
   this.leftAttack.animations.add('swordLeft', Phaser.Animation.generateFrameNames('sword',20, 29), 27, false);
   this.downAttack.animations.add('swordDown', Phaser.Animation.generateFrameNames('sword', 30, 39), 27, false);
-
 }
 
 Hero.prototype.playerCollision = function(player, enemy){
@@ -326,11 +325,9 @@ function attackCollider(game, nx, ny, nw, nh,colX,colY) {
 
 attackCollider.prototype = Object.create(Phaser.Sprite.prototype);
 attackCollider.constructor =  attackCollider;
+
 attackCollider.prototype.playAttack = function(anim){
   this.animations.play(anim);
-}
-attackCollider.prototype.addAnimations = function(type){
-
 }
 
 attackCollider.prototype.hitEnemyMele = function(attack, enemy) {

@@ -102,10 +102,12 @@ Boss.prototype.hit = function() {
 
 //error aqui al matar al boss
 Boss.prototype.resetFocus = function() {
+  if(this != undefined && this.body != null) {
+    this.body.enable = false;
     this.animations.play('bossEnraged'); 
-    this.body.enable = false; 
     this.focus = false; 
     this.invulnerable = true;
+  }
 }
 
 module.exports = Boss;

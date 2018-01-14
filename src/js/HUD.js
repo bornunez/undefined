@@ -104,10 +104,6 @@ ItemBox.prototype.constructor = ItemBox;
 
 //Items con contador
 function ItemCounter(game, hero, x , y, spritename){
-
-   
-   
-
   this.game = game;
   this.hero = hero;
   Phaser.Sprite.call(this,this.game, x, y, spritename);
@@ -119,12 +115,6 @@ function ItemCounter(game, hero, x , y, spritename){
 }
 ItemCounter.prototype = Object.create(Phaser.Sprite.prototype);
 ItemCounter.prototype.constructor = ItemCounter;
-
-
-
-
-
-
 
 module.exports = HUD;
 
