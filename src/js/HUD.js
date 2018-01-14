@@ -9,8 +9,13 @@ function HUD(game, hero){
     this.heart1 = new Hearts(this.game, this.hero, 240, 40);
     this.heart2 = new Hearts(this.game, this.hero, 200, 40);    
     this.heart3 = new Hearts(this.game, this.hero, 160, 40);
-    this.itembox = new ItemBox(this.game, this.hero, 20, 40);
-    this.arrowCounter = new ItemCounter(this.game, this.hero, 280, 40, 'arrowicon');
+    this.itembox = new ItemBox(this.game, this.hero, 20, 0);
+    this.arrowIcon = new ItemIcon(this.game, this.hero, 320, 0, 'arrowicon');
+    this.arrowCounter = new ItemCounter(this.game, this.hero, 340, 50, 'numbers');
+    this.arrowCounter2 = new ItemCounter(this.game, this.hero, 320, 50, 'numbers');
+    this.rublosIcon= new ItemIcon(this.game, this.hero, 400, 20, 'rublos');
+    this.rublosCounter = new ItemCounter(this.game, this.hero, 420, 50, 'numbers');
+    this.rublosCounter2 = new ItemCounter(this.game, this.hero, 400, 50, 'numbers');
 
     this.hearts.add(this.heart1);
     this.hearts.add(this.heart2);
@@ -21,11 +26,14 @@ function HUD(game, hero){
 HUD.prototype.constructor = HUD;
 
 HUD.prototype.update = function() {
-    //moverlo de sitio para que se haga despues de crear todo solo una vez
-    this.game.world.bringToTop(this.hearts);
-    this.game.world.bringToTop(this.itembox);
-    this.game.world.bringToTop(this.arrowCounter);
+    this.hudToTop();
     this.updateHealth();
+
+    this.arrowCounter.frame =  this.hero.items[ItemType.Arrows] - (Math.trunc(this.hero.items[ItemType.Arrows] / 10) * 10) ;
+    this.arrowCounter2.frame = Math.trunc(this.hero.items[ItemType.Arrows] / 10);
+
+    this.rublosCounter.frame =  this.hero.items[ItemType.Rublos] - (Math.trunc(this.hero.items[ItemType.Rublos] / 10) * 10) ;
+    this.rublosCounter2.frame = Math.trunc(this.hero.items[ItemType.Rublos] / 10);
 }
 
 
@@ -68,6 +76,16 @@ HUD.prototype.updateHealth = function(){
     }
 }
 
+HUD.prototype.hudToTop = function(){
+    this.game.world.bringToTop(this.hearts);
+    this.game.world.bringToTop(this.itembox);
+    this.game.world.bringToTop(this.arrowIcon);
+    this.game.world.bringToTop(this.arrowCounter);
+    this.game.world.bringToTop(this.arrowCounter2);
+    this.game.world.bringToTop(this.rublosIcon);
+    this.game.world.bringToTop(this.rublosCounter);
+    this.game.world.bringToTop(this.rublosCounter2);
+}
 
 //Los corazones del HUD
 function Hearts(game, hero,x ,y){
@@ -100,21 +118,31 @@ ItemBox.prototype = Object.create(Phaser.Sprite.prototype);
 ItemBox.prototype.constructor = ItemBox;
 
 
-
-
 //Items con contador
-function ItemCounter(game, hero, x , y, spritename){
+function ItemIcon(game, hero, x , y, spritename){
   this.game = game;
   this.hero = hero;
   Phaser.Sprite.call(this,this.game, x, y, spritename);
   this.fixedToCamera = true;
   this.smoothed = false;
-  this.scale.setTo(5,5);
+  this.scale.setTo(3,3);
   this.game.world.addChild(this);
-
 }
-ItemCounter.prototype = Object.create(Phaser.Sprite.prototype);
-ItemCounter.prototype.constructor = ItemCounter;
+ItemIcon.prototype = Object.create(Phaser.Sprite.prototype);
+ItemIcon.prototype.constructor = ItemIcon;
+
+//Items con contador
+function ItemCounter(game, hero, x , y, spritename){
+    this.game = game;
+    this.hero = hero;
+    Phaser.Sprite.call(this,this.game, x, y, spritename);
+    this.fixedToCamera = true;
+    this.smoothed = false;
+    this.scale.setTo(3,3);
+    this.game.world.addChild(this);
+  }
+  ItemCounter.prototype = Object.create(Phaser.Sprite.prototype);
+  ItemCounter.prototype.constructor = ItemCounter;
 
 module.exports = HUD;
 

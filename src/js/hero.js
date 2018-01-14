@@ -12,8 +12,8 @@ function Hero(game,playScene){
     this.canMove = true;
     this.dead = false;
     this.fly = false;
-    this.items = new Array(20,0,6);
-    this.maxItems = [10,50,6];
+    this.items = new Array(5,0,6);
+    this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
 }
 
