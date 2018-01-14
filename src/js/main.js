@@ -43,12 +43,12 @@ var PreloaderScene = {
     this.game.load.image('inventory','/images/inventory.png');
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
     this.game.load.spritesheet('numbers', '/images/numbers.png',8,8, 10);
-    
-    this.game.load.atlas('bossAnimations', '/images/bossspritesheet.png', '/images/bossspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-    this.game.load.atlas('cyclopsAnimations', '/images/cyclopsspritesheet.png', '/images/cyclopsspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-    this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/images/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-    this.game.load.atlas('enemyAnimations', '/images/enemyspritesheet.png', '/images/enemyspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-    this.game.load.atlas('swordAnimations', '/images/swordspritesheet.png', '/images/swordspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+
+    this.game.load.atlas('bossAnimations', '/images/bossspritesheet.png', '/json/bossspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    this.game.load.atlas('cyclopsAnimations', '/images/cyclopsspritesheet.png', '/json/cyclopsspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/json/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    this.game.load.atlas('enemyAnimations', '/images/enemyspritesheet.png', '/json/enemyspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    this.game.load.atlas('swordAnimations', '/images/swordspritesheet.png', '/json/swordspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
    
