@@ -25,7 +25,6 @@ var IntroMenu = {
       update: function(){
         if(this.enterKey.isDown){
             this.game.state.start('play');
-
         }
       }
   }
