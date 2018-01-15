@@ -220,7 +220,7 @@ module.exports = HUD;
 
 var IntroMenu = {
     preload: function(){
-      this.game.load.image('introBG','./images/intro.png');
+      this.game.load.image('introBG','/images/intro.png');
     },
     create:function(){
       var background  = this.game.add.sprite(0,0,'introBG');
