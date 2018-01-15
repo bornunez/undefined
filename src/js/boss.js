@@ -26,7 +26,7 @@ Boss.prototype =  Object.create(Character.prototype);
 Boss.prototype.constructor = Boss;
 
 Boss.prototype.update = function(){
-  this.game.debug.body(this);
+  //this.game.debug.body(this);
 
   if (this.game.bosses.length < 2) {
     this.enrageMode();

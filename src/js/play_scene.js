@@ -52,6 +52,9 @@ var PlayScene = {
      this.game.bossArmy.update();
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
+    this.game.physics.arcade.collide(this.game.activeCyclops,this.Colisiones);
+    this.game.physics.arcade.collide(this.game.bosses,this.Colisiones);
+
     if(!this.link.fly)
       this.game.physics.arcade.collide(this.link,this.Colisiones);
 

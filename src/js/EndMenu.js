@@ -1,6 +1,6 @@
 var EndMenu = {
     preload: function(){
-      this.game.load.image('gameover','./images/gameover.png');
+      this.game.load.image('gameover','/images/gameover.png');
     },
     create:function(){
       var background  = this.game.add.sprite(0,0,'gameover');
