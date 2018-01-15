@@ -72,7 +72,7 @@ window.onload = function () {
   var game = new Phaser.Game(1080, 720, Phaser.AUTO, 'game');
 
   game.state.add('boot', BootScene);
-  game.state.add('preloader', PreloaderScene);
+  game.state.add('preloader' , PreloaderScene);
   game.state.add('introMenu',IntroMenu);
   game.state.add('play', PlayScene);
   game.state.add('end', EndMenu);
