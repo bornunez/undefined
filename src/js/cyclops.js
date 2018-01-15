@@ -20,7 +20,7 @@ Cyclops.prototype.constructor = Cyclops;
 
 
 Cyclops.prototype.update = function() {
-    this.game.debug.body(this);
+    //this.game.debug.body(this);
 
     if(this.sleep)
         this.wake();

@@ -118,7 +118,7 @@ Room.prototype.SpawnBoss = function(){
 }
 
 Room.prototype.update = function(){
-    this.game.debug.body(this.Doors);
+    //this.game.debug.body(this.Doors);
     this.game.physics.arcade.overlap(this.playScene.link,this.Triggers,this.Spawn,null,this);
     this.game.physics.arcade.collide(this.playScene.link,this.Doors);
     this.game.physics.arcade.overlap(this.playScene.link,this.Buttons,this.openDoors,null,this);

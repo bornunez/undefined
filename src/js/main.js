@@ -22,9 +22,9 @@ var BootScene = {
 
 var PreloaderScene = {
   preload: function () {
-    //this.game.load.baseURL = 'https://bornunez.github.io/undefined/src';
+    this.game.load.baseURL = 'https://bornunez.github.io/undefined/src';
     
-    //this.game.load.crossOrigin = 'anonymous';
+    this.game.load.crossOrigin = 'anonymous';
 
     //Carga el tema principal
     this.game.load.audio('theme', '/music/theme.mp3');
