@@ -331,11 +331,8 @@ attackCollider.prototype.playAttack = function(anim){
 }
 
 attackCollider.prototype.hitEnemyMele = function(attack, enemy) {
-  if(enemy.health >= 1)
+  if(enemy.health > 0)
     enemy.applyKnockback(enemy.target);
-  else{
-    enemy.die();
-  }
 }
 
 module.exports = Hero;

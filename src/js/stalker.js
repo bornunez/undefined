@@ -9,12 +9,14 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.MAPSCALE = MAPSCALE;
     this.game = game;
     this.target = target;
+    this.dead = false;
     Character.call(this,this.game, spriteName,x,y,1,3,1);
 
     this.animations.add('enemyWalkRight', Phaser.Animation.generateFrameNames('enemy', 0, 1), 3, true);
     this.animations.add('enemyWalkLeft', Phaser.Animation.generateFrameNames('enemy', 2, 3), 3, true);
     this.animations.add('enemyWalkDown', Phaser.Animation.generateFrameNames('enemy', 4, 6), 3, true);
     this.animations.add('enemyWalkTop', Phaser.Animation.generateFrameNames('enemy', 7, 9), 3, true);
+    this.animations.add('enemyDying', Phaser.Animation.generateFrameNames('dying', 0, 5), 6, false);
 
     this.minDistance = 320;
     this.maxDistance = 800;
@@ -27,30 +29,38 @@ Stalker.prototype = Object.create(Character.prototype);
 Stalker.prototype.constructor = Stalker;
 
 Stalker.prototype.update = function() {
-    //this.game.debug.body(this);
+    this.game.debug.body(this);
     //Hay que ajustarlo
-    if (this.x < this.target.x && this.y > this.target.y) {
-        this.animations.play('enemyWalkRight');
-        this.dir = 'Right'
+    if(this.health > 0) {
+        if (this.x < this.target.x && this.y > this.target.y) {
+            this.animations.play('enemyWalkRight');
+            this.dir = 'Right'
+        }
+        else if (this.x > this.target.x && this.y < this.target.y) {
+            this.animations.play('enemyWalkLeft');
+            this.dir = 'Left'
+        }
+        else if (this.y < this.target.y) {
+            this.animations.play('enemyWalkDown');
+            this.dir = 'Down'
+        }
+        else if (this.y > this.target.y) {
+            this.animations.play('enemyWalkTop');
+            this.dir = 'Top'
+        }
+        
+        if (!this.knockback)
+            this.move();
+    }  
+    else if (!this.dead) {
+        this.dead = true;
+        this.body.enable = false;
+        this.animations.play('enemyDying');
+        this.animations.currentAnim.onComplete.add(this.die, this);
     }
-    else if (this.x > this.target.x && this.y < this.target.y) {
-        this.animations.play('enemyWalkLeft');
-        this.dir = 'Left'
-    }
-    else if (this.y < this.target.y) {
-        this.animations.play('enemyWalkDown');
-        this.dir = 'Down'
-    }
-    else if (this.y > this.target.y) {
-        this.animations.play('enemyWalkTop');
-        this.dir = 'Top'
-    }
-
-
-    if(this.health >= 0 &&  !this.knockback)
-        this.move();
 }
-//OBVIAMENTE, a esto se le llama cuando vaya a morir
+
+// Desactiva al enemigo y spawnea un item.
 Stalker.prototype.die = function(){
     //Primero nos desactivamos
     this.kill();
