@@ -13,6 +13,7 @@ function Shot(game, x, y, vel, velX, velY, dir,spriteName){
     this.velY = velY;
     this.dir = dir;
     this.selectDir();
+    this.hero_arrow_hit = this.game.add.audio('hero_arrow_hit');
 
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.arrowDestroy, this);
 }
@@ -34,6 +35,8 @@ Shot.prototype.arrowDestroy = function(){
 }
 
 Shot.prototype.hitEnemy = function(arrow,enemy) {
+    this.hero_arrow_hit.play();
+
     if(enemy.health >= 1)
         enemy.applyKnockback(enemy.target);
     else
@@ -46,6 +49,7 @@ Shot.prototype.hitEnemy = function(arrow,enemy) {
 
 Shot.prototype.hitCyclops = function(arrow, cyclops) {
     if(!cyclops.sleep && cyclops.checkDir()) {
+        this.hero_arrow_hit.play();
         if(cyclops.health >= 1)
             cyclops.applyKnockback(cyclops.target);
         else

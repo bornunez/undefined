@@ -26,9 +26,19 @@ var PreloaderScene = {
     
     //this.game.load.crossOrigin = 'anonymous';
 
-    //Carga el tema principal
+    //Carga los sonidos
     this.game.load.audio('theme', '/music/theme.mp3');
-
+    this.game.load.audio('kill_enemy', '/music/kill_enemy.mp3');
+    this.game.load.audio('hero_attack', '/music/hero_attack.mp3');
+    this.game.load.audio('hero_hurt', '/music/hero_hurt.mp3');
+    this.game.load.audio('hero_arrow_shoot', '/music/hero_arrow_shoot.mp3');
+    this.game.load.audio('hero_arrow_hit', '/music/hero_arrow_hit.mp3');
+    this.game.load.audio('pick_rublo', '/music/pick_rublo.mp3');
+    this.game.load.audio('pick_item', '/music/pick_item.mp3')
+    this.game.load.audio('cyclops_awake', '/music/cyclops_awake.mp3')
+    //Abrir y cerrar inventario
+    this.game.load.audio('open_pause', '/music/open_pause.mp3')
+    this.game.load.audio('close_pause', '/music/close_pause.mp3')
 
     //Cargar de json key - ruta 
     this.game.load.image('skeleton', '/images/skeleton.png');

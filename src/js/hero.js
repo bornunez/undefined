@@ -15,6 +15,12 @@ function Hero(game,playScene){
     this.items = new Array(5,0,6);
     this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
+
+    this.hero_attack = this.game.add.audio('hero_attack');
+    this.hero_hurt = this.game.add.audio('hero_hurt');
+    this.hero_arrow_shoot = this.game.add.audio('hero_arrow_shoot');
+    this.pick_rublo = this.game.add.audio('pick_rublo');
+    this.pick_item = this.game.add.audio('pick_item');
 }
 
 //Enlazamos las propiedades prototype   
@@ -141,6 +147,7 @@ Hero.prototype.readInput = function(){
 }
 //Disparo
 Hero.prototype.shoot = function(){
+  this.hero_arrow_shoot.play(); 
   //Creamos la nueva flecha, la añadimos al mundo y al grupo
   var arrow = new Shot(this.game, this.x, this.y, 5, this.velX, this.velY, this.dir, 'arrow');
   this.game.world.addChild(arrow);
@@ -167,6 +174,8 @@ Hero.prototype.attack = function(){
   //this.game.debug.body(this);
   
   if(this.eKey.isDown && this.canAttack){
+    this.hero_attack.play();
+
     if (this.dir === 'Right') {
       this.animations.play('attackRight');
       this.game.physics.arcade.overlap(this.rightAttack, this.game.activeEnemies, this.rightAttack.hitEnemyMele, null, this);
@@ -201,18 +210,26 @@ Hero.prototype.addItem = function(itemType,quantity){
   console.log("Item que le llega a Link: " + itemType);
   //Aqui ponemos la de defecto para el pickup de cada item (Habria que llevarlo a un json con valores de drops etc.... (Si da tiempo))
   if(quantity === undefined){
-    if(itemType === ItemType.Arrows)
+    if(itemType === ItemType.Arrows) {
+      this.pick_item.play();
       quantity = 3;
-    else if (itemType === ItemType.Rublos)
+    }
+    else if (itemType === ItemType.Rublos) {
+      this.pick_rublo.play();
       quantity = 2;
-    else if (itemType === ItemType.Hearts)
+    }
+    else if (itemType === ItemType.Hearts){
+      this.pick_item.play();
       quantity = 2;
+    }
   }
   //Y añadimos la cantidad de items siempre y cuando no estemos en el maximo
   this.items[itemType] = this.items[itemType] + quantity;
 
   if(this.items[itemType] > this.maxItems[itemType]){
-    this.items[itemType] =this.maxItems[itemType];}
+    this.items[itemType] =this.maxItems[itemType];
+  }
+
   this.health = this.items[ItemType.Hearts];
 
     console.log(this.items[itemType]);
@@ -308,6 +325,7 @@ Hero.prototype.iniAttackColliders = function() {
 }
 
 Hero.prototype.playerCollision = function(player, enemy){
+  this.hero_hurt.play();
   this.applyKnockback(enemy);
 }
 

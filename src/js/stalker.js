@@ -18,6 +18,9 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.animations.add('enemyWalkTop', Phaser.Animation.generateFrameNames('enemy', 7, 9), 3, true);
     this.animations.add('enemyDying', Phaser.Animation.generateFrameNames('dying', 0, 5), 6, false);
 
+    this.kill_enemy = this.game.add.audio('kill_enemy');
+
+
     this.minDistance = 320;
     this.maxDistance = 800;
     this.triggered = false;
@@ -56,6 +59,7 @@ Stalker.prototype.update = function() {
         this.dead = true;
         this.body.enable = false;
         this.animations.play('enemyDying');
+        this.kill_enemy.play();
         this.animations.currentAnim.onComplete.add(this.die, this);
     }
 }

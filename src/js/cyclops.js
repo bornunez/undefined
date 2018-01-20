@@ -13,6 +13,8 @@ function Cyclops(game,playscene,x,y,targetC,MAPSCALE, spriteName){
     this.sleep = true;
     this.frame = 10;
     this.dir = 'Down';
+    this.cyclops_awake = this.game.add.audio('cyclops_awake');
+
 }
 //Enlazamos las propiedades prototype   
 Cyclops.prototype = Object.create(Stalker.prototype);
@@ -36,7 +38,7 @@ Cyclops.prototype.wake = function() {
     var distance = this.game.math.distance(this.x, this.y, this.target.x,  this.target.y);
     if (distance < this.minDistance){ 
             this.animations.play('cyclopsWake');
-            this.animations.currentAnim.onComplete.add(function () { this.sleep = false;}, this);
+            this.animations.currentAnim.onComplete.add(function () { this.sleep = false;  this.cyclops_awake.play();}, this);
     }
 }
 
