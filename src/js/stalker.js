@@ -25,7 +25,8 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.maxDistance = 800;
     this.triggered = false;
 
-    this.body.setSize(24, 24, 4, 4);
+    //this.body.setSize(24, 24, 4, 4);
+    this.body.setSize(20, 24, 6, 4);
 }
 //Enlazamos las propiedades prototype   
 Stalker.prototype = Object.create(Character.prototype);

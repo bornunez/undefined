@@ -15,12 +15,6 @@ function Hero(game,playScene){
     this.items = new Array(5,0,6);
     this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
-
-    this.hero_attack = this.game.add.audio('hero_attack');
-    this.hero_hurt = this.game.add.audio('hero_hurt');
-    this.hero_arrow_shoot = this.game.add.audio('hero_arrow_shoot');
-    this.pick_rublo = this.game.add.audio('pick_rublo');
-    this.pick_item = this.game.add.audio('pick_item');
 }
 
 //Enlazamos las propiedades prototype   
@@ -32,10 +26,8 @@ Hero.prototype.create = function(){
     //Hacemos el Personaje
     Character.call(this,this.game,'heroAnimations', 0, 0, 3, 6, 1);
     this.anchor.setTo(0.5, 0.5);
-    this.body.setSize(16, 24, 8, 4);
+    this.body.setSize(16, 20, 8, 8);
     
-
-
     this.keyBindings();
     this.iniAttackColliders();
 
@@ -61,11 +53,18 @@ Hero.prototype.create = function(){
     this.animations.add('bowDown', Phaser.Animation.generateFrameNames('bow', 9, 11), 5, false);
 
     this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
+
+    this.hero_attack = this.game.add.audio('hero_attack');
+    this.hero_hurt = this.game.add.audio('hero_hurt');
+    this.hero_arrow_shoot = this.game.add.audio('hero_arrow_shoot');
+    this.pick_rublo = this.game.add.audio('pick_rublo');
+    this.pick_item = this.game.add.audio('pick_item');
 }
 //Update, lee readInput y se mueve / dispara
 Hero.prototype.update = function(){
   this.items[ItemType.Hearts] = this.health;
   //console.log(this.health);
+  this.game.debug.body(this);
   /*
   this.game.debug.body(this.rightAttack);
   this.game.debug.body(this.leftAttack);
