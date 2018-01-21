@@ -26,7 +26,7 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.triggered = false;
 
     //this.body.setSize(24, 24, 4, 4);
-    this.body.setSize(20, 24, 6, 4);
+    this.body.setSize(18, 24, 7, 4);
 }
 //Enlazamos las propiedades prototype   
 Stalker.prototype = Object.create(Character.prototype);
@@ -36,23 +36,28 @@ Stalker.prototype.update = function() {
     this.game.debug.body(this);
     //Hay que ajustarlo
     if(this.health > 0) {
-        if (this.x < this.target.x && this.y > this.target.y) {
-            this.animations.play('enemyWalkRight');
-            this.dir = 'Right'
+        var angle = (Math.atan2(this.target.y - this.y, this.target.x - this.x) * 180 / Math.PI);
+        if(angle < 0)
+            angle = angle + 360;
+
+
+        if (angle > 225 && angle < 315) {
+                this.animations.play('enemyWalkTop');
+                this.dir = 'Top' 
         }
-        else if (this.x > this.target.x && this.y < this.target.y) {
+        else if (angle > 135 && angle <= 225) {
             this.animations.play('enemyWalkLeft');
             this.dir = 'Left'
         }
-        else if (this.y < this.target.y) {
+        else if (angle > 45 && angle <= 135) {
             this.animations.play('enemyWalkDown');
             this.dir = 'Down'
         }
-        else if (this.y > this.target.y) {
-            this.animations.play('enemyWalkTop');
-            this.dir = 'Top'
+        else  {
+            this.animations.play('enemyWalkRight');
+            this.dir = 'Right'
         }
-        
+
         if (!this.knockback)
             this.move();
     }  
