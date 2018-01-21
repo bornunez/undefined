@@ -126,7 +126,7 @@ Character.prototype.stopKnocked = function(){
     this.knockedToX = 0;
     this.knockedToY = 0;
     //Y nos ponemos normal
-    this.alpha = 1;
+    //this.alpha = 1;
     this.x = Math.trunc(this.x);
     this.y = Math.trunc(this.y);
   }

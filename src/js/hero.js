@@ -8,7 +8,9 @@ function Hero(game,playScene){
     this.playScene = playScene;
     this.keyboard = this.game.input.keyboard;
     this.canAttack = true;
-    this.attacking = false;
+    //this.attacking = false;
+    this.hurt = false;          //Flag para cuando recibes daño.
+    this.invulnerable = false;
     this.canMove = true;
     this.dead = false;
     this.fly = false;
@@ -52,6 +54,11 @@ Hero.prototype.create = function(){
     this.animations.add('bowLeft', Phaser.Animation.generateFrameNames('bow', 6, 8), 5, false);
     this.animations.add('bowDown', Phaser.Animation.generateFrameNames('bow', 9, 11), 5, false);
 
+    this.animations.add('hurtRight', Phaser.Animation.generateFrameNames('hurt', 0, 0), 0, false);
+    this.animations.add('hurtTop', Phaser.Animation.generateFrameNames('hurt', 1, 1), 0, false);
+    this.animations.add('hurtLeft', Phaser.Animation.generateFrameNames('hurt', 2, 2), 0, false);
+    this.animations.add('hurtDown', Phaser.Animation.generateFrameNames('hurt', 3, 3), 0, false);
+
     this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
 
     this.hero_attack = this.game.add.audio('hero_attack');
@@ -64,13 +71,14 @@ Hero.prototype.create = function(){
 Hero.prototype.update = function(){
   this.items[ItemType.Hearts] = this.health;
   //console.log(this.health);
-  this.game.debug.body(this);
+  //this.game.debug.body(this);
   /*
   this.game.debug.body(this.rightAttack);
   this.game.debug.body(this.leftAttack);
   this.game.debug.body(this.topAttack);
   this.game.debug.body(this.downAttack);
 */
+
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.activeCyclops,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.bosses, this.playerCollision,null,this);
@@ -142,8 +150,8 @@ Hero.prototype.readInput = function(){
       this.velX = 0;
       this.move = false;  
     }
-
 }
+
 //Disparo
 Hero.prototype.shoot = function(){
   this.hero_arrow_shoot.play(); 
@@ -153,17 +161,10 @@ Hero.prototype.shoot = function(){
   this.game.arrows.add(arrow);
   this.game.world.bringToTop(this.game.arrows);
   //Y preparamos las cosas para que no puedas disparar hasta dentro de 1 sec
-  this.canShoot = false;
   this.canMove = false;
   this.canAttack = false;
   //this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
-  this.animations.currentAnim.onComplete.add(this.shootCD, this);
-}
-//Vuelve a poner el cd a 0
-Hero.prototype.shootCD = function(){
-  this.canAttack = true;
-  this.canMove = true;
-  this.canShoot = true;
+  this.animations.currentAnim.onComplete.add(this.attackCD, this);
 }
 
   //Ataque
@@ -172,7 +173,7 @@ Hero.prototype.attack = function(){
 
   //this.game.debug.body(this);
   
-  if(this.eKey.isDown && this.canAttack){
+  if(this.eKey.isDown && this.canAttack && !this.hurt){
     this.hero_attack.play();
 
     if (this.dir === 'Right') {
@@ -240,7 +241,7 @@ Hero.prototype.attackCD = function(){
 }
 
 Hero.prototype.playAnims = function(){
-  if (this.move && this.canAttack && this.canShoot) {
+  if (this.move && this.canAttack && !this.hurt) {
     if (this.dir === 'Top') 
       this.animations.play('walkTop');
     else if(this.dir ==='Down')
@@ -250,7 +251,7 @@ Hero.prototype.playAnims = function(){
     else 
       this.animations.play('walkRight');
   }
-  else if (this.canAttack && this.canShoot){
+  else if (this.canAttack && !this.hurt) {
     if (this.dir === 'Top') 
       this.animations.play('idleTop');
     else if(this.dir ==='Down')
@@ -263,7 +264,7 @@ Hero.prototype.playAnims = function(){
 
     //Objeto(Disparar) 
   if(this.space.isDown){
-    if(this.canShoot && this.items[ItemType.Arrows] > 0) {
+    if(this.canAttack &&  !this.hurt && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Top') 
         this.animations.play('bowTop');
       else if(this.dir ==='Down')
@@ -283,7 +284,7 @@ Hero.prototype.playAnims = function(){
 
 
 //Crea las teclas de readInput
-Hero.prototype.keyBindings = function(){
+Hero.prototype.keyBindings = function() {
   //KeyBindings
   this.upKey = this.keyboard.addKey(Phaser.Keyboard.UP);
   this.downKey = this.keyboard.addKey(Phaser.Keyboard.DOWN);
@@ -292,7 +293,6 @@ Hero.prototype.keyBindings = function(){
   this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.eKey = this.keyboard.addKey(Phaser.Keyboard.E);
   this.flyKey = this.keyboard.addKey(Phaser.Keyboard.F);
-  this.canShoot = true;
 }
 
 Hero.prototype.iniAttackColliders = function() {
@@ -324,8 +324,25 @@ Hero.prototype.iniAttackColliders = function() {
 }
 
 Hero.prototype.playerCollision = function(player, enemy){
-  this.hero_hurt.play();
-  this.applyKnockback(enemy);
+  if(!this.invulnerable && !this.dead && !this.hurt) {
+    this.applyKnockback(enemy);
+    this.hero_hurt.play();
+
+    this.invulnerable = true;
+    this.hurt = true;
+
+    if(this.dir === 'Right')
+      this.animations.play('hurtRight');
+    else if (this.dir === 'Left')
+      this.animations.play('hurtLeft');
+    else if (this.dir === 'Top')
+      this.animations.play('hurtTop');
+    else if (this.dir === 'Down')
+      this.animations.play('hurtDown');
+
+    this.game.time.events.add(Phaser.Timer.SECOND  * 0.3, function() { this.hurt = false; this.attackCD(); }, this);  // Hay que poner canMove y attack a true por si se solapan eventos
+    this.game.time.events.add(Phaser.Timer.SECOND, function() { this.invulnerable = false; this.alpha = 1;}, this);
+  }
 }
 
 
