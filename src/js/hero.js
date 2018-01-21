@@ -328,6 +328,7 @@ Hero.prototype.playerCollision = function(player, enemy){
     this.applyKnockback(enemy);
     this.hero_hurt.play();
 
+    //Desactivar animacion de ataque(espada)?
     this.invulnerable = true;
     this.hurt = true;
 

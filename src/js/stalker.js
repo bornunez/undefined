@@ -36,27 +36,7 @@ Stalker.prototype.update = function() {
     this.game.debug.body(this);
     //Hay que ajustarlo
     if(this.health > 0) {
-        var angle = (Math.atan2(this.target.y - this.y, this.target.x - this.x) * 180 / Math.PI);
-        if(angle < 0)
-            angle = angle + 360;
-
-
-        if (angle > 225 && angle < 315) {
-                this.animations.play('enemyWalkTop');
-                this.dir = 'Top' 
-        }
-        else if (angle > 135 && angle <= 225) {
-            this.animations.play('enemyWalkLeft');
-            this.dir = 'Left'
-        }
-        else if (angle > 45 && angle <= 135) {
-            this.animations.play('enemyWalkDown');
-            this.dir = 'Down'
-        }
-        else  {
-            this.animations.play('enemyWalkRight');
-            this.dir = 'Right'
-        }
+        this.getAngle();
 
         if (!this.knockback)
             this.move();
@@ -113,6 +93,29 @@ Stalker.prototype.move = function(){
         this.body.velocity.y = Math.sin(rotation) * 100;
     } else {
         this.body.velocity.setTo(0, 0);
+    }
+}
+
+Stalker.prototype.getAngle = function() {
+    var angle = (Math.atan2(this.target.y - this.y, this.target.x - this.x) * 180 / Math.PI);
+    if(angle < 0)
+        angle = angle + 360;
+
+    if (angle > 225 && angle < 315) {
+            this.animations.play('enemyWalkTop');
+            this.dir = 'Top' 
+    }
+    else if (angle > 135 && angle <= 225) {
+        this.animations.play('enemyWalkLeft');
+        this.dir = 'Left'
+    }
+    else if (angle > 45 && angle <= 135) {
+        this.animations.play('enemyWalkDown');
+        this.dir = 'Down'
+    }
+    else  {
+        this.animations.play('enemyWalkRight');
+        this.dir = 'Right'
     }
 }
 

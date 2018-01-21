@@ -11,6 +11,7 @@ function Cyclops(game,playscene,x,y,targetC,MAPSCALE, spriteName){
     this.animations.add('cyclopsWake', Phaser.Animation.generateFrameNames('enemy', 10, 11), 1, false);
 
     this.sleep = true;
+    this.focus = false;
     this.frame = 10;
     this.dir = 'Down';
     this.cyclops_awake = this.game.add.audio('cyclops_awake');
@@ -23,15 +24,25 @@ Cyclops.prototype.constructor = Cyclops;
 
 Cyclops.prototype.update = function() {
     //this.game.debug.body(this);
+    if(this.health > 0) {
+        if(this.sleep)
+            this.wake();
 
-    if(this.sleep)
-        this.wake();
-
-    if (!this.sleep) {
-        Stalker.prototype.update.call(this);
+        if (!this.sleep && !this.focus) {
+            Stalker.prototype.getAngle.call(this);
+            this.move();
+        }
     }
 
-   
+    else if (!this.dead) {
+        this.dead = true;
+        this.body.enable = false;
+        this.animations.play('enemyDying');
+        this.kill_enemy.play();
+        this.animations.currentAnim.onComplete.add(this.die, this);
+    }
+
+    
 }
 
 Cyclops.prototype.wake = function() {
@@ -43,12 +54,32 @@ Cyclops.prototype.wake = function() {
 }
 
 Cyclops.prototype.move = function(){
-    Stalker.prototype.move.call(this);
-    if(this.body.velocity.x === 0 && this.body.velocity.y === 0)  {
+    this.focus = true;
+
+    if (this.game.math.distance(this.x, this.y, this.target.x,  this.target.y) > this.maxDistance){
         this.sleep = true;
         this.animations.stop();
        this.frame = 10;
+    } 
+
+    else if(this.dir === 'Right') {
+        this.body.velocity.x = 300;
+        this.body.velocity.y = 0;
     }
+    else if(this.dir === 'Left') {
+        this.body.velocity.x = -300;
+        this.body.velocity.y = 0;
+    }
+    else if(this.dir === 'Top') {
+        this.body.velocity.x = 0;
+        this.body.velocity.y = -300;
+    }
+    else if(this.dir === 'Down') {
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 300;
+    }
+
+    this.game.time.events.add(Phaser.Timer.SECOND  * 1.5, function() { this.focus= false; }, this); 
 }
 
 Cyclops.prototype.checkDir =  function(){
