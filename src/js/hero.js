@@ -103,6 +103,7 @@ Hero.prototype.end = function(){
     console.log("AAAA")
   }*/
   this.kill();
+  this.game.music.stop();
   this.game.state.start('end');
 }
 //readInput del Heroe ////FEOOO////

@@ -1,9 +1,9 @@
     'use strict'
 var Character = require('./character.js');
 
-function Shot(game, x, y, vel, velX, velY, dir,spriteName){
+function Shot(game, x, y, vel, velX, velY, dir, spriteName){
     this.game = game;
-    Phaser.Sprite.call(this,this.game,x,y,spriteName);
+    Phaser.Sprite.call(this,this.game, x, y, spriteName);
     this.anchor.setTo(0.5, 0.5);
     this.scale.setTo(5,5);
     this.smoothed = false;
@@ -71,34 +71,52 @@ Shot.prototype.initPhysics = function() {
 
 Shot.prototype.selectDir = function() {
     if(this.velX === 0 && this.velY === 0) {
-        if(this.dir === 'Right')
+        if(this.dir === 'Right') 
             this.velX = 200;
-        else if (this.dir === 'Left')
-            this.velX = -200;
-        else if (this.dir === 'Top')
+        else if (this.dir === 'Left') 
+            this.velX = -200;  
+        else if (this.dir === 'Top') 
             this.velY = -200;
-        else if (this.dir === 'Down')
+        else if (this.dir === 'Down') 
             this.velY = 200;
     }
-    //Diagonal abajoderecha
-    if(this.velX > 0 && this.velY > 0) 
+    //Diagonal abajo derecha
+    if(this.velX > 0 && this.velY > 0)  {
         this.angle =  45;
-    //Diagonal arribaderecha
-    else if(this.velX > 0 && this.velY < 0) 
+        this.x += 60;   this.y += 40;
+    }
+    //Diagonal arriba derecha
+    else if(this.velX > 0 && this.velY < 0) {
         this.angle = 315;
+        this.x += 60;   this.y -= 80;
+    }
     //Diagonal abajo izquierda
-    else if(this.velX < 0 && this.velY > 0) 
+    else if(this.velX < 0 && this.velY > 0) {
         this.angle = 135;
-    //Diagonal arribaizquierda
-    else if(this.velX < 0 && this.velY < 0) 
+        this.x -= 60;   this.y += 40;
+    }
+    //Diagonal arriba izquierda
+    else if(this.velX < 0 && this.velY < 0) {
         this.angle =  225;
+        this.x -= 60;    this.y -= 80;
+    }
+    
     //Direcciones normales
-    else if(this.dir === 'Left')
+    else if(this.dir === 'Left') {
         this.angle = 180;
-    else if(this.dir === 'Top')
+        this.x -= 60;
+    }
+    else if(this.dir === 'Top') {
         this.angle = 270;
-    else if(this.dir === 'Down')
+        this.y -= 80;
+    }
+    else if(this.dir === 'Down') {
         this.angle = 90;
+        this.y += 40;
+    }
+    else
+        this.x += 60;
+       
   }
 
 module.exports = Shot;

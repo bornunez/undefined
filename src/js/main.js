@@ -27,7 +27,9 @@ var PreloaderScene = {
     //this.game.load.crossOrigin = 'anonymous';
 
     //Carga los sonidos
-    this.game.load.audio('theme', '/music/theme.mp3');
+    this.game.load.audio('intro_theme', '/music/intro_theme.mp3');
+    this.game.load.audio('game_theme', '/music/game_theme.mp3');
+    this.game.load.audio('gameover_theme', '/music/gameover_theme.mp3');
     this.game.load.audio('kill_enemy', '/music/kill_enemy.mp3');
     this.game.load.audio('hero_attack', '/music/hero_attack.mp3');
     this.game.load.audio('hero_hurt', '/music/hero_hurt.mp3');
@@ -71,8 +73,6 @@ var PreloaderScene = {
 
   create: function () {
     //Comienza la musica
-    this.music = this.game.add.audio('theme');
-    this.music.play();
     this.game.state.start('introMenu');
   }
 };

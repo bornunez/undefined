@@ -27,7 +27,8 @@ var PlayScene = {
     this.kb = this.game.input.keyboard;
     this.esc = this.kb.addKey(Phaser.Keyboard.ESC);
 
-
+    this.game.music = this.game.add.audio('game_theme');
+    this.game.music.play();
 
     
     this.loadMap();

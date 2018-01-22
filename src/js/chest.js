@@ -1,6 +1,6 @@
 'use strict'
 
-function Item(game,hero,type,x,y, spriteName,MAPSCALE){
+function Chest(game,hero,type,x,y, spriteName,MAPSCALE){
     this.game = game;
     this.hero = hero;
     this.itType = type;
@@ -15,19 +15,16 @@ function Item(game,hero,type,x,y, spriteName,MAPSCALE){
 }
 
 //Las cosas de herencia
-Item.prototype = Object.create(Phaser.Sprite.prototype);
-Item.prototype.constructor = Item;
+Chest.prototype = Object.create(Phaser.Sprite.prototype);
+Chest.prototype.constructor = Chest;
 
-Item.prototype.update = function (){
-    this.game.physics.arcade.collide(this,this.hero,this.addItem,null,this);
+Chest.prototype.update = function (){
+  
 
 }
 
 Item.prototype.addItem= function(){
-    console.log(this);
-    console.log("Tipo del Item: " + this.itType);
-    this.hero.addItem(this.itType);
-    this.kill();
+
 }
 
 module.exports = Item;

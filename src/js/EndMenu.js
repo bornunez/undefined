@@ -7,6 +7,9 @@ var EndMenu = {
       background.smoothed = false;
       background.width = this.game.stage.width;
       background.height =this.game.stage.height;
+
+      this.game.music = this.game.add.audio('gameover_theme');
+      this.game.music.play();
   
 
       this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
@@ -21,8 +24,8 @@ var EndMenu = {
     },
     update: function(){
         if(this.enterKey.isDown){
-            this.game.state.start('introMenu');
-
+          this.game.music.stop();
+          this.game.state.start('introMenu');
         }
     }
   }
