@@ -7,16 +7,17 @@ function Hero(game,playScene){
     this.game = game;
     this.playScene = playScene;
     this.keyboard = this.game.input.keyboard;
-    this.canAttack = true;
+    //this.canAttack = true;
     //this.attacking = false;
-    this.hurt = false;          //Flag para cuando recibes daño.
+   // this.hurt = false;          //Flag para cuando recibes daño.
     this.invulnerable = false;
-    this.canMove = true;
+    //this.canMove = true;
     this.dead = false;
     this.fly = false;
     this.items = new Array(5,0,6);
     this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
+    this.anim = 'Idle';
 }
 
 //Enlazamos las propiedades prototype   
@@ -61,6 +62,8 @@ Hero.prototype.create = function(){
 
     this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
 
+    this.animations.add('win', Phaser.Animation.generateFrameNames('win', 0, 0), 0, false);
+
     this.hero_attack = this.game.add.audio('hero_attack');
     this.hero_hurt = this.game.add.audio('hero_hurt');
     this.hero_arrow_shoot = this.game.add.audio('hero_arrow_shoot');
@@ -85,10 +88,11 @@ Hero.prototype.update = function(){
 
 
 
-  if (this.items[ItemType.Hearts] > 0){
+  if (this.items[ItemType.Hearts] > 0 && this.anim != 'Hurt' && this.anim != 'Win'){
     this.playAnims();
     this.readInput();
     this.walk();
+    this.interact();
     this.attack();
   }
   else if(this.items[ItemType.Hearts] <= 0 && !this.dead) {
@@ -105,7 +109,7 @@ Hero.prototype.end = function(){
 }
 //readInput del Heroe ////FEOOO////
 Hero.prototype.readInput = function(){
-  if(this.canMove){
+  if(this.anim === 'Idle'){
       //Y axis
       if(this.upKey.isDown){
         //if(this.dir === 'None')
@@ -159,10 +163,8 @@ Hero.prototype.shoot = function(){
   this.game.arrows.add(arrow);
   this.game.world.bringToTop(this.game.arrows);
   //Y preparamos las cosas para que no puedas disparar hasta dentro de 1 sec
-  this.canMove = false;
-  this.canAttack = false;
-  //this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.shootCD, this);
-  this.animations.currentAnim.onComplete.add(this.attackCD, this);
+  this.anim = 'Attack';
+  this.animations.currentAnim.onComplete.add(function() { this.anim = 'Idle'; }, this);
 }
 
   //Ataque
@@ -171,7 +173,7 @@ Hero.prototype.attack = function(){
 
   //this.game.debug.body(this);
   
-  if(this.eKey.isDown && this.canAttack && !this.hurt){
+  if(this.eKey.isDown && this.anim === 'Idle'){
     this.hero_attack.play();
 
     if (this.dir === 'Right') {
@@ -194,11 +196,24 @@ Hero.prototype.attack = function(){
       this.game.physics.arcade.overlap(this.downAttack, this.game.activeEnemies, this.downAttack.hitEnemyMele, null, this);
       this.downAttack.playAttack('swordDown');
     }
-    this.canMove = false;
-    this.canAttack = false;
+    this.anim = 'Attack';
 
-    this.animations.currentAnim.onComplete.add(this.attackCD, this);
-    //this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.attackCD, this);
+    this.animations.currentAnim.onComplete.add(function() { this.anim = 'Idle'; }, this);
+  }
+}
+
+Hero.prototype.interact = function() {
+  if(this.cKey.isDown && this.anim === 'Idle')
+    this.game.physics.arcade.overlap(this.topAttack, this.game.chest, this.openChest, null, this);
+}
+
+Hero.prototype.openChest = function(){
+  if(!this.game.chest.open) {
+    this.game.chest.frame = 1; 
+    this.game.chest.open = true;
+    this.animations.play('win');  
+    this.anim = 'Win';
+    this.game.time.events.add(Phaser.Timer.SECOND  * 1, function() { this.anim = 'Idle' }, this);
   }
 }
 
@@ -233,13 +248,9 @@ Hero.prototype.addItem = function(itemType,quantity){
     console.log(this.items[itemType]);
 }
 
-Hero.prototype.attackCD = function(){
-  this.canMove = true;
-  this.canAttack = true;
-}
 
 Hero.prototype.playAnims = function(){
-  if (this.move && this.canAttack && !this.hurt) {
+  if (this.move && this.anim === 'Idle') {
     if (this.dir === 'Top') 
       this.animations.play('walkTop');
     else if(this.dir ==='Down')
@@ -249,7 +260,7 @@ Hero.prototype.playAnims = function(){
     else 
       this.animations.play('walkRight');
   }
-  else if (this.canAttack && !this.hurt) {
+  else if (this.anim === 'Idle') {
     if (this.dir === 'Top') 
       this.animations.play('idleTop');
     else if(this.dir ==='Down')
@@ -262,7 +273,7 @@ Hero.prototype.playAnims = function(){
 
     //Objeto(Disparar) 
   if(this.space.isDown){
-    if(this.canAttack &&  !this.hurt && this.items[ItemType.Arrows] > 0) {
+    if(this.anim === 'Idle' && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Top') 
         this.animations.play('bowTop');
       else if(this.dir ==='Down')
@@ -290,6 +301,7 @@ Hero.prototype.keyBindings = function() {
   this.rightKey = this.keyboard.addKey(Phaser.Keyboard.RIGHT);
   this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.eKey = this.keyboard.addKey(Phaser.Keyboard.E);
+  this.cKey = this.keyboard.addKey(Phaser.Keyboard.C);
   this.flyKey = this.keyboard.addKey(Phaser.Keyboard.F);
 }
 
@@ -322,13 +334,13 @@ Hero.prototype.iniAttackColliders = function() {
 }
 
 Hero.prototype.playerCollision = function(player, enemy){
-  if(!this.invulnerable && !this.dead && !this.hurt) {
+  if(!this.invulnerable && !this.dead && this.anim != 'Hurt') {
     this.applyKnockback(enemy);
     this.hero_hurt.play();
 
     //Desactivar animacion de ataque(espada)?
     this.invulnerable = true;
-    this.hurt = true;
+    this.anim = 'Hurt';
 
     if(this.dir === 'Right')
       this.animations.play('hurtRight');
@@ -339,7 +351,7 @@ Hero.prototype.playerCollision = function(player, enemy){
     else if (this.dir === 'Down')
       this.animations.play('hurtDown');
 
-    this.game.time.events.add(Phaser.Timer.SECOND  * 0.3, function() { this.hurt = false; this.attackCD(); }, this);  // Hay que poner canMove y attack a true por si se solapan eventos
+    this.game.time.events.add(Phaser.Timer.SECOND  * 0.3, function() { this.anim = 'Idle' }, this);  // Hay que poner canMove y attack a true por si se solapan eventos
     this.game.time.events.add(Phaser.Timer.SECOND, function() { this.invulnerable = false; this.alpha = 1;}, this);
   }
 }

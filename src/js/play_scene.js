@@ -140,7 +140,7 @@ var PlayScene = {
     this.game.inventory.height = this.game.height;
     this.game.inventory.kill();
  
-    this.game.chest = new Chest(this.game, this.link, this.link.x+30, this.link.y-30, MAPSCALE);
+    this.game.chest = new Chest(this.game, this.link, this.link.x+30, this.link.y-250, MAPSCALE);
   },
   loadRooms: function(){
     //console.log("HOLA");
