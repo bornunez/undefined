@@ -4,9 +4,9 @@ function Chest(game, hero, x, y, MAPSCALE){
     this.game = game;
     this.hero = hero;
     this.open = false;
-    console.log("Spawned Item: " + this.itType);
     //Creamos el objeto y le damos cuerpo
     Phaser.Sprite.call(this,this.game, x, y, 'chest');
+    this.open_chest = this.game.add.audio('open_chest');
     this.smoothed = false;
     this.scale.setTo(MAPSCALE,MAPSCALE);
     this.initPhysics();

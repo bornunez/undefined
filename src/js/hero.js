@@ -213,6 +213,7 @@ Hero.prototype.openChest = function(){
     this.game.chest.open = true;
     this.animations.play('win');  
     this.anim = 'Win';
+    this.game.chest.open_chest.play();
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, function() { this.anim = 'Idle' }, this);
   }
 }
