@@ -9,6 +9,7 @@ var BossArmy = require('./bossArmy.js');
 var Boss = require('./boss.js');
 var Room = require('./room.js');
 var HUD = require('./HUD.js');
+var Chest = require('./Chest.js');
 
 var NUMROOMS = 12;
 var MAPSCALE = 5;
@@ -42,7 +43,6 @@ var PlayScene = {
     this.pauseGame();
     
     this.HUD = new HUD(this.game, this.link);
-
   },
   update: function(){
 
@@ -50,7 +50,7 @@ var PlayScene = {
       element.update();
     }, this);
     
-     this.game.bossArmy.update();
+    this.game.bossArmy.update();
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.game.activeCyclops,this.Colisiones);
@@ -102,7 +102,7 @@ var PlayScene = {
     this.game.camera.follow(this.link);
     //Offset de la camara 
     
-    //Y encima las paderes
+    //Y encima las paredes
     this.Paredes = this.createLayer("Paredes");
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
@@ -140,7 +140,7 @@ var PlayScene = {
     this.game.inventory.height = this.game.height;
     this.game.inventory.kill();
  
-
+    this.game.chest = new Chest(this.game, this.link, this.link.x+30, this.link.y-30, MAPSCALE);
   },
   loadRooms: function(){
     //console.log("HOLA");
@@ -153,7 +153,7 @@ var PlayScene = {
   //Pooling
   loadEnemies: function(){
     for(var i=0;i<10;i++){
-      var enemy = new Stalker(this.game,this,0,0,this.link,MAPSCALE, 'enemyAnimations');
+      var enemy = new Stalker(this.game,this,0,0,this.link, MAPSCALE, 'enemyAnimations');
       var ciclo = new Cyclops(this.game,this,0,0,this.link,this.MAPSCALE, 'cyclopsAnimations');
       enemy.kill();
       ciclo.kill();

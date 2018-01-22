@@ -55,6 +55,7 @@ var PreloaderScene = {
     this.game.load.image('inventory','/images/inventory.png');
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
     this.game.load.spritesheet('numbers', '/images/numbers.png',8,8, 10);
+    this.game.load.spritesheet('chest', '/images/chest.png', 32, 24, 2);
 
     this.game.load.atlas('bossAnimations', '/images/bossspritesheet.png', '/json/bossspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     this.game.load.atlas('cyclopsAnimations', '/images/cyclopsspritesheet.png', '/json/cyclopsspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);

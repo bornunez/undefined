@@ -99,9 +99,6 @@ Hero.prototype.update = function(){
 }
 }
 Hero.prototype.end = function(){
-  /*this.input.destroy = function(){
-    console.log("AAAA")
-  }*/
   this.kill();
   this.game.music.stop();
   this.game.state.start('end');
@@ -194,7 +191,7 @@ Hero.prototype.attack = function(){
     }
     else if (this.dir === 'Down') {
       this.animations.play('attackDown');
-      this.game.physics.arcade.overlap(this.downAttack,this.game.activeEnemies, this.downAttack.hitEnemyMele, null, this);
+      this.game.physics.arcade.overlap(this.downAttack, this.game.activeEnemies, this.downAttack.hitEnemyMele, null, this);
       this.downAttack.playAttack('swordDown');
     }
     this.canMove = false;
