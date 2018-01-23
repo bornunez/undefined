@@ -1051,13 +1051,25 @@
                  "gid":211,
                  "height":16,
                  "id":131,
+                 "name":"BossDoor",
+                 "rotation":0,
+                 "type":"BD",
+                 "visible":true,
+                 "width":16,
+                 "x":1120,
+                 "y":272
+                }, 
+                {
+                 "gid":211,
+                 "height":16,
+                 "id":165,
                  "name":"LockedDoor",
                  "rotation":0,
                  "type":"LD",
                  "visible":true,
                  "width":16,
-                 "x":1120,
-                 "y":272
+                 "x":1504,
+                 "y":656
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1160,7 +1172,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":165,
+ "nextobjectid":166,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.0.3",

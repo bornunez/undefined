@@ -9,6 +9,7 @@ var BossArmy = require('./bossArmy.js');
 var Boss = require('./boss.js');
 var Room = require('./room.js');
 var HUD = require('./HUD.js');
+var Door = require('./door.js');
 var Chest = require('./Chest.js');
 
 var NUMROOMS = 12;
@@ -95,7 +96,6 @@ var PlayScene = {
 
     //ajo de todo esta el suelo
     this.Suelo = this.createLayer("Suelo");
-    
     //Y encima las paredes
     this.Paredes = this.createLayer("Paredes");
     //Create the player sprite and enable the physics
@@ -103,9 +103,10 @@ var PlayScene = {
     this.link.create();
     this.game.camera.follow(this.link);
     //Offset de la camara 
-
-    //AQUI CARGAS LOS COFRES BORJ
+    this.loadDoors(this);
     
+    //AQUI CARGAS LOS COFRES BORJ
+    this.loadChests();
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
@@ -215,6 +216,26 @@ var PlayScene = {
       if(element.type === "bow") {
         //new cofre(arco, element.x * MAPSCALE, element.y * MAPSCALE)
       }      
+    });
+  },
+  loadDoors: function(playSC){
+    this.game.Puertas = this.game.add.group()
+    var self = this;
+    var puerta;
+    playSC.map.objects["Puertas"].forEach(function(element){
+      var x,y;
+      x = element.x * MAPSCALE; y = element.y * MAPSCALE;
+      if(element.type === "BD") {
+        //Puerta boss
+        console.log("Link: " + playSC.link);
+        puerta = new Door(playSC.game,playSC.link,x,y,MAPSCALE,true);
+      }      
+      else if(element.type === "LD"){
+        console.log("Se ha encontrado door");
+        puerta = new Door(playSC.game,playSC.link,x,y,MAPSCALE,false);
+        //Puerta normal
+      }
+
     });
   },
 
