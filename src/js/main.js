@@ -52,6 +52,7 @@ var PreloaderScene = {
     this.game.load.image('itembox', '/images/itembox.png');
     this.game.load.image('arrowicon', '/images/arrowicon.png');
     this.game.load.image('rublos', '/images/rublos.png');
+    this.game.load.image('keys', '/images/keys.png');
     this.game.load.image('playButton','/images/playButton.png');
     this.game.load.image('inventory','/images/inventory.png');
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);

@@ -7,14 +7,12 @@ function Hero(game,playScene){
     this.game = game;
     this.playScene = playScene;
     this.keyboard = this.game.input.keyboard;
-    //this.canAttack = true;
-    //this.attacking = false;
-   // this.hurt = false;          //Flag para cuando recibes daño.
+    this.bow = false;
+    this.keyboss = true;
     this.invulnerable = false;
-    //this.canMove = true;
     this.dead = false;
     this.fly = false;
-    this.items = new Array(5,0,6);
+    this.items = new Array(5,0,6, 0);
     this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
     this.anim = 'Idle';
@@ -92,7 +90,6 @@ Hero.prototype.update = function(){
     this.playAnims();
     this.readInput();
     this.walk();
-    this.interact();
     this.attack();
   }
   else if(this.items[ItemType.Hearts] <= 0 && !this.dead) {
@@ -202,22 +199,6 @@ Hero.prototype.attack = function(){
   }
 }
 
-Hero.prototype.interact = function() {
-  if(this.cKey.isDown && this.anim === 'Idle')
-    this.game.physics.arcade.overlap(this.topAttack, this.game.chest, this.openChest, null, this);
-}
-
-Hero.prototype.openChest = function(){
-  if(!this.game.chest.open) {
-    this.game.chest.frame = 1; 
-    this.game.chest.open = true;
-    this.animations.play('win');  
-    this.anim = 'Win';
-    this.game.chest.open_chest.play();
-    this.game.time.events.add(Phaser.Timer.SECOND  * 1, function() { this.anim = 'Idle' }, this);
-  }
-}
-
 Hero.prototype.addItem = function(itemType,quantity){
 
   console.log("Cantidad de items: " + quantity);
@@ -273,7 +254,7 @@ Hero.prototype.playAnims = function(){
     }
 
     //Objeto(Disparar) 
-  if(this.space.isDown){
+  if(this.space.isDown && this.bow){
     if(this.anim === 'Idle' && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Top') 
         this.animations.play('bowTop');

@@ -1,9 +1,12 @@
 'use strict'
+var Hero = require('./hero.js');
+var ItemType = require('./ItemType.js');
 
-function Chest(game, hero, x, y, MAPSCALE){
+function Chest(game, hero, x, y, MAPSCALE, reward){
     this.game = game;
     this.hero = hero;
     this.open = false;
+    this.reward = reward;
     //Creamos el objeto y le damos cuerpo
     Phaser.Sprite.call(this,this.game, x, y, 'chest');
     this.open_chest = this.game.add.audio('open_chest');
@@ -11,7 +14,7 @@ function Chest(game, hero, x, y, MAPSCALE){
     this.scale.setTo(MAPSCALE,MAPSCALE);
     this.initPhysics();
 
-    this.game.items.add(this);
+    this.game.chests.add(this);
     this.game.world.bringToTop(this.game.items);
 }
 
@@ -22,16 +25,41 @@ Chest.prototype.constructor = Chest;
 Chest.prototype.update = function (){
     this.game.debug.body(this);
     this.game.physics.arcade.collide(this, this.hero);
+    this.interact();
 
-    //Cuando estas realizando el ataque prueba el overlap
-    /*
-    if(this.hero.anim === 'Attack') {
-        this.game.physics.arcade.overlap(this.hero.topAttack, this, function() { this.frame = 1; }, null, this);
-        this.hero.animations.play('win');
-    }
-    */
 }
 
+Chest.prototype.interact = function() {
+    if(this.hero.cKey.isDown && this.hero.anim === 'Idle')
+      this.game.physics.arcade.overlap(this.hero.topAttack, this, this.openChest, null, this);
+  }
+  
+Chest.prototype.openChest = function(){
+    if(!this.game.chests.open) {
+        this.frame = 1; 
+        this.open = true;
+        this.open_chest.play();
+
+    if (this.reward === 'bow') {
+        this.hero.animations.play('win');  
+        this.hero.anim = 'Win';
+        this.hero.bow = true;
+    }
+    else if (this.reward === 'keyboss') {
+        this.hero.animations.play('win');  
+        this.hero.anim = 'Win';
+        this.hero.keyboss = true;
+    }
+    else if (this.reward === 'key') {
+        this.hero.animations.play('win');  
+        this.hero.anim = 'Win';
+        this.hero.items[ItemType.Keys]++;
+    }
+
+    this.game.time.events.add(Phaser.Timer.SECOND  * 1, function() { this.hero.anim = 'Idle' }, this);
+    }
+  }
+  
 Chest.prototype.initPhysics = function() {
     this.game.physics.arcade.enable(this);
     //Fisicas!
