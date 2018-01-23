@@ -26,6 +26,7 @@ var PlayScene = {
     this.spawnG = this.game.add.group(); 
     this.enemiesSprite = this.game.add.group();
     this.game.items = this.game.add.group();
+    this.game.chests = this.game.add.group();
     this.kb = this.game.input.keyboard;
     this.esc = this.kb.addKey(Phaser.Keyboard.ESC);
 
@@ -98,6 +99,9 @@ var PlayScene = {
     this.Suelo = this.createLayer("Suelo");
     //Y encima las paredes
     this.Paredes = this.createLayer("Paredes");
+
+
+
     //Create the player sprite and enable the physics
     this.link = new Hero(this.game,this);
     this.link.create();
@@ -107,6 +111,7 @@ var PlayScene = {
     
     //AQUI CARGAS LOS COFRES BORJ
     this.loadChests();
+
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
@@ -212,11 +217,17 @@ var PlayScene = {
   //Crea todos los cofres del juego: Borja te encargo el resto
   //
   loadChests: function() {
+    var self = this;
     this.map.objects["Cofres"].forEach(function(element){
-      if(element.type === "bow") {
-        //new cofre(arco, element.x * MAPSCALE, element.y * MAPSCALE)
-      }      
+      if(element.type === "bow")
+        new Chest( self.game, self.link, element.x * MAPSCALE, element.y * MAPSCALE, MAPSCALE, 'bow');
+      else if(element.type === 'keyboss') 
+        new Chest( self.game, self.link, element.x * MAPSCALE, element.y * MAPSCALE, MAPSCALE, 'keyboss');
+      else if(element.type === 'llave') 
+        new Chest( self.game, self.link, element.x * MAPSCALE, element.y * MAPSCALE, MAPSCALE, 'key');
+
     });
+  this.game.world.bringToTop(this.game.chests)
   },
   loadDoors: function(playSC){
     this.game.Puertas = this.game.add.group()

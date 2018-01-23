@@ -13,16 +13,18 @@ function HUD(game, hero){
     this.arrowIcon = new ItemIcon(this.game, this.hero, 320, 0, 'arrowicon');
     this.arrowCounter = new ItemCounter(this.game, this.hero, 340, 50, 'numbers');
     this.arrowCounter2 = new ItemCounter(this.game, this.hero, 320, 50, 'numbers');
-    this.rublosIcon= new ItemIcon(this.game, this.hero, 400, 20, 'rublos');
+    this.rublosIcon = new ItemIcon(this.game, this.hero, 400, 20, 'rublos');
     this.rublosCounter = new ItemCounter(this.game, this.hero, 420, 50, 'numbers');
     this.rublosCounter2 = new ItemCounter(this.game, this.hero, 400, 50, 'numbers');
+
+    this.keysIcon = new ItemIcon(this.game, this.hero, 480, 20, 'keys');
+    this.keysCounter = new ItemCounter(this.game, this.hero, 480, 50, 'numbers');
 
     this.hearts.add(this.heart1);
     this.hearts.add(this.heart2);
     this.hearts.add(this.heart3);
-
-
 }
+
 HUD.prototype.constructor = HUD;
 
 HUD.prototype.update = function() {
@@ -34,6 +36,10 @@ HUD.prototype.update = function() {
 
     this.rublosCounter.frame =  this.hero.items[ItemType.Rublos] - (Math.trunc(this.hero.items[ItemType.Rublos] / 10) * 10) ;
     this.rublosCounter2.frame = Math.trunc(this.hero.items[ItemType.Rublos] / 10);
+
+    console.log(this.hero.items[ItemType.Keys])
+    this.keysCounter.frame =  this.hero.items[ItemType.Keys];
+    
 }
 
 
@@ -85,6 +91,8 @@ HUD.prototype.hudToTop = function(){
     this.game.world.bringToTop(this.rublosIcon);
     this.game.world.bringToTop(this.rublosCounter);
     this.game.world.bringToTop(this.rublosCounter2);
+    this.game.world.bringToTop(this.keysIcon);
+    this.game.world.bringToTop( this.keysCounter);
 }
 
 //Los corazones del HUD
