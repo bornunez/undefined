@@ -87,9 +87,10 @@ Room.prototype.Spawn = function(){
         element.destroy();
     }, this);
 
-    if(!this.bossRoom){
+    if (this.active === true) {
+        this.active = false;
+        if(!this.bossRoom){
         //Ahora vamos a crear un enemigo a partir de la informacion que guardamos del json
-        if (this.active === true) {
             this.enemiesInfo.forEach(function (element) {
                 //Los spawneamos y los metemos en el array que los manejara
                 var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'stalker');
@@ -100,11 +101,10 @@ Room.prototype.Spawn = function(){
                 var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'ciclo');
                 this.enemies.push(enemy);
             }, this);
-            this.active = false;
         }
-    }
-    else{
-        this.SpawnBoss();
+        else{
+            this.SpawnBoss();
+        }
     }
     console.log("Enemigos activos: " + this.enemies.length);
 }

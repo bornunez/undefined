@@ -96,14 +96,16 @@ var PlayScene = {
     //ajo de todo esta el suelo
     this.Suelo = this.createLayer("Suelo");
     
+    //Y encima las paredes
+    this.Paredes = this.createLayer("Paredes");
     //Create the player sprite and enable the physics
     this.link = new Hero(this.game,this);
     this.link.create();
     this.game.camera.follow(this.link);
     //Offset de la camara 
+
+    //AQUI CARGAS LOS COFRES BORJ
     
-    //Y encima las paredes
-    this.Paredes = this.createLayer("Paredes");
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
@@ -206,6 +208,15 @@ var PlayScene = {
     return result;
   },
 
+  //Crea todos los cofres del juego: Borja te encargo el resto
+  //
+  loadChests: function() {
+    this.map.objects["Cofres"].forEach(function(element){
+      if(element.type === "bow") {
+        //new cofre(arco, element.x * MAPSCALE, element.y * MAPSCALE)
+      }      
+    });
+  },
 
   pauseGame: function() {
     this.esc.onDown.add(function unpause(self){
