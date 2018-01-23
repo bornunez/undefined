@@ -139,16 +139,12 @@ var PlayScene = {
     this.HUDNegro.fixedToCamera = true;
     this.Techo.resizeWorld();
 
-
-    
     this.game.inventory  = this.game.add.sprite(0, 0,'inventory');
     this.game.inventory.fixedToCamera = true;
     this.game.inventory.smoothed = false;
     this.game.inventory.width = this.game.width;
     this.game.inventory.height = this.game.height;
     this.game.inventory.kill();
- 
-    this.game.chest = new Chest(this.game, this.link, this.link.x+30, this.link.y-250, MAPSCALE);
   },
   loadRooms: function(){
     //console.log("HOLA");

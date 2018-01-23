@@ -10,6 +10,8 @@ function Room(game,playScene,MAPSCALE,number){
     this.MAPSCALE = MAPSCALE;
     this.init();
     this.active = true;
+
+    this.open_door = this.game.add.audio('open_door');
 }
 Room.prototype.constructor = Room;
 
@@ -109,9 +111,13 @@ Room.prototype.Spawn = function(){
     console.log("Enemigos activos: " + this.enemies.length);
 }
 Room.prototype.SpawnBoss = function(){
+    this.game.music.stop();
+    this.game.music = this.game.add.audio('boss_theme');
+    this.game.music.play();
+
     var bossArmy = new BossArmy(this.game,0,0,this.playScene.link,this.MAPSCALE,1,1,'bossAnimations');
     this.bossPoints.forEach(function(element) {
-        bossArmy.points.push({x: element.x * this.MAPSCALE, y:element.y * this.MAPSCALE});
+        bossArmy.points.push({x: element.x * this.MAPSCALE, y: element.y * this.MAPSCALE});
     }, this);
     console.log(bossArmy.points);
     bossArmy.create();
@@ -139,6 +145,7 @@ Room.prototype.checkEnemies = function(){
 }
 
 Room.prototype.openDoors = function(){
+    this.open_door.play();
     this.Doors.destroy(true);
 }
 

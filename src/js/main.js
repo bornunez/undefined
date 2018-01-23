@@ -30,6 +30,7 @@ var PreloaderScene = {
     this.game.load.audio('intro_theme', '/music/intro_theme.mp3');
     this.game.load.audio('game_theme', '/music/game_theme.mp3');
     this.game.load.audio('gameover_theme', '/music/gameover_theme.mp3');
+    this.game.load.audio('boss_theme', '/music/boss_theme.mp3');
     this.game.load.audio('kill_enemy', '/music/kill_enemy.mp3');
     this.game.load.audio('hero_attack', '/music/hero_attack.mp3');
     this.game.load.audio('hero_hurt', '/music/hero_hurt.mp3');
@@ -39,6 +40,7 @@ var PreloaderScene = {
     this.game.load.audio('pick_item', '/music/pick_item.mp3');
     this.game.load.audio('cyclops_awake', '/music/cyclops_awake.mp3');
     this.game.load.audio('open_chest', '/music/open_chest.mp3');
+    this.game.load.audio('open_door', '/music/open_door.mp3');
     //Abrir y cerrar inventario
     this.game.load.audio('open_pause', '/music/open_pause.mp3')
     this.game.load.audio('close_pause', '/music/close_pause.mp3')

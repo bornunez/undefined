@@ -1879,7 +1879,47 @@
            "w":32,
            "h":32
         }
-     }
+     },
+     "win1":{  
+      "frame":{  
+         "x":32,
+         "y":320,
+         "w":32,
+         "h":32
+      },
+      "rotated":false,
+      "trimmed":false,
+      "spriteSourceSize":{  
+         "x":0,
+         "y":0,
+         "w":32,
+         "h":32
+      },
+      "sourceSize":{  
+         "w":32,
+         "h":32
+      }
+   },
+   "win2":{  
+    "frame":{  
+       "x":64,
+       "y":320,
+       "w":32,
+       "h":32
+    },
+    "rotated":false,
+    "trimmed":false,
+    "spriteSourceSize":{  
+       "x":0,
+       "y":0,
+       "w":32,
+       "h":32
+    },
+    "sourceSize":{  
+       "w":32,
+       "h":32
+    }
+ }
   },
    "meta":{  
       "app":"https://www.leshylabs.com/apps/sstool/",

@@ -35,26 +35,24 @@ Chest.prototype.interact = function() {
   }
   
 Chest.prototype.openChest = function(){
-    if(!this.game.chests.open) {
+    if(!this.open) {
         this.frame = 1; 
         this.open = true;
         this.open_chest.play();
+        this.hero.anim = 'Win';
 
-    if (this.reward === 'bow') {
-        this.hero.animations.play('win');  
-        this.hero.anim = 'Win';
-        this.hero.bow = true;
-    }
-    else if (this.reward === 'keyboss') {
-        this.hero.animations.play('win');  
-        this.hero.anim = 'Win';
-        this.hero.keyboss = true;
-    }
-    else if (this.reward === 'key') {
-        this.hero.animations.play('win');  
-        this.hero.anim = 'Win';
-        this.hero.items[ItemType.Keys]++;
-    }
+        if (this.reward === 'bow') {
+            this.hero.animations.play('winBow');  
+            this.hero.bow = true;
+        }
+        else if (this.reward === 'keyboss') {
+            this.hero.animations.play('winBoss');  
+            this.hero.keyboss = true;
+        }
+        else if (this.reward === 'key') {
+            this.hero.animations.play('winKey');  
+            this.hero.items[ItemType.Keys]++;
+        }
 
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, function() { this.hero.anim = 'Idle' }, this);
     }

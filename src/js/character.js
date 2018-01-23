@@ -23,7 +23,6 @@ function Character(game,spriteName,x,y,vel,health,damage){
     //Cosas del knockback
     this.control = true;
     this.knockback = false;
-
     this.game.world.addChild(this);
 }
 //Herencia

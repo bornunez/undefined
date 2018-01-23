@@ -18,6 +18,8 @@ function Door(game, hero,x,y,MAPSCALE,boss){
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.body.immovable = true;
     this.game.Puertas.add(this);
+
+    this.open_door = this.game.add.audio('open_door');
 }
 Door.prototype =  Object.create(Phaser.Sprite.prototype);
 Door.prototype.constructor = Door;
@@ -31,6 +33,7 @@ Door.prototype.checkOpen = function(){
     console.log("HOLA");
     if(this.boss){
         if(this.hero.keyboss){
+            this.open_door.play();
             this.destroy();
         }
     }
@@ -38,6 +41,7 @@ Door.prototype.checkOpen = function(){
         if(this.hero.items[3] > 0){
             this.destroy();
             this.hero.items[3]--;
+            this.open_door.play();
         }
     }
 }

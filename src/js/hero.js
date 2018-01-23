@@ -60,7 +60,9 @@ Hero.prototype.create = function(){
 
     this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
 
-    this.animations.add('win', Phaser.Animation.generateFrameNames('win', 0, 0), 0, false);
+    this.animations.add('winBoss', Phaser.Animation.generateFrameNames('win', 0, 0), 0, false);
+    this.animations.add('winBow', Phaser.Animation.generateFrameNames('win', 1, 1), 0, false);
+    this.animations.add('winKey', Phaser.Animation.generateFrameNames('win', 2, 2), 0, false);
 
     this.hero_attack = this.game.add.audio('hero_attack');
     this.hero_hurt = this.game.add.audio('hero_hurt');
@@ -86,7 +88,7 @@ Hero.prototype.update = function(){
 
 
 
-  if (this.items[ItemType.Hearts] > 0 && this.anim != 'Hurt' && this.anim != 'Win'){
+  if (this.items[ItemType.Hearts] > 0 && this.anim != 'Hurt'){
     this.playAnims();
     this.readInput();
     this.walk();
@@ -168,8 +170,6 @@ Hero.prototype.shoot = function(){
 Hero.prototype.attack = function(){
   this.atacking = true;
 
-  //this.game.debug.body(this);
-  
   if(this.eKey.isDown && this.anim === 'Idle'){
     this.hero_attack.play();
 
