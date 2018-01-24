@@ -81,12 +81,9 @@ Hero.prototype.update = function(){
   this.game.debug.body(this.topAttack);
   this.game.debug.body(this.downAttack);
 */
-
+  //Overlap para cuando colisionas con stalkers y cyclops, el boss no ya que tiene un comportamiento especial
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.activeCyclops,this.playerCollision,null,this);
-  this.game.physics.arcade.overlap(this, this.game.bosses, this.playerCollision,null,this);
-
-
 
   if (this.items[ItemType.Hearts] > 0 && this.anim != 'Hurt'){
     this.playAnims();

@@ -6,7 +6,7 @@ function Item(game,hero,type,x,y, spriteName,MAPSCALE){
     this.itType = type;
     console.log("Spawned Item: " + this.itType);
     //Creamos el objeto y le damos cuerpo
-    Phaser.Sprite.call(this,this.game,x,y,spriteName);
+    Phaser.Sprite.call(this,this.game, x, y, spriteName);
     this.smoothed = false;
     this.scale.setTo(MAPSCALE,MAPSCALE);
     this.game.physics.enable(this, Phaser.Physics.ARCADE);

@@ -1,12 +1,19 @@
 'use strict';
 var Character = require('./character.js');
-const NUM_POINTS = 6;
+var ItemType = require('./ItemType.js');
+var Item = require('./Item.js');
+var ItemSprite = ['arrow','rublos','hearts']
 
-function Boss(game,x,y, target, vel,health,damage, points, spriteName, pointNumber){
+const NUM_POINTS = 6;
+const POINT_OFFSET = 32;
+const RAGEPOINT_OFFSET = 128;
+const MAPSCALE = 5;
+
+function Boss(game, x, y, target, vel, health, damage, points, spriteName, pointNumber){
     this.game = game; 
     this.target = target;
     this.pointNumber = pointNumber;
-    Character.call(this,this.game, spriteName, x, y, 1, 0, 1);
+    Character.call(this,this.game, spriteName, x, y, vel, 0, 1);
     this.body.setSize(32, 32, 0, 16);
     this.focus = false;
     this.invulnerable = true;
@@ -14,7 +21,6 @@ function Boss(game,x,y, target, vel,health,damage, points, spriteName, pointNumb
       'x': [],
       'y': []
       };
-    this.path ="first";
     this.points = points;
     this.animations.add('bossJump', Phaser.Animation.generateFrameNames('boss', 0, 9), 18, true);
     this.animations.add('bossEnraged', Phaser.Animation.generateFrameNames('enraged', 0, 9), 9, false);
@@ -26,18 +32,21 @@ Boss.prototype =  Object.create(Character.prototype);
 Boss.prototype.constructor = Boss;
 
 Boss.prototype.update = function(){
-  //this.game.debug.body(this);
-
   if (this.game.bosses.length < 2) {
+    this.body.setSize(32, 32, 0, 32);
     this.enrageMode();
+    if(!this.invulnerable)
+      this.game.physics.arcade.overlap(this.target, this, this.target.playerCollision, null, this.target); 
   }
-  else 
+  else {
     this.move();
+    this.game.physics.arcade.overlap(this.target, this, this.target.playerCollision, null, this.target);
+  }
 }
 
-
 Boss.prototype.move = function() {
-  if(this.x != this.points[this.pointNumber].x  || this.y != this.points[this.pointNumber].y) {
+  if((this.x > this.points[this.pointNumber].x + POINT_OFFSET || this.x < this.points[this.pointNumber].x - POINT_OFFSET) ||
+    (this.y > this.points[this.pointNumber].y + POINT_OFFSET || this.y < this.points[this.pointNumber].y - POINT_OFFSET)) {
     this.game.time.events.add(Phaser.Timer.SECOND  * 1, this.goToPoint, this);
   }
   else {
@@ -48,15 +57,10 @@ Boss.prototype.move = function() {
 }
 
 Boss.prototype.goToPoint = function() {
-  if(this.x < this.points[this.pointNumber].x)
-    this.x++;
-  else if(this.x > this.points[this.pointNumber].x)
-    this.x--;
-
-  if(this.y < this.points[this.pointNumber].y)
-    this.y++;
-  else if(this.y > this.points[this.pointNumber].y)
-    this.y--;
+  var rotation = this.game.math.angleBetween(this.x, this.y, this.points[this.pointNumber].x , this.points[this.pointNumber].y);
+  // Calcula el vector velocidad basandose en su rotacion
+  this.body.velocity.x = Math.cos(rotation) * this.vel;
+  this.body.velocity.y = Math.sin(rotation) * this.vel;
 }
 
 Boss.prototype.enrageMode = function() {
@@ -66,48 +70,36 @@ Boss.prototype.enrageMode = function() {
     this.enragePoint.y = this.target.y;
     this.focus = true;
   }
+  var rotation = this.game.math.angleBetween(this.x, this.y, this.enragePoint.x, this.enragePoint.y);
+  // Calcula el vector velocidad basandose en su rotacion
+  this.body.velocity.x = Math.cos(rotation) * this.vel;
+  this.body.velocity.y = Math.sin(rotation) * this.vel;
 
-  if(this.x < this.enragePoint.x)
-    this.x +=4;
-  else if(this.x >  this.enragePoint.x)
-    this.x -=4;
-
-  if(this.y <  this.enragePoint.y)
-    this.y +=4;
-  else if(this.y >  this.enragePoint.y)
-    this.y -=4;
-
-
-    if(this.x < this.enragePoint.x+10 && this.x > this.enragePoint.x-10  && this.y < this.enragePoint.y +10 && this.y > this.enragePoint.y -10 && this.invulnerable) {
+  if(this.x < this.enragePoint.x + RAGEPOINT_OFFSET && this.x > this.enragePoint.x - RAGEPOINT_OFFSET  && this.y < this.enragePoint.y + RAGEPOINT_OFFSET && this.y > this.enragePoint.y - RAGEPOINT_OFFSET && this.invulnerable) {
       this.invulnerable = false;
       this.animations.play('bossHit');
       this.animations.currentAnim.onComplete.add(this.hit, this);
-    }
-
-    //Version para hacerlo con velocidad
-    /*
-  if(this.x === this.enragePoint.x  && this.y === this.enragePoint.y && this.invulnerable) {
-    this.invulnerable = false;
-    this.animations.play('bossHit');
-    this.animations.currentAnim.onComplete.add(this.hit, this);
   }
-  */
 }
 
 
 Boss.prototype.hit = function() {
-  this.body.enable = true; 
-  this.game.time.events.add(Phaser.Timer.SECOND  * 2, this.resetFocus, this);
+  this.game.time.events.add(Phaser.Timer.SECOND  * 1.5, this.resetFocus, this);
 }
 
-//error aqui al matar al boss
 Boss.prototype.resetFocus = function() {
-  if(this != undefined && this.body != null) {
-    this.body.enable = false;
     this.animations.play('bossEnraged'); 
     this.focus = false; 
     this.invulnerable = true;
-  }
+
+}
+
+Boss.prototype.die = function(){
+  this.game.bosses.remove(this);
+  this.kill();
+  console.log(this.MAPSCALE)
+  var drop = new Item(this.game, this.target, ItemType.Arrows , this.x, this.y, ItemSprite[ItemType.Arrows], MAPSCALE);
+  console.log(drop)
 }
 
 module.exports = Boss;

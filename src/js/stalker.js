@@ -33,7 +33,7 @@ Stalker.prototype = Object.create(Character.prototype);
 Stalker.prototype.constructor = Stalker;
 
 Stalker.prototype.update = function() {
-    this.game.debug.body(this);
+    //this.game.debug.body(this);
     //Hay que ajustarlo
     if(this.health > 0) {
         this.getAngle();

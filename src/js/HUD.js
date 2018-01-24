@@ -37,9 +37,7 @@ HUD.prototype.update = function() {
     this.rublosCounter.frame =  this.hero.items[ItemType.Rublos] - (Math.trunc(this.hero.items[ItemType.Rublos] / 10) * 10) ;
     this.rublosCounter2.frame = Math.trunc(this.hero.items[ItemType.Rublos] / 10);
 
-    console.log(this.hero.items[ItemType.Keys])
     this.keysCounter.frame =  this.hero.items[ItemType.Keys];
-    
 }
 
 

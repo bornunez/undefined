@@ -4,7 +4,7 @@ var Boss = require('./boss.js');
 
 const NUM_POINTS = 6;
 const NUM_BOSS = 6;
-const BOSS_VEL = 300;
+const BOSS_VEL = 200;
 
 
 function BossArmy(game, x, y, target, health,damage,spriteName){

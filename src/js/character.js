@@ -124,8 +124,10 @@ Character.prototype.stopKnocked = function(){
     this.control = true;
     this.knockedToX = 0;
     this.knockedToY = 0;
-    //Y nos ponemos normal
-    //this.alpha = 1;
+    //Y si es un enemigo se pone normal, el heroe no ya que es invulnerable despues de que acabe el knockback
+    if(this.target != null)
+      this.alpha = 1;
+      
     this.x = Math.trunc(this.x);
     this.y = Math.trunc(this.y);
   }

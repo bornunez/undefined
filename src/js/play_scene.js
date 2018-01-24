@@ -13,7 +13,7 @@ var Door = require('./door.js');
 var Chest = require('./Chest.js');
 
 var NUMROOMS = 12;
-var MAPSCALE = 5;
+const MAPSCALE = 5;
 
 var PlayScene = {
   create: function () {

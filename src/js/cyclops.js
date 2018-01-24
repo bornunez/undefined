@@ -41,8 +41,6 @@ Cyclops.prototype.update = function() {
         this.kill_enemy.play();
         this.animations.currentAnim.onComplete.add(this.die, this);
     }
-
-    
 }
 
 Cyclops.prototype.wake = function() {
