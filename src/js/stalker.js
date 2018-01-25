@@ -2,7 +2,7 @@
 var Character = require('./character.js');
 var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
-var ItemSprite = ['arrow','rublos','hearts']
+var ItemSprite = ['arrow','rublos','hearts','keys','asciiforce',]
 
 function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
     this.playscene = playscene;
