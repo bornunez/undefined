@@ -23,7 +23,7 @@ Item.prototype.update = function (){
 
 }
 
-Item.prototype.addItem= function(){
+Item.prototype.addItem = function(){
     console.log(this);
     console.log("Tipo del Item: " + this.itType);
     this.hero.addItem(this.itType);

@@ -206,6 +206,7 @@ var PlayScene = {
 
     });
   this.game.world.bringToTop(this.game.chests)
+  this.game.world.bringToTop(this.link);
   },
   loadDoors: function(playSC){
     var self = this;

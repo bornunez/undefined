@@ -107,11 +107,9 @@ Boss.prototype.die = function(){
   }
   this.game.world.bringToTop(drop);
   this.kill();
-<<<<<<< HEAD
-  var drop = new Item(this.game, this.target, ItemType.Arrows , this.x, this.y, ItemSprite[ItemType.Arrows], MAPSCALE);
-=======
+
   console.log("Item:" + drop);
->>>>>>> d60143ac1e50ff739bc70f4abb5cd8629d900d74
+
 }
 
 module.exports = Boss;

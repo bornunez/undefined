@@ -4,13 +4,13 @@ var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
 var ItemSprite = ['arrow','rublos','hearts','keys','asciiforce',]
 
-function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
+function Stalker(game, playscene, x, y, target, MAPSCALE, spriteName){
     this.playscene = playscene;
     this.MAPSCALE = MAPSCALE;
     this.game = game;
     this.target = target;
     this.dead = false;
-    Character.call(this,this.game, spriteName,x,y,1,3,1);
+    Character.call(this, this.game, spriteName, x, y, 1, 3, 1);
 
     this.animations.add('enemyWalkRight', Phaser.Animation.generateFrameNames('enemy', 0, 1), 3, true);
     this.animations.add('enemyWalkLeft', Phaser.Animation.generateFrameNames('enemy', 2, 3), 3, true);
@@ -20,12 +20,10 @@ function Stalker(game,playscene,x,y,target,MAPSCALE, spriteName){
 
     this.kill_enemy = this.game.add.audio('kill_enemy');
 
-
     this.minDistance = 320;
     this.maxDistance = 800;
     this.triggered = false;
 
-    //this.body.setSize(24, 24, 4, 4);
     this.body.setSize(18, 24, 7, 4);
 }
 //Enlazamos las propiedades prototype   
@@ -33,8 +31,6 @@ Stalker.prototype = Object.create(Character.prototype);
 Stalker.prototype.constructor = Stalker;
 
 Stalker.prototype.update = function() {
-    //this.game.debug.body(this);
-    //Hay que ajustarlo
     if(this.health > 0) {
         this.getAngle();
 
@@ -76,11 +72,11 @@ Stalker.prototype.move = function(){
     // Calcula la distancia que lo separa del target
     // Si el target esta lo suficientemente lejos el enemigo se movera
     var distance = this.game.math.distance(this.x, this.y, t.x, t.y);
-    if (!this.triggered && distance > 32 && distance < this.minDistance){ 
+    if (!this.triggered && distance > 64 && distance < this.minDistance){ 
             targetMoving = true;
             this.triggered = true;
     }
-    else if(this.triggered && distance > 32 && distance < this.maxDistance)
+    else if(this.triggered && distance > 64 && distance < this.maxDistance)
         targetMoving = true;
     else
         this.triggered = false;

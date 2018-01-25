@@ -12,7 +12,7 @@ function Hero(game,playScene){
     this.invulnerable = false;
     this.dead = false;
     this.fly = false;
-    this.items = new Array(5,0,6, 0);
+    this.items = new Array(5, 0, 6, 0);
     this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
     this.items[ItemType.ASCIIForce] = 0;

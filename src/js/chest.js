@@ -23,10 +23,8 @@ Chest.prototype = Object.create(Phaser.Sprite.prototype);
 Chest.prototype.constructor = Chest;
 
 Chest.prototype.update = function (){
-    this.game.debug.body(this);
     this.game.physics.arcade.collide(this, this.hero);
     this.interact();
-
 }
 
 Chest.prototype.interact = function() {
