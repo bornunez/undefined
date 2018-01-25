@@ -57,7 +57,8 @@ var PlayScene = {
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.game.activeCyclops,this.Colisiones);
-    this.game.physics.arcade.collide(this.game.bosses,this.Colisiones);
+    this.game.physics.arcade.collide(this.game.bosses, this.Colisiones);
+    this.game.physics.arcade.collide(this.game.bosses, this.game.Puertas);
 
     if(!this.link.fly)
       this.game.physics.arcade.collide(this.link,this.Colisiones);
@@ -72,19 +73,12 @@ var PlayScene = {
     }
   },
   loadMap: function(){
-    //  The 'map' key here is the Loader key given in game.load.tilemap
     this.map = this.game.add.tilemap('map');
-    
-    //  The first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
-    //  The second parameter maps this name to the Phaser.Cache key 'tiles'
     this.map.addTilesetImage('Zelda', 'tiles');
     this.map.addTilesetImage('Objects', 'objetos');
-    //to get the tileset ID (number):
+    //tileset ID (number):
     this.tilesetID = this.map.getTilesetIndex("Objects");
     this.tilesetID = this.map.getTilesetIndex("Zelda");
-
-    
-    //  This resizes the game world to match the layer dimensions
   },
 
   createLayer: function(name){
@@ -96,43 +90,35 @@ var PlayScene = {
 
   createGO: function(){
 
-    //ajo de todo esta el suelo
+    //Debajo de todo esta el suelo
     this.Suelo = this.createLayer("Suelo");
     //Y encima las paredes
     this.Paredes = this.createLayer("Paredes");
 
-
-
-    //Create the player sprite and enable the physics
+    //Crear el heroe
     this.link = new Hero(this.game,this);
     this.link.create();
     this.game.camera.follow(this.link);
     //Offset de la camara 
     this.loadDoors(this);
-    
-    //AQUI CARGAS LOS COFRES BORJ
+    // Carga los cofres
     this.loadChests();
 
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
-    //this.Decoracion = this.createLayer("Decoracion");
     this.Objetos = this.createLayer("Objetos");
-    //this.loadEnemies();
     
     //Layer de los s de las paredes
     this.Colisiones = this.createLayer("Colisiones");
     this.map.setCollision(206,true,this.Colisiones);
-    //this.Colisiones.debug =true;
     //AQui creamos los objs
     this.map.createFromTiles(197,null,'link',this.Objetos,this.spawnG);
     this.link.x = this.spawnG.getChildAt(0).x;
     this.link.y = this.spawnG.getChildAt(0).y;
-    //this.link.spawn(this.spawn.x, this.spawn.y);
     //Y encima el techo
     this.Techo = this.createLayer("Techo");
     //Y abajo del todo el HUD/*
-    
     this.HUDNegro = this.game.add.sprite(0,0,'HUD');
     this.HUDNegro.smoothed = false;
     this.HUDNegro.width *= 26/25 * MAPSCALE;
@@ -148,7 +134,6 @@ var PlayScene = {
     this.game.inventory.kill();
   },
   loadRooms: function(){
-    //console.log("HOLA");
     this.rooms = new Array();
     for(var i = 0;i<NUMROOMS;i++){
       var room = new Room(this.game,this,MAPSCALE,i);
@@ -173,9 +158,7 @@ var PlayScene = {
     if(enemyType === 'stalker'){
       if (this.PoolEnemies.length > 0) {
         enemy = this.PoolEnemies.getChildAt(0);
-        //console.log(enemy);
         enemy.reset(x, y, 3);
-        //this.PoolEnemies.removeChild(enemy);
       }
       else {
         enemy = new Stalker(this.game, this, x, y, this.link, MAPSCALE, 'enemyAnimations');
@@ -185,9 +168,7 @@ var PlayScene = {
     else if(enemyType === 'ciclo'){
       if (this.PoolCyclops.length > 0) {
         enemy = this.PoolCyclops.getChildAt(0);
-        //console.log(enemy);
         enemy.reset(x, y, 3);
-        //this.PoolEnemies.removeChild(enemy);
       }
       else {
         enemy = new Cyclops(this.game, this, x, y, this.link, MAPSCALE, 'cyclopsAnimations');
@@ -211,8 +192,7 @@ var PlayScene = {
     return result;
   },
 
-  //Crea todos los cofres del juego: Borja te encargo el resto
-  //
+  //Crea todos los cofres del juego
   loadChests: function() {
     var self = this;
     this.map.objects["Cofres"].forEach(function(element){
@@ -234,11 +214,9 @@ var PlayScene = {
       x = element.x * MAPSCALE; y = element.y * MAPSCALE;
       if(element.type === "BD") {
         //Puerta boss
-        console.log("Link: " + playSC.link);
         puerta = new Door(playSC.game,playSC.link,x,y,MAPSCALE,true);
       }      
       else if(element.type === "LD"){
-        console.log("Se ha encontrado door");
         puerta = new Door(playSC.game,playSC.link,x,y,MAPSCALE,false);
         //Puerta normal
       }

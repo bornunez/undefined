@@ -23,7 +23,7 @@ Shot.prototype.constructor = Shot;
 Shot.prototype.update = function(){
     this.body.velocity.x = this.velX * this.vel;
     this.body.velocity.y = this.velY * this.vel;
-    if(this!=null && this != undefined){
+    if(this != null && this != undefined){
         this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);
         this.game.physics.arcade.overlap(this, this.game.bosses, this.hitEnemy, null, this);
         this.game.physics.arcade.overlap(this, this.game.activeCyclops, this.hitCyclops, null, this);
@@ -44,8 +44,6 @@ Shot.prototype.hitEnemy = function(arrow,enemy) {
 
     this.kill();
 }
-
-
 
 Shot.prototype.hitCyclops = function(arrow, cyclops) {
     if(!cyclops.sleep && cyclops.checkDir()) {
@@ -115,8 +113,7 @@ Shot.prototype.selectDir = function() {
         this.y += 40;
     }
     else
-        this.x += 60;
-       
+        this.x += 60;   
   }
 
 module.exports = Shot;

@@ -34,16 +34,8 @@ Character.prototype.walk = function(){
   //Movemos
   if(this.control){
     if(this.move){
-      //Si se mueve en diagonal, hacemos para que siga moviendose 1
-      /*if (this.velX != 0 && this.velY != 0){
-            this.body.velocity.x = this.velX * this.vel / ;
-            this.body.velocity.y = this.velY * this.vel / ;
-       }*/
-      //Si no, nos da igual
-       // else{
-          this.body.velocity.x = this.velX*this.vel;
-          this.body.velocity.y = this.velY*this.vel;
-        //}
+        this.body.velocity.x = this.velX*this.vel;
+        this.body.velocity.y = this.velY*this.vel; 
     }
     else {
       this.body.velocity.x = 0;
@@ -67,16 +59,12 @@ Character.prototype.die = function(){
         this.destroy();
 }
 
-Character.prototype.initPhysics = function(){
   //Fisicas!
+Character.prototype.initPhysics = function(){
   this.game.physics.arcade.enable(this);
   this.body.collideWorldBounds = true;
-  //this.body.bounce.setTo(1, 1);
-
   this.body.moves = true;
-  //this.body.immovable = true;
 }
-
 
 Character.prototype.applyKnockback = function(enemy){
 
@@ -90,11 +78,9 @@ Character.prototype.applyKnockback = function(enemy){
     this.control = false;
     //Vector de direccion del knockback
     this.knockedDir (enemy);	
-    //console.log("DirX : " +this.knockDirX + " DirY: " +this.knockDirY);
     //Empuje
     var knockedVelocityX= this.knockDirX * 500;	
-    var knockedVelocityY= this.knockDirY * 500;
-    //console.log(knockedVelocityX);	
+    var knockedVelocityY= this.knockDirY * 500;	
     this.body.velocity.x = knockedVelocityX;
     this.body.velocity.y = knockedVelocityY;
     //Y nos ponemos translucidos
@@ -124,7 +110,6 @@ Character.prototype.stopKnocked = function(){
     //Si hemos sido empujados tan lejos como tendriamos, reset
 
     //Vemos en que direccion estamos siendo noqueados
-    //console.log("He parado el knock");
     this.knockback = false;
     //La velocidad
     this.body.velocity.x = 0;

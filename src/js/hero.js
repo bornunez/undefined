@@ -8,7 +8,7 @@ function Hero(game,playScene){
     this.playScene = playScene;
     this.keyboard = this.game.input.keyboard;
     this.bow = false;
-    this.keyboss = true;
+    this.keyboss = false;
     this.invulnerable = false;
     this.dead = false;
     this.fly = false;
@@ -73,14 +73,7 @@ Hero.prototype.create = function(){
 //Update, lee readInput y se mueve / dispara
 Hero.prototype.update = function(){
   this.items[ItemType.Hearts] = this.health;
-  //console.log(this.health);
-  //this.game.debug.body(this);
-  /*
-  this.game.debug.body(this.rightAttack);
-  this.game.debug.body(this.leftAttack);
-  this.game.debug.body(this.topAttack);
-  this.game.debug.body(this.downAttack);
-*/
+
   //Overlap para cuando colisionas con stalkers y cyclops, el boss no ya que tiene un comportamiento especial
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.activeCyclops,this.playerCollision,null,this);
@@ -92,30 +85,27 @@ Hero.prototype.update = function(){
     this.attack();
   }
   else if(this.items[ItemType.Hearts] <= 0 && !this.dead) {
-  //this.destroy();
-  this.animations.play('dying');
-  this.dead = true;
-  this.animations.currentAnim.onComplete.add(this.end, this);
-}
+    this.animations.play('dying');
+    this.dead = true;
+    this.animations.currentAnim.onComplete.add(this.end, this);
+  }
 }
 Hero.prototype.end = function(){
   this.kill();
   this.game.music.stop();
   this.game.state.start('end');
 }
-//readInput del Heroe ////FEOOO////
+//readInput del Heroe 
 Hero.prototype.readInput = function(){
   if(this.anim === 'Idle'){
       //Y axis
       if(this.upKey.isDown){
-        //if(this.dir === 'None')
-          this.dir = 'Top'
+        this.dir = 'Top'
         this.velY = -200;
         this.move = true;
       }
       else if(this.downKey.isDown){
-        //if(this.dir === 'None')
-          this.dir = 'Down'
+        this.dir = 'Down'
         this.velY = 200;
         this.move = true;
       }
@@ -204,7 +194,7 @@ Hero.prototype.addItem = function(itemType,quantity){
   if(quantity === undefined){
     if(itemType === ItemType.Arrows) {
       this.pick_item.play();
-      quantity = 3;
+      quantity = 5;
     }
     else if (itemType === ItemType.Rublos) {
       this.pick_rublo.play();
@@ -250,7 +240,7 @@ Hero.prototype.playAnims = function(){
       this.animations.play('idleRight');
     }
 
-    //Objeto(Disparar) 
+  //Objeto(Disparar) 
   if(this.space.isDown && this.bow){
     if(this.anim === 'Idle' && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Top') 
