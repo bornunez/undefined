@@ -73,19 +73,12 @@ var PlayScene = {
     }
   },
   loadMap: function(){
-    //  The 'map' key here is the Loader key given in game.load.tilemap
     this.map = this.game.add.tilemap('map');
-    
-    //  The first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
-    //  The second parameter maps this name to the Phaser.Cache key 'tiles'
     this.map.addTilesetImage('Zelda', 'tiles');
     this.map.addTilesetImage('Objects', 'objetos');
-    //to get the tileset ID (number):
+    //tileset ID (number):
     this.tilesetID = this.map.getTilesetIndex("Objects");
     this.tilesetID = this.map.getTilesetIndex("Zelda");
-
-    
-    //  This resizes the game world to match the layer dimensions
   },
 
   createLayer: function(name){
@@ -102,9 +95,7 @@ var PlayScene = {
     //Y encima las paredes
     this.Paredes = this.createLayer("Paredes");
 
-
-
-    //Create the player sprite and enable the physics
+    //Crear el heroe
     this.link = new Hero(this.game,this);
     this.link.create();
     this.game.camera.follow(this.link);
@@ -128,7 +119,6 @@ var PlayScene = {
     //Y encima el techo
     this.Techo = this.createLayer("Techo");
     //Y abajo del todo el HUD/*
-    
     this.HUDNegro = this.game.add.sprite(0,0,'HUD');
     this.HUDNegro.smoothed = false;
     this.HUDNegro.width *= 26/25 * MAPSCALE;

@@ -20,11 +20,10 @@ Room.prototype.init = function(){
     this.loadTriggers();
     this.loadEnemies();
     this.loadDoors();
-    if(this.bossRoom){
+
+    if(this.bossRoom)
         this.loadBossPoint();
-        //this.loadBossDoor();
-    }
-    //this.loadButtons();
+    
 }
 //Vamos a guardar todos los trigger de la sala en el array
 Room.prototype.loadTriggers = function(){
@@ -38,8 +37,6 @@ Room.prototype.loadTriggers = function(){
         this.game.physics.arcade.enable(trigger);
         this.Triggers.add(trigger);
     }, this);
-    //if(this.bossRoom)
-    //console.log(this);
 }
 Room.prototype.loadBossDoor = function(){
     this.bossDoorInfo = this.playScene.findObjectsByType("BIND",'Puertas');
@@ -62,21 +59,6 @@ Room.prototype.loadBossPoint = function(){
     this.bossPoints = this.playScene.findObjectsByType('point','Boss Points');
 }
 
-/*
-Room.prototype.loadButtons = function(){
-    this.buttonsInfo = this.playScene.findObjectsByType('B'+this.number,'Botones');
-    console.log(this.buttonsInfo);
-    this.Buttons = this.game.add.group();
-    
-    this.buttonsInfo.forEach(function(element) {
-        var button = this.createFromTiledObj(element.x,element.y,'door');
-        //Y le aplicamos las fisicas
-        this.game.physics.enable(button, Phaser.Physics.ARCADE);
-        button.body.immovable = true;
-        this.Buttons.add(button);
-    }, this);
-}
-*/
 //Primero creamos la informacion de cada puerta, y luego las instanciamos como objetos inmovibles.
 Room.prototype.loadDoors = function(){
     //Primero queremos la info

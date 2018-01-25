@@ -11,6 +11,7 @@ function HUD(game, hero){
     this.heart3 = new Hearts(this.game, this.hero, 160, 40);
     this.itembox = new ItemBox(this.game, this.hero, 20, 0);
     this.arrowIcon = new ItemIcon(this.game, this.hero, 320, 0, 'arrowicon');
+    this.keybossIcon= new ItemIcon(this.game, this.hero, 530, 20, 'keybossicon');
     this.arrowCounter = new ItemCounter(this.game, this.hero, 340, 50, 'numbers');
     this.arrowCounter2 = new ItemCounter(this.game, this.hero, 320, 50, 'numbers');
     this.rublosIcon = new ItemIcon(this.game, this.hero, 400, 20, 'rublos');
@@ -39,13 +40,15 @@ HUD.prototype.update = function() {
 
     this.keysCounter.frame =  this.hero.items[ItemType.Keys];
 
-    if(this.hero.bow) {
+    if (this.hero.bow) {
         this.itembox.frame = 1;
         this.game.inventory.frame = 1;
     }
+    if (this.hero.keyboss) {
+        this.game.world.bringToTop(this.keybossIcon);
+    }
 }
 
-//Ver si puede llamarse solo cuando el heroe reciba daño
 HUD.prototype.updateHealth = function(){
     if(this.hero.items[ItemType.Hearts]  === 6) {
         this.heart1.frame = 0;

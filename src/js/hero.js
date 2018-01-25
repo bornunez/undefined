@@ -8,7 +8,7 @@ function Hero(game,playScene){
     this.playScene = playScene;
     this.keyboard = this.game.input.keyboard;
     this.bow = false;
-    this.keyboss = true;
+    this.keyboss = false;
     this.invulnerable = false;
     this.dead = false;
     this.fly = false;
@@ -95,19 +95,17 @@ Hero.prototype.end = function(){
   this.game.music.stop();
   this.game.state.start('end');
 }
-//readInput del Heroe ////FEOOO////
+//readInput del Heroe 
 Hero.prototype.readInput = function(){
   if(this.anim === 'Idle'){
       //Y axis
       if(this.upKey.isDown){
-        //if(this.dir === 'None')
-          this.dir = 'Top'
+        this.dir = 'Top'
         this.velY = -200;
         this.move = true;
       }
       else if(this.downKey.isDown){
-        //if(this.dir === 'None')
-          this.dir = 'Down'
+        this.dir = 'Down'
         this.velY = 200;
         this.move = true;
       }
@@ -242,7 +240,7 @@ Hero.prototype.playAnims = function(){
       this.animations.play('idleRight');
     }
 
-    //Objeto(Disparar) 
+  //Objeto(Disparar) 
   if(this.space.isDown && this.bow){
     if(this.anim === 'Idle' && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Top') 

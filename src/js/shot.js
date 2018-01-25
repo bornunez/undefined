@@ -113,8 +113,7 @@ Shot.prototype.selectDir = function() {
         this.y += 40;
     }
     else
-        this.x += 60;
-       
+        this.x += 60;   
   }
 
 module.exports = Shot;
