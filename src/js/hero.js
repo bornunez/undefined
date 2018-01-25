@@ -73,14 +73,7 @@ Hero.prototype.create = function(){
 //Update, lee readInput y se mueve / dispara
 Hero.prototype.update = function(){
   this.items[ItemType.Hearts] = this.health;
-  //console.log(this.health);
-  //this.game.debug.body(this);
-  /*
-  this.game.debug.body(this.rightAttack);
-  this.game.debug.body(this.leftAttack);
-  this.game.debug.body(this.topAttack);
-  this.game.debug.body(this.downAttack);
-*/
+
   //Overlap para cuando colisionas con stalkers y cyclops, el boss no ya que tiene un comportamiento especial
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.activeCyclops,this.playerCollision,null,this);
@@ -92,11 +85,10 @@ Hero.prototype.update = function(){
     this.attack();
   }
   else if(this.items[ItemType.Hearts] <= 0 && !this.dead) {
-  //this.destroy();
-  this.animations.play('dying');
-  this.dead = true;
-  this.animations.currentAnim.onComplete.add(this.end, this);
-}
+    this.animations.play('dying');
+    this.dead = true;
+    this.animations.currentAnim.onComplete.add(this.end, this);
+  }
 }
 Hero.prototype.end = function(){
   this.kill();
@@ -204,7 +196,7 @@ Hero.prototype.addItem = function(itemType,quantity){
   if(quantity === undefined){
     if(itemType === ItemType.Arrows) {
       this.pick_item.play();
-      quantity = 3;
+      quantity = 5;
     }
     else if (itemType === ItemType.Rublos) {
       this.pick_rublo.play();

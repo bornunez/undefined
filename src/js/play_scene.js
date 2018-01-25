@@ -57,7 +57,8 @@ var PlayScene = {
 
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.game.activeCyclops,this.Colisiones);
-    this.game.physics.arcade.collide(this.game.bosses,this.Colisiones);
+    this.game.physics.arcade.collide(this.game.bosses, this.Colisiones);
+    this.game.physics.arcade.collide(this.game.bosses, this.game.Puertas);
 
     if(!this.link.fly)
       this.game.physics.arcade.collide(this.link,this.Colisiones);
@@ -96,7 +97,7 @@ var PlayScene = {
 
   createGO: function(){
 
-    //ajo de todo esta el suelo
+    //Debajo de todo esta el suelo
     this.Suelo = this.createLayer("Suelo");
     //Y encima las paredes
     this.Paredes = this.createLayer("Paredes");
@@ -109,26 +110,21 @@ var PlayScene = {
     this.game.camera.follow(this.link);
     //Offset de la camara 
     this.loadDoors(this);
-    
-    //AQUI CARGAS LOS COFRES BORJ
+    // Carga los cofres
     this.loadChests();
 
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
-    //this.Decoracion = this.createLayer("Decoracion");
     this.Objetos = this.createLayer("Objetos");
-    //this.loadEnemies();
     
     //Layer de los s de las paredes
     this.Colisiones = this.createLayer("Colisiones");
     this.map.setCollision(206,true,this.Colisiones);
-    //this.Colisiones.debug =true;
     //AQui creamos los objs
     this.map.createFromTiles(197,null,'link',this.Objetos,this.spawnG);
     this.link.x = this.spawnG.getChildAt(0).x;
     this.link.y = this.spawnG.getChildAt(0).y;
-    //this.link.spawn(this.spawn.x, this.spawn.y);
     //Y encima el techo
     this.Techo = this.createLayer("Techo");
     //Y abajo del todo el HUD/*
@@ -148,7 +144,6 @@ var PlayScene = {
     this.game.inventory.kill();
   },
   loadRooms: function(){
-    //console.log("HOLA");
     this.rooms = new Array();
     for(var i = 0;i<NUMROOMS;i++){
       var room = new Room(this.game,this,MAPSCALE,i);
@@ -173,9 +168,7 @@ var PlayScene = {
     if(enemyType === 'stalker'){
       if (this.PoolEnemies.length > 0) {
         enemy = this.PoolEnemies.getChildAt(0);
-        //console.log(enemy);
         enemy.reset(x, y, 3);
-        //this.PoolEnemies.removeChild(enemy);
       }
       else {
         enemy = new Stalker(this.game, this, x, y, this.link, MAPSCALE, 'enemyAnimations');
@@ -185,9 +178,7 @@ var PlayScene = {
     else if(enemyType === 'ciclo'){
       if (this.PoolCyclops.length > 0) {
         enemy = this.PoolCyclops.getChildAt(0);
-        //console.log(enemy);
         enemy.reset(x, y, 3);
-        //this.PoolEnemies.removeChild(enemy);
       }
       else {
         enemy = new Cyclops(this.game, this, x, y, this.link, MAPSCALE, 'cyclopsAnimations');
@@ -211,8 +202,7 @@ var PlayScene = {
     return result;
   },
 
-  //Crea todos los cofres del juego: Borja te encargo el resto
-  //
+  //Crea todos los cofres del juego
   loadChests: function() {
     var self = this;
     this.map.objects["Cofres"].forEach(function(element){
@@ -234,11 +224,9 @@ var PlayScene = {
       x = element.x * MAPSCALE; y = element.y * MAPSCALE;
       if(element.type === "BD") {
         //Puerta boss
-        console.log("Link: " + playSC.link);
         puerta = new Door(playSC.game,playSC.link,x,y,MAPSCALE,true);
       }      
       else if(element.type === "LD"){
-        console.log("Se ha encontrado door");
         puerta = new Door(playSC.game,playSC.link,x,y,MAPSCALE,false);
         //Puerta normal
       }

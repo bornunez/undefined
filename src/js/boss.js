@@ -35,8 +35,11 @@ Boss.prototype.update = function(){
   if (this.game.bosses.length < 2) {
     this.body.setSize(32, 32, 0, 32);
     this.enrageMode();
-    if(!this.invulnerable)
+    if(!this.invulnerable) {
+
+      console.log("COLISION ACTIVADA")
       this.game.physics.arcade.overlap(this.target, this, this.target.playerCollision, null, this.target); 
+    }
   }
   else {
     this.move();
