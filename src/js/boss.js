@@ -97,8 +97,21 @@ Boss.prototype.resetFocus = function() {
 
 Boss.prototype.die = function(){
   this.game.bosses.remove(this);
+  var drop;
+  if(this.game.bosses.length > 1)
+  {
+    drop = new Item(this.game, this.target, ItemType.Arrows , this.x, this.y, ItemSprite[ItemType.Arrows], MAPSCALE);
+  }
+  else{
+    drop = new Item(this.game, this.target, ItemType.ASCIIForce , this.x, this.y, ItemSprite[ItemType.ASCIIForce], MAPSCALE);
+  }
+  this.game.world.bringToTop(drop);
   this.kill();
+<<<<<<< HEAD
   var drop = new Item(this.game, this.target, ItemType.Arrows , this.x, this.y, ItemSprite[ItemType.Arrows], MAPSCALE);
+=======
+  console.log("Item:" + drop);
+>>>>>>> d60143ac1e50ff739bc70f4abb5cd8629d900d74
 }
 
 module.exports = Boss;

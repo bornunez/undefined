@@ -1,4 +1,4 @@
-var EndMenu = {
+var WinMenu = {
     preload: function(){
       this.game.load.image('endscreen','/images/endscreen.png');
     },
@@ -20,4 +20,4 @@ var EndMenu = {
         }
     }
   }
-  module.exports = EndMenu;
+  module.exports = WinMenu;

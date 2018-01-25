@@ -15,6 +15,7 @@ function Hero(game,playScene){
     this.items = new Array(5,0,6, 0);
     this.maxItems = [20,50,6];
     this.items[ItemType.Hearts] = 6;
+    this.items[ItemType.ASCIIForce] = 0;
     this.anim = 'Idle';
 }
 
@@ -200,6 +201,10 @@ Hero.prototype.addItem = function(itemType,quantity){
     else if (itemType === ItemType.Hearts){
       this.pick_item.play();
       quantity = 2;
+    }
+    else if (itemType === ItemType.ASCIIForce){
+      this.pick_item.play();
+      quantity = 1;
     }
   }
   //Y añadimos la cantidad de items siempre y cuando no estemos en el maximo

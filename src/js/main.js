@@ -53,6 +53,7 @@ var PreloaderScene = {
     this.game.load.image('playButton','/images/playButton.png');
     this.game.load.image('bossDoor','/images/boss_door.png');
     this.game.load.image('lockedDoor','/images/locked_door.png');
+    this.game.load.image('asciiforce','/images/asciiforce.png');
 
     this.game.load.spritesheet('inventory','/images/inventory.png', 256, 222, 2);
     this.game.load.spritesheet('itembox', '/images/itembox.png', 22, 22, 2);
