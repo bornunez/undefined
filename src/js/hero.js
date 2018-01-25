@@ -187,9 +187,6 @@ Hero.prototype.attack = function(){
 }
 
 Hero.prototype.addItem = function(itemType,quantity){
-
-  console.log("Cantidad de items: " + quantity);
-  console.log("Item que le llega a Link: " + itemType);
   //Aqui ponemos la de defecto para el pickup de cada item (Habria que llevarlo a un json con valores de drops etc.... (Si da tiempo))
   if(quantity === undefined){
     if(itemType === ItemType.Arrows) {
@@ -213,8 +210,6 @@ Hero.prototype.addItem = function(itemType,quantity){
   }
 
   this.health = this.items[ItemType.Hearts];
-
-    console.log(this.items[itemType]);
 }
 
 

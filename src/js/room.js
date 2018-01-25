@@ -40,12 +40,9 @@ Room.prototype.loadTriggers = function(){
 }
 Room.prototype.loadBossDoor = function(){
     this.bossDoorInfo = this.playScene.findObjectsByType("BIND",'Puertas');
-    console.log("Boss info [0] : " + this.bossDoorInfo[0].x);
-    console.log("Boss info : " + this.bossDoorInfo.x);
     this.bossDoor = new Door(this.game,this.playScene.link,this.bossDoorInfo[0].x * this.MAPSCALE, this.bossDoorInfo[0].y * this.MAPSCALE,this.MAPSCALE, false);
     this.game.Puertas.add(this.bossDoor);
     this.game.world.bringToTop(this.bossDoor);
-    console.log(this.bossDoor);
 }
 
 //Aqui solo vamos a leer y guardar la posicion de los enemigos de esta sala
@@ -101,24 +98,22 @@ Room.prototype.Spawn = function(){
             this.SpawnBoss();
         }
     }
-    console.log("Enemigos activos: " + this.enemies.length);
 }
 Room.prototype.SpawnBoss = function(){
     this.loadBossDoor();
     this.game.music.stop();
     this.game.music = this.game.add.audio('boss_theme');
+    this.game.music.loop = true;
     this.game.music.play();
     
     var bossArmy = new BossArmy(this.game,0,0,this.playScene.link,this.MAPSCALE,1,1,'bossAnimations');
     this.bossPoints.forEach(function(element) {
         bossArmy.points.push({x: element.x * this.MAPSCALE, y: element.y * this.MAPSCALE});
     }, this);
-    console.log(bossArmy.points);
     bossArmy.create();
 }
 
 Room.prototype.update = function(){
-    //this.game.debug.body(this.Doors);
     this.game.physics.arcade.overlap(this.playScene.link,this.Triggers,this.Spawn,null,this);
     this.game.physics.arcade.collide(this.playScene.link,this.Doors);
     this.game.physics.arcade.overlap(this.playScene.link,this.Buttons,this.openDoors,null,this);

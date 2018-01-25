@@ -36,8 +36,6 @@ Boss.prototype.update = function(){
     this.body.setSize(32, 32, 0, 32);
     this.enrageMode();
     if(!this.invulnerable) {
-
-      console.log("COLISION ACTIVADA")
       this.game.physics.arcade.overlap(this.target, this, this.target.playerCollision, null, this.target); 
     }
   }
@@ -100,9 +98,7 @@ Boss.prototype.resetFocus = function() {
 Boss.prototype.die = function(){
   this.game.bosses.remove(this);
   this.kill();
-  console.log(this.MAPSCALE)
   var drop = new Item(this.game, this.target, ItemType.Arrows , this.x, this.y, ItemSprite[ItemType.Arrows], MAPSCALE);
-  console.log(drop)
 }
 
 module.exports = Boss;

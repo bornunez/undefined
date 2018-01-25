@@ -3,6 +3,7 @@
 var PlayScene = require('./play_scene.js');
 var IntroMenu = require('./IntroMenu');
 var EndMenu = require('./EndMenu');
+var WinMenu = require('./WinMenu');
 
 var BootScene = {
   preload: function () {
@@ -25,6 +26,7 @@ var PreloaderScene = {
     this.game.load.audio('game_theme', '/music/game_theme.mp3');
     this.game.load.audio('gameover_theme', '/music/gameover_theme.mp3');
     this.game.load.audio('boss_theme', '/music/boss_theme.mp3');
+    this.game.load.audio('win_theme', '/music/win_theme.mp3');
     this.game.load.audio('kill_enemy', '/music/kill_enemy.mp3');
     this.game.load.audio('hero_attack', '/music/hero_attack.mp3');
     this.game.load.audio('hero_hurt', '/music/hero_hurt.mp3');
@@ -88,6 +90,7 @@ window.onload = function () {
   game.state.add('introMenu',IntroMenu);
   game.state.add('play', PlayScene);
   game.state.add('end', EndMenu);
+  game.state.add('win', WinMenu);
 
   game.state.start('boot');
 };
