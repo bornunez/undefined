@@ -51,15 +51,15 @@ var PreloaderScene = {
     this.game.load.image('door','/images/Puertas.png');
     this.game.load.image('HUD', '/images/HUD.png');
     this.game.load.image('arrow', '/images/arrow.png');
-    this.game.load.image('itembox', '/images/itembox.png');
     this.game.load.image('arrowicon', '/images/arrowicon.png');
     this.game.load.image('rublos', '/images/rublos.png');
     this.game.load.image('keys', '/images/keys.png');
     this.game.load.image('playButton','/images/playButton.png');
-    this.game.load.image('inventory','/images/inventory.png');
     this.game.load.image('bossDoor','/images/boss_door.png');
     this.game.load.image('lockedDoor','/images/locked_door.png');
 
+    this.game.load.spritesheet('inventory','/images/inventory.png', 256, 222, 2);
+    this.game.load.spritesheet('itembox', '/images/itembox.png', 22, 22, 2);
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
     this.game.load.spritesheet('numbers', '/images/numbers.png',8,8, 10);
     this.game.load.spritesheet('chest', '/images/chest.png', 32, 24, 2);

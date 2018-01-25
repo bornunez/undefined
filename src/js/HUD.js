@@ -38,8 +38,13 @@ HUD.prototype.update = function() {
     this.rublosCounter2.frame = Math.trunc(this.hero.items[ItemType.Rublos] / 10);
 
     this.keysCounter.frame =  this.hero.items[ItemType.Keys];
-}
 
+    if(this.hero.bow) {
+        this.itembox.frame = 1;
+        this.game.inventory.frame = 1;
+    }
+        
+}
 
 //Ver si puede llamarse solo cuando el heroe reciba daño
 HUD.prototype.updateHealth = function(){
