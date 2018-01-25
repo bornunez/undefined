@@ -12,6 +12,7 @@ var IntroMenu = {
       background.animations.play('run', 10, false);
 
       this.game.music = this.game.add.audio('intro_theme');
+      this.game.music.loop = true;
       this.game.music.play();
 
       this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);

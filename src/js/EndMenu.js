@@ -9,6 +9,7 @@ var EndMenu = {
       background.height =this.game.stage.height;
 
       this.game.music = this.game.add.audio('gameover_theme');
+      this.game.music.loop = true;
       this.game.music.play();
   
 
