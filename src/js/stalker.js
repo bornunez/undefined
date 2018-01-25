@@ -62,7 +62,7 @@ Stalker.prototype.die = function(){
 
     var itemType = Math.floor((Math.random() * 10) + 1) % 3;
     console.log("Item to spawn: " + itemType);
-    var drop = new Item(this.game,this.target,itemType,this.x+this.width/3,this.y+this.height/3,ItemSprite[itemType],this.MAPSCALE);
+    var drop = new Item(this.game,this.target,itemType,this.x,this.y,ItemSprite[itemType],this.MAPSCALE);
 }
 Stalker.prototype.move = function(){
 

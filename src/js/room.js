@@ -2,6 +2,7 @@
 var Item = require('./Item.js');
 var ItemType = require('./ItemType.js');
 var BossArmy = require('./BossArmy.js');
+var Door = require('./door.js');
 
 function Room(game,playScene,MAPSCALE,number){
     this.playScene = playScene;
@@ -21,6 +22,7 @@ Room.prototype.init = function(){
     this.loadDoors();
     if(this.bossRoom){
         this.loadBossPoint();
+        //this.loadBossDoor();
     }
     //this.loadButtons();
 }
@@ -36,8 +38,17 @@ Room.prototype.loadTriggers = function(){
         this.game.physics.arcade.enable(trigger);
         this.Triggers.add(trigger);
     }, this);
-    if(this.bossRoom)
-        console.log(this);
+    //if(this.bossRoom)
+    //console.log(this);
+}
+Room.prototype.loadBossDoor = function(){
+    this.bossDoorInfo = this.playScene.findObjectsByType("BIND",'Puertas');
+    console.log("Boss info [0] : " + this.bossDoorInfo[0].x);
+    console.log("Boss info : " + this.bossDoorInfo.x);
+    this.bossDoor = new Door(this.game,this.playScene.link,this.bossDoorInfo[0].x * this.MAPSCALE, this.bossDoorInfo[0].y * this.MAPSCALE,this.MAPSCALE, false);
+    this.game.Puertas.add(this.bossDoor);
+    this.game.world.bringToTop(this.bossDoor);
+    console.log(this.bossDoor);
 }
 
 //Aqui solo vamos a leer y guardar la posicion de los enemigos de esta sala
@@ -56,7 +67,7 @@ Room.prototype.loadButtons = function(){
     this.buttonsInfo = this.playScene.findObjectsByType('B'+this.number,'Botones');
     console.log(this.buttonsInfo);
     this.Buttons = this.game.add.group();
-
+    
     this.buttonsInfo.forEach(function(element) {
         var button = this.createFromTiledObj(element.x,element.y,'door');
         //Y le aplicamos las fisicas
@@ -88,16 +99,16 @@ Room.prototype.Spawn = function(){
     this.Triggers.forEach(function(element) {
         element.destroy();
     }, this);
-
+    
     if (this.active === true) {
         this.active = false;
         if(!this.bossRoom){
-        //Ahora vamos a crear un enemigo a partir de la informacion que guardamos del json
+            //Ahora vamos a crear un enemigo a partir de la informacion que guardamos del json
             this.enemiesInfo.forEach(function (element) {
                 //Los spawneamos y los metemos en el array que los manejara
                 var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'stalker');
                 this.enemies.push(enemy);
-
+                
             }, this);
             this.cicloInfo.forEach(function (element) {
                 var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'ciclo');
@@ -111,10 +122,11 @@ Room.prototype.Spawn = function(){
     console.log("Enemigos activos: " + this.enemies.length);
 }
 Room.prototype.SpawnBoss = function(){
+    this.loadBossDoor();
     this.game.music.stop();
     this.game.music = this.game.add.audio('boss_theme');
     this.game.music.play();
-
+    
     var bossArmy = new BossArmy(this.game,0,0,this.playScene.link,this.MAPSCALE,1,1,'bossAnimations');
     this.bossPoints.forEach(function(element) {
         bossArmy.points.push({x: element.x * this.MAPSCALE, y: element.y * this.MAPSCALE});

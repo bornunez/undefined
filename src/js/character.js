@@ -19,6 +19,7 @@ function Character(game,spriteName,x,y,vel,health,damage){
     this.dmg = damage;
     this.dir = 'Down';
     this.health = health;
+    //this.root = Math.sqrt(2)
     //this.anchor.x = this.anchor.y = this.width / 2;
     //Cosas del knockback
     this.control = true;
@@ -33,8 +34,16 @@ Character.prototype.walk = function(){
   //Movemos
   if(this.control){
     if(this.move){
-      this.body.velocity.x = this.velX*this.vel;
-      this.body.velocity.y = this.velY*this.vel;
+      //Si se mueve en diagonal, hacemos para que siga moviendose 1
+      /*if (this.velX != 0 && this.velY != 0){
+            this.body.velocity.x = this.velX * this.vel / ;
+            this.body.velocity.y = this.velY * this.vel / ;
+       }*/
+      //Si no, nos da igual
+       // else{
+          this.body.velocity.x = this.velX*this.vel;
+          this.body.velocity.y = this.velY*this.vel;
+        //}
     }
     else {
       this.body.velocity.x = 0;

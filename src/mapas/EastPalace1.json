@@ -1070,6 +1070,18 @@
                  "width":16,
                  "x":1504,
                  "y":656
+                }, 
+                {
+                 "gid":211,
+                 "height":16,
+                 "id":167,
+                 "name":"BossIndoor",
+                 "rotation":0,
+                 "type":"BIND",
+                 "visible":true,
+                 "width":16,
+                 "x":1120,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1167,12 +1179,12 @@
          "offsety":-16,
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":150,
          "x":0,
          "y":0
         }],
- "nextobjectid":166,
+ "nextobjectid":168,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.0.3",

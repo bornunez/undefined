@@ -18,7 +18,7 @@ function Door(game, hero,x,y,MAPSCALE,boss){
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.body.immovable = true;
     this.game.Puertas.add(this);
-
+    this.game.world.bringToTop(this.game.Puertas);
     this.open_door = this.game.add.audio('open_door');
 }
 Door.prototype =  Object.create(Phaser.Sprite.prototype);

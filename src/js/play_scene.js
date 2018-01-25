@@ -18,6 +18,7 @@ const MAPSCALE = 5;
 var PlayScene = {
   create: function () {
     
+    this.game.Puertas = this.game.add.group();
     this.game.arrows = this.game.add.group();
     this.PoolEnemies = this.game.add.group();
     this.PoolCyclops = this.game.add.group();
@@ -226,7 +227,6 @@ var PlayScene = {
   this.game.world.bringToTop(this.game.chests)
   },
   loadDoors: function(playSC){
-    this.game.Puertas = this.game.add.group()
     var self = this;
     var puerta;
     playSC.map.objects["Puertas"].forEach(function(element){
