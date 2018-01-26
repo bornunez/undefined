@@ -13,7 +13,7 @@ function Boss(game, x, y, target, vel, health, damage, points, spriteName, point
     this.game = game; 
     this.target = target;
     this.pointNumber = pointNumber;
-    Character.call(this,this.game, spriteName, x, y, vel, 1, 1);
+    Character.call(this,this.game, spriteName, x, y, vel, 2, 1);
     this.body.setSize(32, 32, 0, 16);
     this.focus = false;
     this.invulnerable = true;

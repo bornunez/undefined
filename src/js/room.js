@@ -87,7 +87,6 @@ Room.prototype.Spawn = function(){
                 //Los spawneamos y los metemos en el array que los manejara
                 var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'stalker');
                 this.enemies.push(enemy);
-                console.log(enemy);
             }, this);
             this.cicloInfo.forEach(function (element) {
                 var enemy = this.playScene.addEnemy(element.x * this.MAPSCALE, element.y * this.MAPSCALE, this, 'ciclo');

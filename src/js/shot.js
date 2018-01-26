@@ -27,7 +27,7 @@ Shot.prototype.update = function(){
     this.body.velocity.y = this.velY * this.vel;
     if(this != null && this != undefined){
         this.game.physics.arcade.overlap(this, this.game.activeEnemies, this.hitEnemy, null, this);
-        this.game.physics.arcade.overlap(this, this.game.bosses, this.hitEnemy, null, this);
+        this.game.physics.arcade.overlap(this, this.game.bosses, this.hitBoss, null, this);
         this.game.physics.arcade.overlap(this, this.game.activeCyclops, this.hitCyclops, null, this);
     }
 }
@@ -57,6 +57,18 @@ Shot.prototype.hitCyclops = function(arrow, cyclops) {
     }
     this.kill();
     
+}
+
+Shot.prototype.hitBoss = function(arrow, boss) {
+    if ((this.game.bosses.length < 2 && !boss.invulnerable) || this.game.bosses.length >= 2) {
+        this.hero_arrow_hit.play();
+        if(boss.health >= 1)
+            boss.applyKnockback(boss.target);
+        else
+            boss.die();
+    
+        this.kill();
+    }
 }
 
 //Fisicas
@@ -116,6 +128,6 @@ Shot.prototype.selectDir = function() {
     }
     else
         this.x += 60;   
-  }
+}
 
 module.exports = Shot;

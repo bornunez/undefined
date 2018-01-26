@@ -1,4 +1,4 @@
-﻿﻿# A ULR to the past: A tribute to "THE LEGEND OF ZELDA: A Link to the Past". #
+﻿﻿# An URL to the past: A tribute to "THE LEGEND OF ZELDA: A Link to the Past". #
 ## Dungeon - 1 ##
 
 >>> OBJETIVO DEL JUEGO: Completar la mazmorra, consiguiendo todos los objetos en esta y derrotando al jefe final.
@@ -21,22 +21,28 @@
       *Llaves: Abren puertas normales de las mazmorras, se encuentran en cofres.
       *Llave jefe: Abre la puerta del jefe final de la mazmorra.
       *Flechas: Munición para el arco, aparece tras derrotar enemigos.
-      *Cofres: Contienen llaves, el arco y la llave del jefe
-      //OPCIONAL// Brujula y mapa. (Cofres pequeños).
+      *Cofres: Contienen llaves, el arco y la llave del jefe.
+      *Corazones: Suman un corazón a la vida del héroe.
+      *Rublos: No sirven para nada pero son bonitos.
       
    >>ENEMIGOS
       *Melee: Persiguen al jugador y hacen daño de contacto.
-      *Ciclope: Enemigo a melee que solo se puede derrotar mediante el arco (Disparo en el ojo).
+      *Ciclope: Enemigo a melee que solo se puede derrotar mediante el arco (Disparo en el ojo).  Corren en linea recta hacia el héroe.
       *BOSS: 
-            -6 Armaduras que saltan y rotan en la habitacion.
-            -Solo se les puede dañar en el suelo. 
-            -Cada armadura resiste 3 flechas o 16 golpes de espada.
+            -6 Armaduras que saltan y rotan en la habitacion.  
+            -Cada armadura resiste 3 flechas.
             -Cuando queda 1 armadura, persigue al jugador saltando (Y se vuelve roja)
+            -A la armadura roja solo se les puede dañar cuando está en el suelo.
+            -Es necesario traer un mínimo de flechas para superar este reto.
+            -Cada armadura suelta 5 flechas para que puedas encargarte de las demás.
    
    >>INTERFAZ
        //ORDEN: Izquierda --> Derecha || Parte superior de la pantalla //
-      *Número de flechas.
-      *Número de llaves.
-      *Item frame.
-      *Rublos: Dropeadas de enemigos.    
+        *Item actual equipado.
+        *Corazones.
+        *Número de flechas.
+        *Número de rublos.
+        *Número de llaves.
+        *Llave del jefe (Si ya se ha obtenido)
+   
 	  *Inventario: Se abre con la tecla 'esc'.

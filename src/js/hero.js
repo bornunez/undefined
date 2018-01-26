@@ -61,12 +61,12 @@ Hero.prototype.create = function(){
     this.animations.add('hurtLeft', Phaser.Animation.generateFrameNames('hurt', 2, 2), 0, false);
     this.animations.add('hurtDown', Phaser.Animation.generateFrameNames('hurt', 3, 3), 0, false);
 
-    this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 4), 4, false);
+    this.animations.add('dying', Phaser.Animation.generateFrameNames('dying', 0, 8), 6, false);
 
     this.animations.add('winBoss', Phaser.Animation.generateFrameNames('win', 0, 0), 0, false);
     this.animations.add('winBow', Phaser.Animation.generateFrameNames('win', 1, 1), 0, false);
     this.animations.add('winKey', Phaser.Animation.generateFrameNames('win', 2, 2), 0, false);
-    this.animations.add('winBoss', Phaser.Animation.generateFrameNames('win', 3, 3), 0, false);
+    this.animations.add('winEndItem', Phaser.Animation.generateFrameNames('win', 3, 3), 0, false);
 
     this.hero_attack = this.game.add.audio('hero_attack');
     this.hero_hurt = this.game.add.audio('hero_hurt');
@@ -211,7 +211,7 @@ Hero.prototype.addItem = function(itemType,quantity){
     else if (itemType === ItemType.ASCIIForce){
       this.pick_asciiforce.play();
       quantity = 1;
-      this.animations.play('winBoss');
+      this.animations.play('winEndItem');
       this.anim = 'Win';
       this.game.time.events.add(Phaser.Timer.SECOND  * 4, function() { this.game.state.start('win'); }, this); 
       }

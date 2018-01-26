@@ -20,7 +20,7 @@ function Stalker(game, playscene, x, y, target, MAPSCALE, spriteName){
 
     this.kill_enemy = this.game.add.audio('kill_enemy');
 
-    this.minDistance = 400;
+    this.minDistance = 480;
     this.maxDistance = 800;
     this.triggered = false;
 
@@ -54,25 +54,17 @@ Stalker.prototype.die = function(){
     if(this.room != undefined && this.room != null)
         this.room.killEnemy(this);
     //Y finalmente volvemos a la pool de enemigos
-    console.log("Pool before: " +  this.playscene.PoolEnemies.length);
     this.playscene.PoolEnemies.add(this);
-    console.log("Pool after: " +  this.playscene.PoolEnemies.length);
-
     var itemType = Math.floor((Math.random() * 10) + 1) % 3;
     var drop = new Item(this.game,this.target,itemType,this.x,this.y,ItemSprite[itemType],this.MAPSCALE);
 }
-Stalker.prototype.move = function(){
 
-    var t = {};
+Stalker.prototype.move = function(){
     var targetMoving = false;
-  
-    //Se asigna la x y la y del target
-    t.x = this.target.x;
-    t.y = this.target.y;
-  
+
     // Calcula la distancia que lo separa del target
     // Si el target esta lo suficientemente lejos el enemigo se movera
-    var distance = this.game.math.distance(this.x, this.y, t.x, t.y);
+    var distance = this.game.math.distance(this.x, this.y, this.target.x, this.target.y);
     if (!this.triggered && distance > 64 && distance < this.minDistance){ 
             targetMoving = true;
             this.triggered = true;
@@ -84,7 +76,7 @@ Stalker.prototype.move = function(){
 
     if (targetMoving)  {
         // Calcula el angulo entre el target y el enemigo
-        var rotation = this.game.math.angleBetween(this.x, this.y, t.x, t.y);
+        var rotation = this.game.math.angleBetween(this.x, this.y, this.target.x, this.target.y);
         // Calcula el vector velocidad basandose en su rotacion
         this.body.velocity.x = Math.cos(rotation) * 100;
         this.body.velocity.y = Math.sin(rotation) * 100;
