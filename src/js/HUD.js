@@ -130,8 +130,7 @@ function ItemBox(game, hero, x , y){
 ItemBox.prototype = Object.create(Phaser.Sprite.prototype);
 ItemBox.prototype.constructor = ItemBox;
 
-
-//Items con contador
+//Icono de item
 function ItemIcon(game, hero, x , y, spritename){
   this.game = game;
   this.hero = hero;

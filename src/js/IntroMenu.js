@@ -16,13 +16,6 @@ var IntroMenu = {
       this.game.music.play();
 
       this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-  /*
-      var button = this.game.add.button(0,0, 'playButton', this.actionOnClick, this);
-      button.anchor.setTo(0.5, 0.5);
-      button.x = this.game.world.centerX;
-      button.y = this.game.world.centerY + 200;
-      button.smoothed = false;
-      this.game.world.bringToTop(button);*/
     },
     actionOnClick: function () {
       this.game.state.start('play');

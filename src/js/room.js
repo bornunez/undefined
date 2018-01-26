@@ -11,7 +11,6 @@ function Room(game,playScene,MAPSCALE,number){
     this.MAPSCALE = MAPSCALE;
     this.init();
     this.active = true;
-
     this.open_door = this.game.add.audio('open_door');
 }
 Room.prototype.constructor = Room;
@@ -25,6 +24,7 @@ Room.prototype.init = function(){
         this.loadBossPoint();
     
 }
+
 //Vamos a guardar todos los trigger de la sala en el array
 Room.prototype.loadTriggers = function(){
     this.TriggersInfo = this.playScene.findObjectsByType('T'+this.number,'Triggers');

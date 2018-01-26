@@ -13,7 +13,6 @@ function BossArmy(game, x, y, target, health,damage,spriteName){
     this.pointNumber = 0;
     this.points =new Array(); 
     this.game.bosses = this.game.add.group();
-
 }
 
 //Herencia
@@ -29,8 +28,5 @@ BossArmy.prototype.create = function(){
       }, this);
     this.game.world.bringToTop(this.game.bosses);
 }
-
-
-
 
 module.exports = BossArmy;

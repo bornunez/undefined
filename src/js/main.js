@@ -14,7 +14,6 @@ var BootScene = {
   }
 };
 
-
 var PreloaderScene = {
   preload: function () {
    // this.game.load.baseURL = 'https://bornunez.github.io/undefined/src';
@@ -41,7 +40,7 @@ var PreloaderScene = {
     this.game.load.audio('open_pause', '/music/open_pause.mp3')
     this.game.load.audio('close_pause', '/music/close_pause.mp3')
 
-    //Cargar de json key - ruta 
+    //Carga de imagenes individuales
     this.game.load.image('trigger','/images/trigger.png');
     this.game.load.image('door','/images/Puertas.png');
     this.game.load.image('HUD', '/images/HUD.png');
@@ -55,12 +54,14 @@ var PreloaderScene = {
     this.game.load.image('lockedDoor','/images/locked_door.png');
     this.game.load.image('asciiforce','/images/asciiforce.png');
 
+    //Carga de spritesheets
     this.game.load.spritesheet('inventory','/images/inventory.png', 256, 222, 2);
     this.game.load.spritesheet('itembox', '/images/itembox.png', 22, 22, 2);
     this.game.load.spritesheet('hearts', '/images/hearts.png', 8, 8, 3);
     this.game.load.spritesheet('numbers', '/images/numbers.png',8,8, 10);
     this.game.load.spritesheet('chest', '/images/chest.png', 32, 24, 2);
 
+    //Carga de spritesheets mediante json para las animaciones
     this.game.load.atlas('bossAnimations', '/images/bossspritesheet.png', '/json/bossspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     this.game.load.atlas('cyclopsAnimations', '/images/cyclopsspritesheet.png', '/json/cyclopsspritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     this.game.load.atlas('heroAnimations', '/images/herospritesheet.png', '/json/herospritesheet.json',  Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -69,9 +70,8 @@ var PreloaderScene = {
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
    
-
+    //Mapa
     this.game.load.tilemap('map', '/mapas/EastPalace1.json',null, Phaser.Tilemap.TILED_JSON);
-  
     this.game.load.image('tiles', '/mapas/TileSet32.png');
     this.game.load.image('objetos', '/mapas/TileSet16.png');
   },

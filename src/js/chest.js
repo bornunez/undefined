@@ -13,7 +13,7 @@ function Chest(game, hero, x, y, MAPSCALE, reward){
     this.smoothed = false;
     this.scale.setTo(MAPSCALE,MAPSCALE);
     this.initPhysics();
-
+    this.anchor.setTo(0, 0.5)
     this.game.chests.add(this);
     this.game.world.bringToTop(this.game.items);
 }
@@ -58,7 +58,7 @@ Chest.prototype.openChest = function(){
   
 Chest.prototype.initPhysics = function() {
     this.game.physics.arcade.enable(this);
-    //Fisicas!
+    //Fisicas
     this.body.collideWorldBounds = true;
     this.body.bounce.setTo(1, 1);
     this.body.moves = true;

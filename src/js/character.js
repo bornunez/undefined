@@ -1,7 +1,8 @@
 'use strict';
 
+const KNOCK_VEL = 500;
 
-function Character(game,spriteName,x,y,vel,health,damage){
+function Character(game, spriteName, x, y, vel, health, damage){
     this.game = game; 
     //Hacemos el sprite
     Phaser.Sprite.call(this,this.game,x,y,spriteName);
@@ -19,9 +20,7 @@ function Character(game,spriteName,x,y,vel,health,damage){
     this.dmg = damage;
     this.dir = 'Down';
     this.health = health;
-    //this.root = Math.sqrt(2)
-    //this.anchor.x = this.anchor.y = this.width / 2;
-    //Cosas del knockback
+    //Knockback
     this.control = true;
     this.knockback = false;
     this.game.world.addChild(this);
@@ -43,6 +42,7 @@ Character.prototype.walk = function(){
     }
   }
 }
+
 Character.prototype.update = function(){
   if(this.health <= 0)
     this.destroy();
@@ -59,7 +59,7 @@ Character.prototype.die = function(){
         this.destroy();
 }
 
-  //Fisicas!
+  //Fisicas
 Character.prototype.initPhysics = function(){
   this.game.physics.arcade.enable(this);
   this.body.collideWorldBounds = true;
@@ -79,8 +79,8 @@ Character.prototype.applyKnockback = function(enemy){
     //Vector de direccion del knockback
     this.knockedDir (enemy);	
     //Empuje
-    var knockedVelocityX= this.knockDirX * 500;	
-    var knockedVelocityY= this.knockDirY * 500;	
+    var knockedVelocityX = this.knockDirX * KNOCK_VEL;	
+    var knockedVelocityY = this.knockDirY * KNOCK_VEL;	
     this.body.velocity.x = knockedVelocityX;
     this.body.velocity.y = knockedVelocityY;
     //Y nos ponemos translucidos
@@ -107,9 +107,7 @@ Character.prototype.knockedDir = function(enemy){
 //Vemos si hemos acabado el knockback (*KNOCK* *KNOCK* *KNOCK* PENNY...)
 Character.prototype.stopKnocked = function(){
   if(this.body !== null){
-    //Si hemos sido empujados tan lejos como tendriamos, reset
-
-    //Vemos en que direccion estamos siendo noqueados
+    //Si hemos sido empujados tan lejos como tendriamos, se vuelve al estado normal
     this.knockback = false;
     //La velocidad
     this.body.velocity.x = 0;
@@ -126,8 +124,10 @@ Character.prototype.stopKnocked = function(){
     this.y = Math.trunc(this.y);
   }
 }
+
 Character.prototype.spawn = function(x,y){
   this.x = x;
   this.y = y;
 }
+
 module.exports = Character;

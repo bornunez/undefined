@@ -1,6 +1,5 @@
 'use strict';
-//var link;
-//var enemy;
+
 var Hero = require('./hero.js');
 var Character = require('./character.js');
 var Stalker = require('./stalker.js');
@@ -35,7 +34,6 @@ var PlayScene = {
     this.game.music.loop = true;
     this.game.music.play();
 
-    
     this.loadMap();
     this.createGO();
     this.loadEnemies();
@@ -56,11 +54,13 @@ var PlayScene = {
     
     this.game.bossArmy.update();
 
+    //Colisiones con el escenario
     this.game.physics.arcade.collide(this.game.activeEnemies,this.Colisiones);
     this.game.physics.arcade.collide(this.game.activeCyclops,this.Colisiones);
     this.game.physics.arcade.collide(this.game.bosses, this.Colisiones);
     this.game.physics.arcade.collide(this.game.bosses, this.game.Puertas);
 
+    //Truco para probar el juego saltandose las colisiones
     if(!this.link.fly)
       this.game.physics.arcade.collide(this.link,this.Colisiones);
 
@@ -77,7 +77,7 @@ var PlayScene = {
     this.map = this.game.add.tilemap('map');
     this.map.addTilesetImage('Zelda', 'tiles');
     this.map.addTilesetImage('Objects', 'objetos');
-    //tileset ID (number):
+    //tileset ID (number)
     this.tilesetID = this.map.getTilesetIndex("Objects");
     this.tilesetID = this.map.getTilesetIndex("Zelda");
   },
@@ -90,7 +90,6 @@ var PlayScene = {
   },
 
   createGO: function(){
-
     //Debajo de todo esta el suelo
     this.Suelo = this.createLayer("Suelo");
     //Y encima las paredes
@@ -104,12 +103,10 @@ var PlayScene = {
     this.loadDoors(this);
     // Carga los cofres
     this.loadChests();
-
     //Luego las vallas
     this.Vallas = this.createLayer("Vallas");
     this.Vallas2 = this.createLayer("Vallas 2");
     this.Objetos = this.createLayer("Objetos");
-    
     //Layer de los s de las paredes
     this.Colisiones = this.createLayer("Colisiones");
     this.map.setCollision(206,true,this.Colisiones);
@@ -119,7 +116,7 @@ var PlayScene = {
     this.link.y = this.spawnG.getChildAt(0).y;
     //Y encima el techo
     this.Techo = this.createLayer("Techo");
-    //Y abajo del todo el HUD/*
+    //Y abajo del todo el HUD
     this.HUDNegro = this.game.add.sprite(0,0,'HUD');
     this.HUDNegro.smoothed = false;
     this.HUDNegro.width *= 26/25 * MAPSCALE;
@@ -155,7 +152,6 @@ var PlayScene = {
 
   addEnemy: function(x,y,room,enemyType){
     var enemy;
-    console.log("Enemigos en Pool: " + this.PoolEnemies.length);
     if(enemyType === 'stalker'){
       if (this.PoolEnemies.length > 0) {
         enemy = this.PoolEnemies.getChildAt(0);

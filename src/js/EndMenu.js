@@ -12,7 +12,6 @@ var EndMenu = {
       this.game.music.loop = true;
       this.game.music.play();
   
-
       this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
       
       var button = this.game.add.button(0,0, 'playButton', this.actionOnClick, this);
@@ -29,4 +28,5 @@ var EndMenu = {
         }
     }
   }
+
   module.exports = EndMenu;

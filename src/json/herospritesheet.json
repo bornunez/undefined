@@ -1919,7 +1919,27 @@
        "w":32,
        "h":32
     }
- }
+ },
+ "win3":{  
+  "frame":{  
+     "x":96,
+     "y":320,
+     "w":32,
+     "h":32
+  },
+  "rotated":false,
+  "trimmed":false,
+  "spriteSourceSize":{  
+     "x":0,
+     "y":0,
+     "w":32,
+     "h":32
+  },
+  "sourceSize":{  
+     "w":32,
+     "h":32
+  }
+}
   },
    "meta":{  
       "app":"https://www.leshylabs.com/apps/sstool/",

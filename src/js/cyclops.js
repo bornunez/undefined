@@ -15,15 +15,13 @@ function Cyclops(game, playscene, x, y, target, MAPSCALE, spriteName){
     this.frame = 10;
     this.dir = 'Down';
     this.cyclops_awake = this.game.add.audio('cyclops_awake');
-
 }
-//Enlazamos las propiedades prototype   
+  
 Cyclops.prototype = Object.create(Stalker.prototype);
 Cyclops.prototype.constructor = Cyclops;
 
 
 Cyclops.prototype.update = function() {
-    //this.game.debug.body(this);
     if(this.health > 0) {
         if(this.sleep)
             this.wake();
@@ -90,7 +88,6 @@ Cyclops.prototype.checkDir =  function(){
         return false;
 }
 
-//OBVIAMENTE, a esto se le llama cuando vaya a morir
 Cyclops.prototype.die = function(){
     //Primero nos desactivamos
     this.kill();
@@ -101,7 +98,6 @@ Cyclops.prototype.die = function(){
     this.playscene.PoolCyclops.add(this);
 
     var itemType = Math.floor((Math.random() * 10) + 1) % 3;
-    console.log("Item to spawn: " + itemType);
     var drop = new Item(this.game,this.target,itemType,this.x+this.width/3,this.y+this.height/3,ItemSprite[itemType],this.MAPSCALE);
 }
 

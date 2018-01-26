@@ -4,7 +4,6 @@ function Item(game,hero,type,x,y, spriteName,MAPSCALE){
     this.game = game;
     this.hero = hero;
     this.itType = type;
-    console.log("Spawned Item: " + this.itType);
     //Creamos el objeto y le damos cuerpo
     Phaser.Sprite.call(this,this.game, x, y, spriteName);
     this.smoothed = false;
@@ -14,7 +13,7 @@ function Item(game,hero,type,x,y, spriteName,MAPSCALE){
     this.game.world.bringToTop(this.game.items);
 }
 
-//Las cosas de herencia
+//Herencia
 Item.prototype = Object.create(Phaser.Sprite.prototype);
 Item.prototype.constructor = Item;
 
@@ -24,8 +23,6 @@ Item.prototype.update = function (){
 }
 
 Item.prototype.addItem = function(){
-    console.log(this);
-    console.log("Tipo del Item: " + this.itType);
     this.hero.addItem(this.itType);
     this.kill();
 }

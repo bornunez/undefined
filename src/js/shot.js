@@ -1,5 +1,7 @@
-    'use strict'
+'use strict'
 var Character = require('./character.js');
+
+const ARROW_VEL = 200;
 
 function Shot(game, x, y, vel, velX, velY, dir, spriteName){
     this.game = game;
@@ -57,9 +59,9 @@ Shot.prototype.hitCyclops = function(arrow, cyclops) {
     
 }
 
+//Fisicas
 Shot.prototype.initPhysics = function() {
     this.game.physics.arcade.enable(this);
-    //Fisicas!
     this.body.collideWorldBounds = true;
     this.body.bounce.setTo(1, 1);
     this.body.moves = true;
@@ -70,13 +72,13 @@ Shot.prototype.initPhysics = function() {
 Shot.prototype.selectDir = function() {
     if(this.velX === 0 && this.velY === 0) {
         if(this.dir === 'Right') 
-            this.velX = 200;
+            this.velX = ARROW_VEL;
         else if (this.dir === 'Left') 
-            this.velX = -200;  
+            this.velX = -ARROW_VEL;  
         else if (this.dir === 'Top') 
-            this.velY = -200;
+            this.velY = -ARROW_VEL;
         else if (this.dir === 'Down') 
-            this.velY = 200;
+            this.velY = ARROW_VEL;
     }
     //Diagonal abajo derecha
     if(this.velX > 0 && this.velY > 0)  {

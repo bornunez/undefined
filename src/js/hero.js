@@ -3,6 +3,8 @@ var Character = require('./character.js');
 var Shot = require('./shot.js');
 var ItemType = require('./ItemType.js');
 
+const HERO_VEL = 200;
+
 function Hero(game,playScene){
     this.game = game;
     this.playScene = playScene;
@@ -33,7 +35,7 @@ Hero.prototype.create = function(){
     this.keyBindings();
     this.iniAttackColliders();
 
-    //CARLOS HA DICHO QUE SE PUEDE QUEDAR AQUI (Si, tu)
+    //CARLOS HA DICHO QUE ESTO SE PUEDE QUEDAR AQUI (Si, tu)
     this.animations.add('walkRight', Phaser.Animation.generateFrameNames('walk', 0, 7), 12, true);
     this.animations.add('walkLeft', Phaser.Animation.generateFrameNames('walk', 8, 15), 12, true);
     this.animations.add('walkTop', Phaser.Animation.generateFrameNames('walk', 16, 23), 12, true);
@@ -64,17 +66,19 @@ Hero.prototype.create = function(){
     this.animations.add('winBoss', Phaser.Animation.generateFrameNames('win', 0, 0), 0, false);
     this.animations.add('winBow', Phaser.Animation.generateFrameNames('win', 1, 1), 0, false);
     this.animations.add('winKey', Phaser.Animation.generateFrameNames('win', 2, 2), 0, false);
+    this.animations.add('winBoss', Phaser.Animation.generateFrameNames('win', 3, 3), 0, false);
 
     this.hero_attack = this.game.add.audio('hero_attack');
     this.hero_hurt = this.game.add.audio('hero_hurt');
     this.hero_arrow_shoot = this.game.add.audio('hero_arrow_shoot');
     this.pick_rublo = this.game.add.audio('pick_rublo');
     this.pick_item = this.game.add.audio('pick_item');
+    this.pick_asciiforce = this.game.add.audio('open_chest'); 
 }
+
 //Update, lee readInput y se mueve / dispara
 Hero.prototype.update = function(){
   this.items[ItemType.Hearts] = this.health;
-
   //Overlap para cuando colisionas con stalkers y cyclops, el boss no ya que tiene un comportamiento especial
   this.game.physics.arcade.overlap(this, this.game.activeEnemies,this.playerCollision,null,this);
   this.game.physics.arcade.overlap(this, this.game.activeCyclops,this.playerCollision,null,this);
@@ -91,23 +95,25 @@ Hero.prototype.update = function(){
     this.animations.currentAnim.onComplete.add(this.end, this);
   }
 }
+
 Hero.prototype.end = function(){
   this.kill();
   this.game.music.stop();
   this.game.state.start('end');
 }
+
 //readInput del Heroe 
 Hero.prototype.readInput = function(){
   if(this.anim === 'Idle'){
       //Y axis
       if(this.upKey.isDown){
         this.dir = 'Top'
-        this.velY = -200;
+        this.velY = -HERO_VEL;
         this.move = true;
       }
       else if(this.downKey.isDown){
         this.dir = 'Down'
-        this.velY = 200;
+        this.velY = HERO_VEL;
         this.move = true;
       }
       else {
@@ -120,12 +126,12 @@ Hero.prototype.readInput = function(){
       if(this.leftKey.isDown){
         this.dir = 'Left';
         this.move = true;
-        this.velX = -200;
+        this.velX = -HERO_VEL;
       }
       else if (this.rightKey.isDown){
         this.dir = 'Right';
         this.move = true;
-        this.velX = 200;
+        this.velX = HERO_VEL;
       }
       else{
         if(this.velY != 0)
@@ -158,7 +164,7 @@ Hero.prototype.shoot = function(){
 Hero.prototype.attack = function(){
   this.atacking = true;
 
-  if(this.eKey.isDown && this.anim === 'Idle'){
+  if(this.zKey.isDown && this.anim === 'Idle'){
     this.hero_attack.play();
 
     if (this.dir === 'Right') {
@@ -203,9 +209,11 @@ Hero.prototype.addItem = function(itemType,quantity){
       quantity = 2;
     }
     else if (itemType === ItemType.ASCIIForce){
-      this.pick_item.play();
+      this.pick_asciiforce.play();
       quantity = 1;
-      this.game.state.start('win');
+      this.animations.play('winBoss');
+      this.anim = 'Win';
+      this.game.time.events.add(Phaser.Timer.SECOND  * 4, function() { this.game.state.start('win'); }, this); 
       }
   }
   //Y añadimos la cantidad de items siempre y cuando no estemos en el maximo
@@ -242,7 +250,7 @@ Hero.prototype.playAnims = function(){
     }
 
   //Objeto(Disparar) 
-  if(this.space.isDown && this.bow){
+  if(this.xKey.isDown && this.bow){
     if(this.anim === 'Idle' && this.items[ItemType.Arrows] > 0) {
       if (this.dir === 'Top') 
         this.animations.play('bowTop');
@@ -269,8 +277,8 @@ Hero.prototype.keyBindings = function() {
   this.downKey = this.keyboard.addKey(Phaser.Keyboard.DOWN);
   this.leftKey = this.keyboard.addKey(Phaser.Keyboard.LEFT);
   this.rightKey = this.keyboard.addKey(Phaser.Keyboard.RIGHT);
-  this.space = this.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-  this.eKey = this.keyboard.addKey(Phaser.Keyboard.E);
+  this.xKey = this.keyboard.addKey(Phaser.Keyboard.X);
+  this.zKey = this.keyboard.addKey(Phaser.Keyboard.Z);
   this.cKey = this.keyboard.addKey(Phaser.Keyboard.C);
   this.flyKey = this.keyboard.addKey(Phaser.Keyboard.F);
 }
@@ -308,7 +316,6 @@ Hero.prototype.playerCollision = function(player, enemy){
     this.applyKnockback(enemy);
     this.hero_hurt.play();
 
-    //Desactivar animacion de ataque(espada)?
     this.invulnerable = true;
     this.anim = 'Hurt';
 

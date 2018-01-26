@@ -13,7 +13,7 @@ function Boss(game, x, y, target, vel, health, damage, points, spriteName, point
     this.game = game; 
     this.target = target;
     this.pointNumber = pointNumber;
-    Character.call(this,this.game, spriteName, x, y, vel, 0, 1);
+    Character.call(this,this.game, spriteName, x, y, vel, 1, 1);
     this.body.setSize(32, 32, 0, 16);
     this.focus = false;
     this.invulnerable = true;
@@ -58,10 +58,12 @@ Boss.prototype.move = function() {
 }
 
 Boss.prototype.goToPoint = function() {
-  var rotation = this.game.math.angleBetween(this.x, this.y, this.points[this.pointNumber].x , this.points[this.pointNumber].y);
-  // Calcula el vector velocidad basandose en su rotacion
-  this.body.velocity.x = Math.cos(rotation) * this.vel;
-  this.body.velocity.y = Math.sin(rotation) * this.vel;
+   if(!this.knockback) {
+    var rotation = this.game.math.angleBetween(this.x, this.y, this.points[this.pointNumber].x , this.points[this.pointNumber].y);
+    // Calcula el vector velocidad basandose en su rotacion
+    this.body.velocity.x = Math.cos(rotation) * this.vel;
+    this.body.velocity.y = Math.sin(rotation) * this.vel;
+   }
 }
 
 Boss.prototype.enrageMode = function() {
@@ -107,9 +109,6 @@ Boss.prototype.die = function(){
   }
   this.game.world.bringToTop(drop);
   this.kill();
-
-  console.log("Item:" + drop);
-
 }
 
 module.exports = Boss;
