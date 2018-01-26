@@ -205,7 +205,8 @@ Hero.prototype.addItem = function(itemType,quantity){
     else if (itemType === ItemType.ASCIIForce){
       this.pick_item.play();
       quantity = 1;
-    }
+      this.game.state.start('win');
+      }
   }
   //Y añadimos la cantidad de items siempre y cuando no estemos en el maximo
   this.items[itemType] = this.items[itemType] + quantity;

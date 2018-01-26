@@ -2,7 +2,7 @@
 var Character = require('./character.js');
 var ItemType = require('./ItemType.js');
 var Item = require('./Item.js');
-var ItemSprite = ['arrow','rublos','hearts']
+var ItemSprite = ['arrow','rublos','hearts','keys','asciiforce',]
 
 const NUM_POINTS = 6;
 const POINT_OFFSET = 32;
@@ -98,7 +98,7 @@ Boss.prototype.resetFocus = function() {
 Boss.prototype.die = function(){
   this.game.bosses.remove(this);
   var drop;
-  if(this.game.bosses.length > 1)
+  if(this.game.bosses.length > 0)
   {
     drop = new Item(this.game, this.target, ItemType.Arrows , this.x, this.y, ItemSprite[ItemType.Arrows], MAPSCALE);
   }

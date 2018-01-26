@@ -1,4 +1,4 @@
-﻿﻿# THE LEGEND OF ZELDA: A Link to the Past. #
+﻿﻿# A ULR to the past: A tribute to "THE LEGEND OF ZELDA: A Link to the Past". #
 ## Dungeon - 1 ##
 
 >>> OBJETIVO DEL JUEGO: Completar la mazmorra, consiguiendo todos los objetos en esta y derrotando al jefe final.
@@ -12,41 +12,31 @@
       *Ataque: Ataque melee semicircular. Capaz de dañar varios enemigos. Produce knockback.
       *Usar arma: Equipando un arma en la ranura de objetos, realizas su acción.
       *Interactuar: Usando el botón de item en el objeto frente al jugador, si lo hubiera.
-      *Pulsar botones en el suelo: Activan mecanismos.
-      //OPCIONAL// Levantar/Lanzar objeto (Principalmente jarrones).
-      //OPCIONAL// Ataque Circular
       
    >>EQUIPO
       *Espada: Ataca a corta distancia.
       *Arco: Se obtiene en la mazmorra, dispara una flecha en línea recta. Es imprescindible para derrotar a ciertos enemigos y para utilizarlo es necesario tener flechas.
-      //OPCIONAL//Bombas: Se colocan frente al jugador. Pasado un tiempo explotan, haciendo daño o revelando paredes secretas.
-      //OPCIONAL// Escudo, Gancho, Boomerang, Baston mágico.
       
    >>ITEMS / COLECCIONABLES
-      *Llaves: Abren puertas normales de las mazmorras, se encuentran en cofres pequeños.
+      *Llaves: Abren puertas normales de las mazmorras, se encuentran en cofres.
       *Llave jefe: Abre la puerta del jefe final de la mazmorra.
-      *Flechas: Munición para el arco, aparece tras derrotar enemigos o romper jarrones.
-      *Cofres pequeños: Contienen llaves. 
-      *Cofre grande: Contiene el arco.
+      *Flechas: Munición para el arco, aparece tras derrotar enemigos.
+      *Cofres: Contienen llaves, el arco y la llave del jefe
       //OPCIONAL// Brujula y mapa. (Cofres pequeños).
       
    >>ENEMIGOS
       *Melee: Persiguen al jugador y hacen daño de contacto.
-      *Distancia: Disparan proyectiles en linea recta.
+      *Ciclope: Enemigo a melee que solo se puede derrotar mediante el arco (Disparo en el ojo).
       *BOSS: 
             -6 Armaduras que saltan y rotan en la habitacion.
             -Solo se les puede dañar en el suelo. 
             -Cada armadura resiste 3 flechas o 16 golpes de espada.
             -Cuando queda 1 armadura, persigue al jugador saltando (Y se vuelve roja)
-      //OPCIONAL// Ciclope: Enemigo a melee que solo se puede derrotar mediante el arco (Disparo en el ojo)
-      //OPCIONAL// Enemigos que rebotan en las paredes: Rebotan en las paredes.
    
    >>INTERFAZ
        //ORDEN: Izquierda --> Derecha || Parte superior de la pantalla //
       *Número de flechas.
       *Número de llaves.
       *Item frame.
-      //OPCIONAL// Barra de magia, Mapa, Inventario.
-      //OPCIONAL// Rupias: Dropeadas de jarrones y enemigos. 
-      //OPCIONAL// Número de bombas. 
-      
+      *Rublos: Dropeadas de enemigos.    
+	  *Inventario: Se abre con la tecla 'esc'.
