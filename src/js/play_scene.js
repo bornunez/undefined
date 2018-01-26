@@ -156,6 +156,9 @@ var PlayScene = {
       if (this.PoolEnemies.length > 0) {
         enemy = this.PoolEnemies.getChildAt(0);
         enemy.reset(x, y, 3);
+        enemy.health = 3;
+        enemy.body.enable = true;
+        enemy.dead = false;
       }
       else {
         enemy = new Stalker(this.game, this, x, y, this.link, MAPSCALE, 'enemyAnimations');
@@ -166,6 +169,9 @@ var PlayScene = {
       if (this.PoolCyclops.length > 0) {
         enemy = this.PoolCyclops.getChildAt(0);
         enemy.reset(x, y, 3);
+        enemy.dead = false;
+        enemy.body.enable = true;
+        enemy.health = 3;
       }
       else {
         enemy = new Cyclops(this.game, this, x, y, this.link, MAPSCALE, 'cyclopsAnimations');

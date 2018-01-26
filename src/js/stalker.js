@@ -54,7 +54,9 @@ Stalker.prototype.die = function(){
     if(this.room != undefined && this.room != null)
         this.room.killEnemy(this);
     //Y finalmente volvemos a la pool de enemigos
+    console.log("Pool before: " +  this.playscene.PoolEnemies.length);
     this.playscene.PoolEnemies.add(this);
+    console.log("Pool after: " +  this.playscene.PoolEnemies.length);
 
     var itemType = Math.floor((Math.random() * 10) + 1) % 3;
     var drop = new Item(this.game,this.target,itemType,this.x,this.y,ItemSprite[itemType],this.MAPSCALE);
